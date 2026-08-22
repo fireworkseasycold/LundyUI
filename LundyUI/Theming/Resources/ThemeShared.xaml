@@ -68,7 +68,6 @@
     <SolidColorBrush x:Key="StatusGrayBrush" Color="#999999"/>
 
     <!-- 7. 浅色管理页通用色 -->
-    <SolidColorBrush x:Key="HeaderBlueBrush" Color="#001529"/>
     <SolidColorBrush x:Key="CardBackBrush" Color="#F0F2F5"/>
     <SolidColorBrush x:Key="PanelLightBrush" Color="#F7F8FA"/>
     <SolidColorBrush x:Key="BorderNormalBrush" Color="#E5E6EB"/>

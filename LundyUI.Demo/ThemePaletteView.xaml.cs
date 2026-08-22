@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using LundyUI.Controls.CustomControls;
@@ -20,6 +21,46 @@ public partial class ThemePaletteView : UserControl
 	public ThemePaletteView()
 	{
 		InitializeComponent();
+		InitDemoMenu();
+	}
+
+	/// <summary>演示菜单数据：可直接 new 硬编码，不依赖 JSON 配置。</summary>
+	public ObservableCollection<MenuNode> DemoMenu { get; } = new ObservableCollection<MenuNode>();
+
+	private void InitDemoMenu()
+	{
+		var data = new MenuNode
+		{
+			Name = "数据看板",
+			IsCategory = true,
+			IsExpanded = true,
+			ImagePath = "📊"
+		};
+		data.Children.Add(new MenuNode { Name = "生产概览", ImagePath = "🏭", Tag = "Dashboard" });
+		data.Children.Add(new MenuNode { Name = "实时报警", ImagePath = "⚠", Tag = "Alarm" });
+
+		var system = new MenuNode
+		{
+			Name = "系统",
+			IsCategory = true,
+			IsExpanded = true,
+			ImagePath = "⚙"
+		};
+		system.Children.Add(new MenuNode { Name = "用户管理", ImagePath = "👤", Tag = "User" });
+		system.Children.Add(new MenuNode { Name = "日志查询", ImagePath = "📄", Tag = "Log" });
+
+		DemoMenu.Add(data);
+		foreach (var child in data.Children)
+		{
+			child.ConfigMenuShow = child.MenuShow;
+			DemoMenu.Add(child);
+		}
+		DemoMenu.Add(system);
+		foreach (var child in system.Children)
+		{
+			child.ConfigMenuShow = child.MenuShow;
+			DemoMenu.Add(child);
+		}
 	}
 
 	/// <summary>

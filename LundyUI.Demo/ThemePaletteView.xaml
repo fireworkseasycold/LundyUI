@@ -837,7 +837,7 @@
                 <!-- ============ 12. 自定义控件 ============ -->
                 <Border Style="{StaticResource SectionCardStyle}">
                     <StackPanel>
-                        <TextBlock Text="12. 自定义控件（DateTimePicker / LoadingCircle / Pagination / ImageViewer）" Style="{StaticResource SectionTitleStyle}" />
+                        <TextBlock Text="12. 自定义控件（DateTimePicker / LoadingCircle / Pagination / ImageViewer / MenuControl）" Style="{StaticResource SectionTitleStyle}" />
                         <WrapPanel>
                             <Border Style="{StaticResource DemoCellStyle}" Width="300" MouseLeftButtonUp="OnCellClick">
                                 <StackPanel>
@@ -871,6 +871,14 @@
                                             HorizontalAlignment="Stretch"
                                             Click="OnOpenImageViewer"
                                             ToolTip="验证 lui: 自定义控件 ImageViewerWindow 弹窗可用" />
+                                </StackPanel>
+                            </Border>
+                            <Border Background="{DynamicResource PanelBackBrush}" BorderBrush="{DynamicResource AccentBrush}" BorderThickness="1" CornerRadius="3" Margin="4" Padding="6" Width="300" VerticalAlignment="Top">
+                                <StackPanel>
+                                    <TextBlock Text="MenuControl（菜单）" Style="{StaticResource DemoLabelStyle}" />
+                                    <appControls:MenuControl Height="160" Margin="-6,4,-6,0"
+                                                             ItemsSource="{Binding DemoMenu, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                             MenuExpand="Visible" />
                                 </StackPanel>
                             </Border>
                         </WrapPanel>

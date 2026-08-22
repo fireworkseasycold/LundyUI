@@ -3,6 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:LundyUI.Demo"
         Title="LundyUI 主题样板（Theme Palette）" Height="820" Width="1280"
+        MinHeight="600" MinWidth="900"
+        WindowStartupLocation="CenterScreen"
         Background="{DynamicResource WindowBackBrush}">
     <Grid>
         <Grid.RowDefinitions>
@@ -34,7 +36,7 @@
             </Grid>
         </Border>
 
-        <!-- 复刻 ThemePaletteView：11 节控件平铺 + 点击放大预览浮层 -->
+        <!-- ThemePaletteView：控件平铺 + 点击放大预览浮层 -->
         <local:ThemePaletteView Grid.Row="1"/>
     </Grid>
 </Window>
