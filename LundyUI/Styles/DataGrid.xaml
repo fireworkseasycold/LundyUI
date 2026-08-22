@@ -1,0 +1,75 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- ============================================================
+         DataGrid.xaml：表格控件族模板（原生控件外观，无硬编码色值）
+         覆盖：DataGrid / DataGridRow
+         说明：历史基础键 DataGridColumnHeaderStyle / DataGridCellStyle 已删除。
+               页面如需自定义列头/单元格外观，在页面自身 Resources 内联定义；
+               隐式 DataGrid 的默认列头/单元格样式在此内联，不再暴露全局共享键。
+         ============================================================ -->
+
+    <!-- DataGrid 隐式样式：统一表格背景/边框/行交替/默认列头单元格 -->
+    <Style TargetType="DataGrid">
+        <Setter Property="Background" Value="{DynamicResource PanelBackBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource TextDarkBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderNormalBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="RowBackground" Value="{DynamicResource PanelBackBrush}" />
+        <Setter Property="AlternatingRowBackground" Value="{DynamicResource PanelLightBrush}" />
+        <Setter Property="GridLinesVisibility" Value="Horizontal" />
+        <Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource BorderNormalBrush}" />
+        <Setter Property="VerticalGridLinesBrush" Value="{DynamicResource BorderNormalBrush}" />
+        <Setter Property="RowHeight" Value="36" />
+        <Setter Property="MinRowHeight" Value="32" />
+        <!-- 默认列头样式（内联，不暴露全局键） -->
+        <Setter Property="ColumnHeaderStyle">
+            <Setter.Value>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background" Value="{DynamicResource PanelLightBrush}" />
+                    <Setter Property="Foreground" Value="{DynamicResource TextDarkBrush}" />
+                    <Setter Property="FontWeight" Value="SemiBold" />
+                    <Setter Property="BorderBrush" Value="{DynamicResource BorderNormalBrush}" />
+                    <Setter Property="BorderThickness" Value="0,0,1,1" />
+                    <Setter Property="Padding" Value="6,4" />
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <!-- 默认单元格样式（内联，不暴露全局键） -->
+        <Setter Property="CellStyle">
+            <Setter.Value>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="Foreground" Value="{DynamicResource TextDarkBrush}" />
+                    <Setter Property="BorderBrush" Value="{DynamicResource BorderNormalBrush}" />
+                    <Setter Property="BorderThickness" Value="0,0,0,1" />
+                    <Setter Property="Padding" Value="4,2" />
+                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="Foreground" Value="{DynamicResource TextDarkBrush}" />
+                            <Setter Property="BorderBrush" Value="Transparent" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- DataGridRow 隐式样式：悬停=面板亮档，选中=菜单选中色（避免 AccentBrush 过亮/过粉） -->
+    <Style TargetType="DataGridRow">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="MinHeight" Value="36" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource PanelLightBrush}" />
+            </Trigger>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="{DynamicResource MenuItemSelectedBrush}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+</ResourceDictionary>

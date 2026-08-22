@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows7.0</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>LundyUI.Demo</RootNamespace>
+    <AssemblyName>LundyUI.Demo</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LundyUI\LundyUI.Controls.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- 主题/菜单 json 复制到输出目录：App 启动经 ThemeManager.ConfigBasePath 读取 -->
+    <None Update="Configs\**\*.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

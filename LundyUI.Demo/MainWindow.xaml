@@ -1,0 +1,40 @@
+<Window x:Class="LundyUI.Demo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:LundyUI.Demo"
+        Title="LundyUI 主题样板（Theme Palette）" Height="820" Width="1280"
+        Background="{DynamicResource WindowBackBrush}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- 顶部主题切换条：LundyUI 主题引擎演示入口，下拉框由 Configs/themes/themes-config.json 驱动 -->
+        <Border Grid.Row="0" Background="{DynamicResource PanelBackBrush}"
+                BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="0,0,0,1"
+                Padding="12,8">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="🎨 LundyUI · 主题样板" FontSize="14" FontWeight="Bold"
+                           VerticalAlignment="Center" Foreground="{DynamicResource TextDarkBrush}"/>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="主题：" VerticalAlignment="Center"
+                               Foreground="{DynamicResource TextSecondaryBrush}"/>
+                    <ComboBox x:Name="ThemeBox" Width="170" VerticalContentAlignment="Center"
+                              SelectionChanged="OnThemeChanged" Margin="6,0,0,0"/>
+                    <TextBlock x:Name="StatusText" Margin="14,0,0,0" VerticalAlignment="Center"
+                               Foreground="{DynamicResource TextMutedBrush}" FontSize="11"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- 复刻 ThemePaletteView：11 节控件平铺 + 点击放大预览浮层 -->
+        <local:ThemePaletteView Grid.Row="1"/>
+    </Grid>
+</Window>

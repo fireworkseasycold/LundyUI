@@ -1,0 +1,78 @@
+<UserControl x:Class="LundyUI.Controls.CustomControls.DateTimePicker"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Name="Root"
+             FontSize="12"
+             Height="32"
+             Foreground="{DynamicResource TextOnDarkBrush}">
+    <!-- LundyUI 日期时间选择控件（替代 HandyControl DateTimePicker）：
+         显示框 + 下拉按钮，弹出面板内日历选日期、下拉选时分秒，确定后回写 SelectedDateTime -->
+    <Grid>
+        <Border Background="{DynamicResource PanelLightBrush}"
+                BorderBrush="{DynamicResource BorderNormalBrush}"
+                BorderThickness="1"
+                CornerRadius="4">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="DisplayBox"
+                         MinWidth="96"
+                         Padding="8,0"
+                         VerticalContentAlignment="Center"
+                         BorderThickness="0"
+                         Background="Transparent"
+                         IsReadOnly="True"
+                         ToolTip="{Binding Text, ElementName=DisplayBox}" />
+                <Button x:Name="ToggleButton"
+                        Grid.Column="1"
+                        Width="24"
+                        Height="30"
+                        MinWidth="0"
+                        MinHeight="0"
+                        Margin="1"
+                        Padding="0"
+                        Content="▾"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Foreground="{DynamicResource TextOnDarkBrush}"
+                        Cursor="Hand"
+                        Focusable="False"
+                        Click="OnToggleClick" />
+            </Grid>
+        </Border>
+
+        <Popup x:Name="PickerPopup"
+               StaysOpen="False"
+               Placement="Bottom"
+               AllowsTransparency="True"
+               PopupAnimation="Fade"
+               Closed="OnPopupClosed">
+            <Border Background="{DynamicResource PanelBackBrush}"
+                    BorderBrush="{DynamicResource BorderNormalBrush}"
+                    BorderThickness="1"
+                    CornerRadius="4"
+                    Padding="8">
+                <StackPanel>
+                    <Calendar x:Name="DateCalendar"
+                              SelectionMode="SingleDate"
+                              SelectedDatesChanged="OnDateSelectedChanged" />
+                    <Grid Margin="0,8,0,0">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <ComboBox x:Name="HourBox" Width="56" Height="26" SelectionChanged="OnTimeSelectionChanged" />
+                            <TextBlock Text=":" VerticalAlignment="Center" Margin="2,0" Foreground="{DynamicResource TextSecondaryBrush}" />
+                            <ComboBox x:Name="MinuteBox" Width="56" Height="26" SelectionChanged="OnTimeSelectionChanged" />
+                            <TextBlock x:Name="SecondSep" Text=":" VerticalAlignment="Center" Margin="2,0" Foreground="{DynamicResource TextSecondaryBrush}" />
+                            <ComboBox x:Name="SecondBox" Width="56" Height="26" SelectionChanged="OnTimeSelectionChanged" />
+                        </StackPanel>
+                    </Grid>
+                    <Button Content="确定"
+                            Height="28"
+                            Margin="0,10,0,0"
+                            Click="OnConfirmClick" />
+                </StackPanel>
+            </Border>
+        </Popup>
+    </Grid>
+</UserControl>

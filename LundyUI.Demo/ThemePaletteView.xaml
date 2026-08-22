@@ -1,0 +1,834 @@
+<UserControl x:Class="LundyUI.Demo.ThemePaletteView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+             xmlns:appControls="clr-namespace:LundyUI.Controls.CustomControls;assembly=LundyUI.Controls"
+             mc:Ignorable="d"
+             d:DesignHeight="900" d:DesignWidth="1400">
+    <Grid>
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="8">
+
+            <!-- ============ 标题 ============ -->
+            <Border Background="{DynamicResource CardBackBrush}"
+                    BorderBrush="{DynamicResource BorderNormalBrush}"
+                    BorderThickness="1"
+                    CornerRadius="5"
+                    Padding="8,6"
+                    Margin="0,0,0,6">
+                <StackPanel>
+                    <TextBlock Text="🎨 UI 样式样板（Theme Palette）"
+                               FontSize="14"
+                               FontWeight="Bold"
+                               Foreground="{DynamicResource TextDarkBrush}" />
+                    <TextBlock Text="原生 WPF 控件 + 项目自定义控件平铺展示全部主题键效果：文本/背景/下拉框等一律使用标注 key 绑定，禁止混用。修改主题配置后切回本页验收。"
+                               FontSize="10"
+                               Foreground="{DynamicResource TextSecondaryBrush}"
+                               TextWrapping="Wrap"
+                               Margin="0,2,0,0" />
+                </StackPanel>
+            </Border>
+
+            <!-- ============ 1. 背景色 ============ -->
+            <Border Background="{DynamicResource CardBackBrush}"
+                    BorderBrush="{DynamicResource BorderNormalBrush}"
+                    BorderThickness="1"
+                    CornerRadius="5"
+                    Padding="6"
+                    Margin="0,0,0,6">
+                <StackPanel>
+                    <TextBlock Text="1. 背景色（Border.Background）"
+                               FontSize="12"
+                               FontWeight="SemiBold"
+                               Foreground="{DynamicResource TextDarkBrush}"
+                               Margin="0,0,0,4" />
+                    <UniformGrid Columns="6">
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="3" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <Border Height="16" CornerRadius="2" Background="{DynamicResource CardBackBrush}" BorderBrush="#66808080" BorderThickness="1" />
+                                <TextBlock Text="CardBackBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="3" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <Border Height="16" CornerRadius="2" Background="{DynamicResource PanelBackBrush}" BorderBrush="#66808080" BorderThickness="1" />
+                                <TextBlock Text="PanelBackBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="3" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <Border Height="16" CornerRadius="2" Background="{DynamicResource PanelLightBrush}" BorderBrush="#66808080" BorderThickness="1" />
+                                <TextBlock Text="PanelLightBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="3" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <Border Height="16" CornerRadius="2" Background="{DynamicResource ContentBackBrush}" BorderBrush="#66808080" BorderThickness="1" />
+                                <TextBlock Text="ContentBackBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="3" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <Border Height="16" CornerRadius="2" Background="{DynamicResource WindowBackBrush}" BorderBrush="#66808080" BorderThickness="1" />
+                                <TextBlock Text="WindowBackBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="3" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <Border Height="16" CornerRadius="2" Background="{DynamicResource LogPanelBackBrush}" BorderBrush="#66808080" BorderThickness="1" />
+                                <TextBlock Text="LogPanelBackBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="3" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <Border Height="16" CornerRadius="2" Background="{DynamicResource InfoBackBrush}" BorderBrush="#66808080" BorderThickness="1" />
+                                <TextBlock Text="InfoBackBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="3" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <Border Height="16" CornerRadius="2" Background="{DynamicResource WarnBackBrush}" BorderBrush="#66808080" BorderThickness="1" />
+                                <TextBlock Text="WarnBackBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="3" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <Border Height="16" CornerRadius="2" Background="{DynamicResource SuccessBackBrush}" BorderBrush="#66808080" BorderThickness="1" />
+                                <TextBlock Text="SuccessBackBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="3" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <Border Height="16" CornerRadius="2" Background="{DynamicResource DangerBackBrush}" BorderBrush="#66808080" BorderThickness="1" />
+                                <TextBlock Text="DangerBackBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="3" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <Border Height="16" CornerRadius="2" Background="{DynamicResource CardHeaderBackBrush}" BorderBrush="#66808080" BorderThickness="1" />
+                                <TextBlock Text="CardHeaderBackBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="3" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <Border Height="16" CornerRadius="2" Background="{DynamicResource AccentBrush}" BorderBrush="#66808080" BorderThickness="1" />
+                                <TextBlock Text="AccentBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="3" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <Border Height="16" CornerRadius="2" Background="{DynamicResource TitleBarBackBrush}" BorderBrush="#66808080" BorderThickness="1" />
+                                <TextBlock Text="TitleBarBackBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="3" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <Border Height="16" CornerRadius="2" Background="{DynamicResource RightPanelBackBrush}" BorderBrush="#66808080" BorderThickness="1" />
+                                <TextBlock Text="RightPanelBackBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="3" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <Border Height="16" CornerRadius="2" Background="{DynamicResource MenuItemBackBrush}" BorderBrush="#66808080" BorderThickness="1" />
+                                <TextBlock Text="MenuItemBackBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="3" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <Border Height="16" CornerRadius="2" Background="{DynamicResource MenuItemHoverBrush}" BorderBrush="#66808080" BorderThickness="1" />
+                                <TextBlock Text="MenuItemHoverBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="3" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <Border Height="16" CornerRadius="2" Background="{DynamicResource MenuItemSelectedBrush}" BorderBrush="#66808080" BorderThickness="1" />
+                                <TextBlock Text="MenuItemSelectedBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="3" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <Border Height="16" CornerRadius="2" Background="{DynamicResource StatusBarBackBrush}" BorderBrush="#66808080" BorderThickness="1" />
+                                <TextBlock Text="StatusBarBackBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="3" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <Border Height="16" CornerRadius="2" Background="{DynamicResource PrimaryBrush}" BorderBrush="#66808080" BorderThickness="1" />
+                                <TextBlock Text="PrimaryBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                    </UniformGrid>
+                </StackPanel>
+            </Border>
+
+            <!-- ============ 2. 文本色 ============ -->
+            <Border Background="{DynamicResource CardBackBrush}"
+                    BorderBrush="{DynamicResource BorderNormalBrush}"
+                    BorderThickness="1"
+                    CornerRadius="5"
+                    Padding="6"
+                    Margin="0,0,0,6">
+                <StackPanel>
+                    <TextBlock Text="2. 文本色（TextBlock.Foreground）"
+                               FontSize="12"
+                               FontWeight="SemiBold"
+                               Foreground="{DynamicResource TextDarkBrush}"
+                               Margin="0,0,0,4" />
+                    <UniformGrid Columns="6">
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="3" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <TextBlock Text="TextDarkBrush 正文" FontSize="10" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" />
+                                <TextBlock Text="TextDarkBrush" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" TextAlignment="Center" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource PanelBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="3" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <TextBlock Text="TextOnDarkBrush 面板底" FontSize="10" Foreground="{DynamicResource TextOnDarkBrush}" TextAlignment="Center" />
+                                <TextBlock Text="TextOnDarkBrush" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" TextAlignment="Center" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="3" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <TextBlock Text="TextSecondaryBrush 次要" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}" TextAlignment="Center" />
+                                <TextBlock Text="TextSecondaryBrush" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" TextAlignment="Center" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="3" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <TextBlock Text="TextMutedBrush 弱化" FontSize="10" Foreground="{DynamicResource TextMutedBrush}" TextAlignment="Center" />
+                                <TextBlock Text="TextMutedBrush" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" TextAlignment="Center" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="3" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <TextBlock Text="TextDisabledBrush 禁用" FontSize="10" Foreground="{DynamicResource TextDisabledBrush}" TextAlignment="Center" />
+                                <TextBlock Text="TextDisabledBrush" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" TextAlignment="Center" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="3" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <Border Height="16" CornerRadius="2" Background="{DynamicResource AccentBrush}" Padding="2">
+                                    <TextBlock Text="TextOnAccentBrush" FontSize="9" Foreground="{DynamicResource TextOnAccentBrush}" TextAlignment="Center" />
+                                </Border>
+                                <TextBlock Text="TextOnAccentBrush" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" TextAlignment="Center" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                    </UniformGrid>
+                </StackPanel>
+            </Border>
+
+            <!-- ============ 3. 边框色 ============ -->
+            <Border Background="{DynamicResource CardBackBrush}"
+                    BorderBrush="{DynamicResource BorderNormalBrush}"
+                    BorderThickness="1"
+                    CornerRadius="5"
+                    Padding="6"
+                    Margin="0,0,0,6">
+                <StackPanel>
+                    <TextBlock Text="3. 边框色（Border.BorderBrush）"
+                               FontSize="12"
+                               FontWeight="SemiBold"
+                               Foreground="{DynamicResource TextDarkBrush}"
+                               Margin="0,0,0,4" />
+                    <UniformGrid Columns="6">
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="3" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <Border Height="18" CornerRadius="2" BorderBrush="#66808080" BorderThickness="1" Padding="1">
+                                    <Border Height="14" CornerRadius="1" Background="{DynamicResource ContentBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="2" />
+                                </Border>
+                                <TextBlock Text="BorderNormalBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="3" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <Border Height="18" CornerRadius="2" BorderBrush="#66808080" BorderThickness="1" Padding="1">
+                                    <Border Height="14" CornerRadius="1" Background="{DynamicResource ContentBackBrush}" BorderBrush="{DynamicResource PanelBorderBrush}" BorderThickness="2" />
+                                </Border>
+                                <TextBlock Text="PanelBorderBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="3" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <Border Height="18" CornerRadius="2" BorderBrush="#66808080" BorderThickness="1" Padding="1">
+                                    <Border Height="14" CornerRadius="1" Background="{DynamicResource ContentBackBrush}" BorderBrush="{DynamicResource SplitterBrush}" BorderThickness="2" />
+                                </Border>
+                                <TextBlock Text="SplitterBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="3" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <Border Height="18" CornerRadius="2" BorderBrush="#66808080" BorderThickness="1" Padding="1">
+                                    <Border Height="14" CornerRadius="1" Background="{DynamicResource ContentBackBrush}" BorderBrush="{DynamicResource LogPanelBorderBrush}" BorderThickness="2" />
+                                </Border>
+                                <TextBlock Text="LogPanelBorderBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="3" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <Border Height="18" CornerRadius="2" BorderBrush="#66808080" BorderThickness="1" Padding="1">
+                                    <Border Height="14" CornerRadius="1" Background="{DynamicResource ContentBackBrush}" BorderBrush="{DynamicResource WarnBorderBrush}" BorderThickness="2" />
+                                </Border>
+                                <TextBlock Text="WarnBorderBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                    </UniformGrid>
+                </StackPanel>
+            </Border>
+
+            <!-- ============ 4. 状态色 ============ -->
+            <Border Background="{DynamicResource CardBackBrush}"
+                    BorderBrush="{DynamicResource BorderNormalBrush}"
+                    BorderThickness="1"
+                    CornerRadius="5"
+                    Padding="6"
+                    Margin="0,0,0,6">
+                <StackPanel>
+                    <TextBlock Text="4. 状态色（指示灯/徽标/强调）"
+                               FontSize="12"
+                               FontWeight="SemiBold"
+                               Foreground="{DynamicResource TextDarkBrush}"
+                               Margin="0,0,0,4" />
+                    <UniformGrid Columns="6">
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="3" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <Border Height="16" CornerRadius="2" Background="{DynamicResource StatusGreenBrush}" BorderBrush="#66808080" BorderThickness="1" />
+                                <TextBlock Text="StatusGreenBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="3" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <Border Height="16" CornerRadius="2" Background="{DynamicResource StatusOrangeBrush}" BorderBrush="#66808080" BorderThickness="1" />
+                                <TextBlock Text="StatusOrangeBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="3" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <Border Height="16" CornerRadius="2" Background="{DynamicResource StatusRedBrush}" BorderBrush="#66808080" BorderThickness="1" />
+                                <TextBlock Text="StatusRedBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="3" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <Border Height="16" CornerRadius="2" Background="{DynamicResource StatusBlueBrush}" BorderBrush="#66808080" BorderThickness="1" />
+                                <TextBlock Text="StatusBlueBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="3" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <Border Height="16" CornerRadius="2" Background="{DynamicResource StatusPurpleBrush}" BorderBrush="#66808080" BorderThickness="1" />
+                                <TextBlock Text="StatusPurpleBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="3" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <Border Height="16" CornerRadius="2" Background="{DynamicResource StatusGrayBrush}" BorderBrush="#66808080" BorderThickness="1" />
+                                <TextBlock Text="StatusGrayBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                    </UniformGrid>
+                </StackPanel>
+            </Border>
+
+            <!-- ============ 5. 按钮 ============ -->
+            <Border Background="{DynamicResource CardBackBrush}"
+                    BorderBrush="{DynamicResource BorderNormalBrush}"
+                    BorderThickness="1"
+                    CornerRadius="5"
+                    Padding="6"
+                    Margin="0,0,0,6">
+                <StackPanel>
+                    <TextBlock Text="5. 按钮（Button / ToggleButton）"
+                               FontSize="12"
+                               FontWeight="SemiBold"
+                               Foreground="{DynamicResource TextDarkBrush}"
+                               Margin="0,0,0,4" />
+                    <UniformGrid Columns="4">
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="4" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <TextBlock Text="Button（默认，隐式样式）" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" />
+                                <Button Content="默认按钮" FontSize="10" Height="22" Padding="8,0" Margin="0,3,0,0" HorizontalAlignment="Left" />
+                                <TextBlock Text="隐式 Button 默认样式（Templates/Controls/ButtonsAndToggles）" FontSize="8" Foreground="{DynamicResource TextMutedBrush}" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="4" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <TextBlock Text="Button（隐式样式）" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" />
+                                <StackPanel Orientation="Horizontal" Margin="0,3,0,0">
+                                    <Button Content="主" Width="52" Height="22" FontSize="10" Padding="0" Margin="0,0,3,0" />
+                                    <Button Content="危" Width="52" Height="22" FontSize="10" Padding="0" Margin="0,0,3,0" />
+                                    <Button Content="成" Width="52" Height="22" FontSize="10" Padding="0" />
+                                </StackPanel>
+                                <TextBlock Text="隐式 Button 默认样式（ButtonsAndToggles 定义）" FontSize="8" Foreground="{DynamicResource TextMutedBrush}" TextWrapping="Wrap" Margin="0,2,0,0" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="4" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <TextBlock Text="ToggleButton（切换）" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" />
+                                <ToggleButton Content="开关" FontSize="10" Height="22" Margin="0,3,0,0" HorizontalAlignment="Left" Width="70" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="4" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <TextBlock Text="Button（禁用态）" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" />
+                                <Button Content="不可用" FontSize="10" Height="22" Padding="8,0" Margin="0,3,0,0" IsEnabled="False" HorizontalAlignment="Left" />
+                                <TextBlock Text="自绘模板禁用态：暗底灰字（PanelBackBrush + TextDisabledBrush）" FontSize="8" Foreground="{DynamicResource TextMutedBrush}" Margin="0,2,0,0" TextWrapping="Wrap" />
+                            </StackPanel>
+                        </Border>
+                    </UniformGrid>
+                </StackPanel>
+            </Border>
+
+            <!-- ============ 6. 输入控件 ============ -->
+            <Border Background="{DynamicResource CardBackBrush}"
+                    BorderBrush="{DynamicResource BorderNormalBrush}"
+                    BorderThickness="1"
+                    CornerRadius="5"
+                    Padding="6"
+                    Margin="0,0,0,6">
+                <StackPanel>
+                    <TextBlock Text="6. 输入控件（TextBox 隐式样式自包含：PanelBackBrush / TextDarkBrush / BorderNormalBrush；页面变体在自身 XAML 定义本地键）"
+                               FontSize="12"
+                               FontWeight="SemiBold"
+                               Foreground="{DynamicResource TextDarkBrush}"
+                               Margin="0,0,0,4" />
+                    <UniformGrid Columns="4">
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="4" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <TextBlock Text="TextBox（文本框）" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" />
+                                <TextBox Height="22" FontSize="10" Margin="0,3,0,0" Text="输入文本示例"
+                                         Background="{DynamicResource PanelBackBrush}" Foreground="{DynamicResource TextDarkBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="4" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <TextBlock Text="PasswordBox（密码框）" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" />
+                                <PasswordBox Height="22" FontSize="10" Margin="0,3,0,0" Password="123456" PasswordChar="●"
+                                             Background="{DynamicResource PanelBackBrush}" Foreground="{DynamicResource TextDarkBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="4" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <TextBlock Text="ComboBox（下拉框）" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" />
+                                <ComboBox Height="22" FontSize="10" Margin="0,3,0,0" HorizontalAlignment="Stretch"
+                                          Background="{DynamicResource PanelBackBrush}" Foreground="{DynamicResource TextDarkBrush}" BorderBrush="{DynamicResource BorderNormalBrush}">
+                                    <ComboBoxItem Content="选项一" />
+                                    <ComboBoxItem Content="选项二" />
+                                    <ComboBoxItem Content="选项三" />
+                                </ComboBox>
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="4" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <TextBlock Text="CheckBox / RadioButton" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" />
+                                <StackPanel Margin="0,3,0,0">
+                                    <CheckBox Content="启用选项" FontSize="10" Foreground="{DynamicResource TextDarkBrush}" />
+                                    <RadioButton Content="模式 A" FontSize="10" Foreground="{DynamicResource TextDarkBrush}" Margin="0,1,0,0" IsChecked="True" GroupName="palette1" />
+                                    <RadioButton Content="模式 B" FontSize="10" Foreground="{DynamicResource TextDarkBrush}" Margin="0,1,0,0" GroupName="palette1" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="4" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <TextBlock Text="DatePicker（日期选择）" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" />
+                                <DatePicker MinHeight="24" FontSize="10" Margin="0,3,0,0" HorizontalAlignment="Stretch"
+                                            Background="{DynamicResource PanelBackBrush}" Foreground="{DynamicResource TextDarkBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="4" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <TextBlock Text="Slider（滑块）" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" />
+                                <Slider Minimum="0" Maximum="100" Value="60" FontSize="10" Margin="0,3,0,0" HorizontalAlignment="Stretch"
+                                        Background="{DynamicResource PanelBackBrush}" Foreground="{DynamicResource AccentBrush}" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="4" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <TextBlock Text="ProgressBar（进度条）" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" />
+                                <ProgressBar Height="12" Margin="0,3,0,0" Value="65" />
+                                <ProgressBar Height="12" Margin="0,3,0,0" Value="40" Foreground="{DynamicResource StatusOrangeBrush}" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="4" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <TextBlock Text="Label（标签）" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" />
+                                <Label Content="Label 标签文本" FontSize="10" Foreground="{DynamicResource TextDarkBrush}"
+                                       Background="{DynamicResource PanelBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" Margin="0,3,0,0" Padding="6,2" />
+                            </StackPanel>
+                        </Border>
+                    </UniformGrid>
+                </StackPanel>
+            </Border>
+
+            <!-- ============ 7. 数据展示 ============ -->
+            <Border Background="{DynamicResource CardBackBrush}"
+                    BorderBrush="{DynamicResource BorderNormalBrush}"
+                    BorderThickness="1"
+                    CornerRadius="5"
+                    Padding="6"
+                    Margin="0,0,0,6">
+                <StackPanel>
+                    <TextBlock Text="7. 数据展示（DataGrid 隐式样式内联默认列头/单元格；页面如需变体在自身 XAML 定义本地键）"
+                               FontSize="12"
+                               FontWeight="SemiBold"
+                               Foreground="{DynamicResource TextDarkBrush}"
+                               Margin="0,0,0,4" />
+                    <UniformGrid Columns="4">
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="4" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <TextBlock Text="ListBox（列表）" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" />
+                                <ListBox Height="48" FontSize="10" Margin="0,3,0,0"
+                                         Background="{DynamicResource PanelBackBrush}" Foreground="{DynamicResource TextDarkBrush}" BorderBrush="{DynamicResource BorderNormalBrush}">
+                                    <ListBoxItem Content="列表项一" />
+                                    <ListBoxItem Content="列表项二" />
+                                    <ListBoxItem Content="列表项三" />
+                                </ListBox>
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="4" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <TextBlock Text="ListView（详细列表）" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" />
+                                <ListView Height="48" FontSize="10" Margin="0,3,0,0">
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Header="名称" Width="60" DisplayMemberBinding="{Binding}" />
+                                            <GridViewColumn Header="状态" Width="50" DisplayMemberBinding="{Binding}" />
+                                        </GridView>
+                                    </ListView.View>
+                                    <ListViewItem Content="项目 A" />
+                                    <ListViewItem Content="项目 B" />
+                                    <ListViewItem Content="项目 C" />
+                                </ListView>
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="4" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <TextBlock Text="TreeView（树）" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" />
+                                <TreeView Height="48" FontSize="10" Margin="0,3,0,0"
+                                          Background="{DynamicResource PanelBackBrush}" Foreground="{DynamicResource TextDarkBrush}" BorderBrush="{DynamicResource BorderNormalBrush}">
+                                    <TreeViewItem Header="节点一" IsExpanded="True">
+                                        <TreeViewItem Header="子节点 1" />
+                                        <TreeViewItem Header="子节点 2" />
+                                    </TreeViewItem>
+                                    <TreeViewItem Header="节点二" />
+                                </TreeView>
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="4" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <TextBlock Text="DataGrid（数据表格）" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" />
+                                <DataGrid Height="52" FontSize="9" Margin="0,3,0,0" AutoGenerateColumns="False" HeadersVisibility="Column" CanUserAddRows="False"
+                                          Background="{DynamicResource PanelBackBrush}" Foreground="{DynamicResource TextDarkBrush}" BorderBrush="{DynamicResource BorderNormalBrush}"
+                                          RowBackground="{DynamicResource PanelBackBrush}" AlternatingRowBackground="{DynamicResource PanelLightBrush}"
+                                          GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="{DynamicResource BorderNormalBrush}">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="名称" Width="70" Binding="{Binding}" />
+                                        <DataGridTextColumn Header="数值" Width="50" Binding="{Binding}" />
+                                    </DataGrid.Columns>
+                                    <DataGrid.ItemsSource>
+                                        <x:Array Type="{x:Type sys:String}">
+                                            <sys:String>数据行一</sys:String>
+                                            <sys:String>数据行二</sys:String>
+                                            <sys:String>数据行三</sys:String>
+                                        </x:Array>
+                                    </DataGrid.ItemsSource>
+                                </DataGrid>
+                            </StackPanel>
+                        </Border>
+                    </UniformGrid>
+                </StackPanel>
+            </Border>
+
+            <!-- ============ 8. 容器/结构控件 ============ -->
+            <Border Background="{DynamicResource CardBackBrush}"
+                    BorderBrush="{DynamicResource BorderNormalBrush}"
+                    BorderThickness="1"
+                    CornerRadius="5"
+                    Padding="6"
+                    Margin="0,0,0,6">
+                <StackPanel>
+                    <TextBlock Text="8. 容器/结构控件（GroupBox / Expander / TabControl / Menu / StatusBar / RichTextBox / Calendar）"
+                               FontSize="12"
+                               FontWeight="SemiBold"
+                               Foreground="{DynamicResource TextDarkBrush}"
+                               Margin="0,0,0,4" />
+                    <UniformGrid Columns="4">
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="4" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <TextBlock Text="GroupBox（分组框）" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" />
+                                <GroupBox Header="分组标题" FontSize="10" Foreground="{DynamicResource TextDarkBrush}" Margin="0,3,0,0" Padding="4">
+                                    <TextBlock Text="分组内容" FontSize="10" Foreground="{DynamicResource TextDarkBrush}" />
+                                </GroupBox>
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="4" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <TextBlock Text="Expander（折叠）" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" />
+                                <Expander Header="展开查看详情" FontSize="10" Foreground="{DynamicResource TextDarkBrush}" Margin="0,3,0,0">
+                                    <TextBlock Text="折叠面板内容" FontSize="10" Foreground="{DynamicResource TextDarkBrush}" Margin="8,3" />
+                                </Expander>
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="4" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <TextBlock Text="TabControl（选项卡）" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" />
+                                <TabControl Height="44" FontSize="10" Margin="0,3,0,0"
+                                            Background="{DynamicResource PanelBackBrush}" Foreground="{DynamicResource TextDarkBrush}" BorderBrush="{DynamicResource BorderNormalBrush}">
+                                    <TabItem Header="页签一">
+                                        <TextBlock Text="页签一内容" FontSize="10" Foreground="{DynamicResource TextDarkBrush}" Margin="5" />
+                                    </TabItem>
+                                    <TabItem Header="页签二">
+                                        <TextBlock Text="页签二内容" FontSize="10" Foreground="{DynamicResource TextDarkBrush}" Margin="5" />
+                                    </TabItem>
+                                </TabControl>
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="4" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <TextBlock Text="Menu（菜单栏）" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" />
+                                <Menu Height="22" FontSize="10" Margin="0,3,0,0"
+                                      Background="{DynamicResource PanelBackBrush}" Foreground="{DynamicResource TextDarkBrush}">
+                                    <MenuItem Header="文件">
+                                        <MenuItem Header="打开" />
+                                        <MenuItem Header="保存" />
+                                    </MenuItem>
+                                    <MenuItem Header="帮助" />
+                                </Menu>
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="4" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <TextBlock Text="StatusBar（状态栏）" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" />
+                                <StatusBar Height="22" FontSize="10" Margin="0,3,0,0"
+                                           Background="{DynamicResource StatusBarBackBrush}" Foreground="{DynamicResource StatusBarTextBrush}">
+                                    <StatusBarItem Content="就绪" />
+                                    <StatusBarItem Content="2026-08-20" Margin="8,0,0,0" />
+                                </StatusBar>
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="4" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <TextBlock Text="RichTextBox（富文本）" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" />
+                                <RichTextBox Height="40" FontSize="10" Margin="0,3,0,0"
+                                             Background="{DynamicResource PanelBackBrush}" Foreground="{DynamicResource TextDarkBrush}" BorderBrush="{DynamicResource BorderNormalBrush}">
+                                    <FlowDocument>
+                                        <Paragraph>
+                                            <Run Text="富文本内容" />
+                                        </Paragraph>
+                                    </FlowDocument>
+                                </RichTextBox>
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="4" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <TextBlock Text="Calendar（日历）" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" />
+                                <Calendar Height="240" FontSize="12" Margin="0,3,0,0"
+                                          Background="{DynamicResource PanelBackBrush}" Foreground="{DynamicResource TextDarkBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="4" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <TextBlock Text="ToolTip（悬停提示）" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" />
+                                <Button Content="鼠标悬停此处" FontSize="10" Height="22" Padding="8,0" Margin="0,3,0,0" HorizontalAlignment="Left"
+                                        ToolTip="这是 ToolTip 提示内容" />
+                            </StackPanel>
+                        </Border>
+                    </UniformGrid>
+                </StackPanel>
+            </Border>
+
+            <!-- ============ 9. 滚动控件 ============ -->
+            <Border Background="{DynamicResource CardBackBrush}"
+                    BorderBrush="{DynamicResource BorderNormalBrush}"
+                    BorderThickness="1"
+                    CornerRadius="5"
+                    Padding="6"
+                    Margin="0,0,0,6">
+                <StackPanel>
+                    <TextBlock Text="9. 滚动控件（ScrollBar / ScrollViewer）"
+                               FontSize="12"
+                               FontWeight="SemiBold"
+                               Foreground="{DynamicResource TextDarkBrush}"
+                               Margin="0,0,0,4" />
+                    <UniformGrid Columns="4">
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="4" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <TextBlock Text="ScrollBar（垂直）" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" />
+                                <ScrollBar Orientation="Vertical" Height="52" Width="14" Minimum="0" Maximum="100" Value="30" Margin="0,3,0,0" HorizontalAlignment="Left"
+                                           Background="{DynamicResource PanelBackBrush}" Foreground="{DynamicResource TextDarkBrush}" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="4" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <TextBlock Text="ScrollBar（水平）" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" />
+                                <ScrollBar Orientation="Horizontal" Height="14" Width="110" Minimum="0" Maximum="100" Value="60" Margin="0,3,0,0" HorizontalAlignment="Left"
+                                           Background="{DynamicResource PanelBackBrush}" Foreground="{DynamicResource TextDarkBrush}" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="4" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <TextBlock Text="ScrollViewer（滚动容器）" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" />
+                                <ScrollViewer Height="48" VerticalScrollBarVisibility="Auto" Margin="0,3,0,0"
+                                              Background="{DynamicResource PanelBackBrush}" Foreground="{DynamicResource TextDarkBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1">
+                                    <StackPanel>
+                                        <TextBlock Text="滚动内容 1" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" Margin="4,2" />
+                                        <TextBlock Text="滚动内容 2" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" Margin="4,2" />
+                                        <TextBlock Text="滚动内容 3" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" Margin="4,2" />
+                                        <TextBlock Text="滚动内容 4" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" Margin="4,2" />
+                                        <TextBlock Text="滚动内容 5" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" Margin="4,2" />
+                                    </StackPanel>
+                                </ScrollViewer>
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="4" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <TextBlock Text="GridSplitter（分隔条）" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" />
+                                <Grid Height="26" Margin="0,3,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="4" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Border Background="{DynamicResource PanelBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" />
+                                    <GridSplitter Grid.Column="1" Width="4" Background="{DynamicResource SplitterBrush}" HorizontalAlignment="Stretch" />
+                                    <Border Grid.Column="2" Background="{DynamicResource PanelLightBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" />
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </UniformGrid>
+                </StackPanel>
+            </Border>
+
+            <!-- ============ 10. 自定义控件 ============ -->
+            <Border Background="{DynamicResource CardBackBrush}"
+                    BorderBrush="{DynamicResource BorderNormalBrush}"
+                    BorderThickness="1"
+                    CornerRadius="5"
+                    Padding="6"
+                    Margin="0,0,0,6">
+                <StackPanel>
+                    <TextBlock Text="10. 自定义控件（项目原生控件：DateTimePicker / LoadingCircle / Pagination）"
+                               FontSize="12"
+                               FontWeight="SemiBold"
+                               Foreground="{DynamicResource TextDarkBrush}"
+                               Margin="0,0,0,4" />
+                    <UniformGrid Columns="4">
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="4" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <TextBlock Text="DateTimePicker（日期时间选择）" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" />
+                                <appControls:DateTimePicker Height="32" FontSize="10" Margin="0,3,0,0" HorizontalAlignment="Stretch" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="4" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <TextBlock Text="LoadingCircle（加载圈）" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" />
+                                <appControls:LoadingCircleControl Width="32" Height="32" Margin="0,3,0,0" HorizontalAlignment="Left" Foreground="{DynamicResource AccentBrush}" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="4" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <TextBlock Text="Pagination（分页）" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" />
+                                <appControls:PaginationControl Height="32" Margin="0,3,0,0" HorizontalAlignment="Left"
+                                                               MaxPageCount="8" PageIndex="2" IsJumpEnabled="True" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="3" Margin="2" Padding="4" VerticalAlignment="Top" MouseLeftButtonUp="OnCellClick" Cursor="Hand" ToolTip="点击放大查看">
+                            <StackPanel>
+                                <TextBlock Text="LoadingCircle（状态色）" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" />
+                                <appControls:LoadingCircleControl Width="32" Height="32" Margin="0,3,0,0" HorizontalAlignment="Left" Foreground="{DynamicResource StatusOrangeBrush}" />
+                            </StackPanel>
+                        </Border>
+                    </UniformGrid>
+                </StackPanel>
+            </Border>
+
+            <!-- ============ 11. 统一绑定规范 ============ -->
+            <Border Background="{DynamicResource CardBackBrush}"
+                    BorderBrush="{DynamicResource BorderNormalBrush}"
+                    BorderThickness="1"
+                    CornerRadius="5"
+                    Padding="8,6">
+                <StackPanel>
+                    <TextBlock Text="✅ 统一绑定规范（控件层以原生 WPF + 项目自定义控件为主；模板族统一由 Resource/Templates 提供）"
+                               FontSize="12"
+                               FontWeight="SemiBold"
+                               Foreground="{DynamicResource TextDarkBrush}"
+                               Margin="0,0,0,3" />
+                    <TextBlock Text="· 面板/卡片背景 → CardBackBrush；页面背景 → ContentBackBrush；日志区背景与卡片一致"
+                               FontSize="10"
+                               Foreground="{DynamicResource TextDarkBrush}"
+                               TextWrapping="Wrap" />
+                    <TextBlock Text="· 明暗原则：背景与文字必须同明暗——暗底亮字 / 亮底暗字；禁用态统一暗底灰字（按钮禁用态、日历导航条等由 Resource/Templates 统一，禁止浅底深字）"
+                               FontSize="10"
+                               Foreground="{DynamicResource TextDarkBrush}"
+                               TextWrapping="Wrap" />
+                    <TextBlock Text="· 模板内部控件（日历导航按钮等）一律 Style={x:Null} 彻底隔离隐式样式，禁止靠重置属性打补丁"
+                               FontSize="10"
+                               Foreground="{DynamicResource TextDarkBrush}"
+                               TextWrapping="Wrap" />
+                    <TextBlock Text="· 类型匹配：Brush 属性只能绑 Brush 键（*Brush）；颜色一律在主题字典（ThemeShared / DynamicTheme）中声明"
+                               FontSize="10"
+                               Foreground="{DynamicResource TextDarkBrush}"
+                               TextWrapping="Wrap" />
+                    <TextBlock Text="· 样板交互：点击任意展示格弹出放大预览（VisualBrush 实时引用原格子，主题跟随），点遮罩或右上角 ✕ 关闭"
+                               FontSize="10"
+                               Foreground="{DynamicResource TextDarkBrush}"
+                               TextWrapping="Wrap" />
+                    <TextBlock Text="· 文本：正文 → TextDarkBrush；次要 → TextSecondaryBrush；弱化 → TextMutedBrush；禁用 → TextDisabledBrush"
+                               FontSize="10"
+                               Foreground="{DynamicResource TextDarkBrush}"
+                               TextWrapping="Wrap" />
+                    <TextBlock Text="· 输入/数据控件一律原生类型（TextBox/ComboBox/ListBox/DataGrid/DatePicker/PasswordBox/TreeView 等）；基础外观由 Controls 隐式样式提供，页面变体在其自身 XAML 定义本地键（不再依赖全局共享基础键）"
+                               FontSize="10"
+                               Foreground="{DynamicResource TextDarkBrush}"
+                               TextWrapping="Wrap" />
+                    <TextBlock Text="· 语义按钮：自绘隐式 Button 样式（ButtonsAndToggles 定义，颜色全 DynamicResource）；主/危/成语义键已并入普通按钮"
+                               FontSize="10"
+                               Foreground="{DynamicResource TextDarkBrush}"
+                               TextWrapping="Wrap" />
+                    <TextBlock Text="· DatePicker / Calendar / StatusBar 等控件在 Templates/Controls 中提供项目隐式样式覆盖，确保背景/前景严格跟随主题键，禁止原生/第三方模板硬编码浅色"
+                               FontSize="10"
+                               Foreground="{DynamicResource TextDarkBrush}"
+                               TextWrapping="Wrap" />
+                    <TextBlock Text="· 点击/事件绑定一律原生：点击用 MouseBinding（InputBindings），其他事件用 XAML 事件 + 代码后置转发 VM 命令"
+                               FontSize="10"
+                               Foreground="{DynamicResource TextDarkBrush}"
+                               TextWrapping="Wrap" />
+                    <TextBlock Text="· 滚动条/分隔条：使用 Templates/Controls/ListControls 提供的原生模板，无需单独绑定"
+                               FontSize="10"
+                               Foreground="{DynamicResource TextDarkBrush}"
+                               TextWrapping="Wrap" />
+                    <TextBlock Text="· 项目自定义控件（DateTimePicker / LoadingCircle / Pagination）优先使用，事件用原生挂接"
+                               FontSize="10"
+                               Foreground="{DynamicResource TextDarkBrush}"
+                               TextWrapping="Wrap" />
+                    <TextBlock Text="· 禁止：硬编码颜色、终端黑 TerminalBackBrush 类独立配色、第三方（hc: 等）前缀用法"
+                               FontSize="10"
+                               Foreground="{DynamicResource TextDarkBrush}"
+                               TextWrapping="Wrap" />
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+    <!-- ============ 放大预览浮层（点击展示格弹出；点遮罩或右上角 ✕ 关闭） ============ -->
+    <Border x:Name="Overlay" Visibility="Collapsed" Background="{DynamicResource OverlayMaskBrush}" MouseLeftButtonUp="OnOverlayClick">
+        <Border Width="820" MaxHeight="620" Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="8" Padding="16" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="28">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock x:Name="OverlayTitle" Grid.Row="0" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextDarkBrush}" TextWrapping="Wrap" Margin="0,0,34,8" />
+                <ScrollViewer x:Name="OverlayScroll" Grid.Row="1" MaxWidth="760" MaxHeight="530" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                    <ContentControl x:Name="OverlayHost" Focusable="False" />
+                </ScrollViewer>
+                <Border Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Width="22" Height="22" CornerRadius="11" Background="{DynamicResource PanelLightBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" Cursor="Hand" ToolTip="关闭" MouseLeftButtonUp="OnCloseOverlay">
+                    <TextBlock Text="✕" FontSize="11" Foreground="{DynamicResource TextDarkBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Border>
+            </Grid>
+        </Border>
+    </Border>
+    </Grid>
+</UserControl>

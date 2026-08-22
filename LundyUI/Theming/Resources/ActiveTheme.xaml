@@ -1,0 +1,13 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- ============================================================
+         ActiveTheme.xaml：活动主题字典（出厂零覆盖 = 采用 ThemeShared 浅色默认）
+         运行机制：ThemeManager 通过内部标记键 __ThemeDictionary__ 在本字典上
+         "原位替换"（重建一个含新色值的字典塞回相同索引），所有 DynamicResource
+         引用随之自动更新。本文件只在未配置主题时作为出厂兜底生效。
+         ============================================================ -->
+    <sys:String x:Key="__ThemeDictionary__"
+                xmlns:sys="clr-namespace:System;assembly=System.Runtime">placeholder</sys:String>
+
+</ResourceDictionary>

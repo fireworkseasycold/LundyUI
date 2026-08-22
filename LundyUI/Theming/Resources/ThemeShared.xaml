@@ -1,0 +1,86 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- ============================================================
+         ThemeShared.xaml：主题键兜底字典（浅色默认值，恒久加载，永不参与切换）
+         值取 WebConsole 主题（网页总控台风格，与 LundyUI 出厂默认一致）。
+         用途：
+         1. 控件/XAML 被复制到未加载主题字典的项目时，DynamicResource 引用的键
+            仍能解析到此处默认值，避免"掉色"（透明底/黑字）。
+         2. 本字典的键集合作为主题键的权威清单（ThemeManager.GetThemeSharedKeys），
+            用于校验运行时主题字典缺键并告警。
+         注意：本字典必须在活动主题字典（ActiveTheme）之前加载，
+               正常运行时由活动主题字典覆盖同名键。
+         ============================================================ -->
+
+    <!-- 1. 框架背景（浅灰内容底 + 白色面板） -->
+    <SolidColorBrush x:Key="WindowBackBrush" Color="#F0F2F5"/>
+    <SolidColorBrush x:Key="StatusBarBackBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="PanelBackBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="PanelBorderBrush" Color="#E5E6EB"/>
+
+    <!-- 2. 强调色 -->
+    <SolidColorBrush x:Key="AccentBrush" Color="#1677FF"/>
+    <Color x:Key="AccentColor">#1677FF</Color>
+
+    <!-- 3. 文字 -->
+    <SolidColorBrush x:Key="TextOnDarkBrush" Color="#1F2329"/>
+    <SolidColorBrush x:Key="TextSecondaryBrush" Color="#646A73"/>
+    <SolidColorBrush x:Key="TextMutedBrush" Color="#8C8C8C"/>
+
+    <!-- 4. 内容区 / 面板 -->
+    <SolidColorBrush x:Key="ContentBackBrush" Color="#F0F2F5"/>
+    <SolidColorBrush x:Key="SplitterBrush" Color="#E5E6EB"/>
+    <SolidColorBrush x:Key="LogPanelBackBrush" Color="#F0F2F5"/>
+    <SolidColorBrush x:Key="LogPanelBorderBrush" Color="#E5E6EB"/>
+
+    <!-- 5. 语义按钮色 -->
+    <SolidColorBrush x:Key="PrimaryBrush" Color="#1677FF"/>
+
+    <!-- 5.0 按钮状态叠层色（自绘 Button 模板 VSM 使用，主题提供而非模板内联） -->
+    <SolidColorBrush x:Key="HoverOverlayBrush" Color="#1AFFFFFF"/>
+    <SolidColorBrush x:Key="PressedOverlayBrush" Color="#33FFFFFF"/>
+
+    <!-- 5.1 界面结构色 -->
+    <SolidColorBrush x:Key="TitleBarBackBrush" Color="#F0F2F5"/>
+    <SolidColorBrush x:Key="TitleBarTextBrush" Color="#1F2329"/>
+    <SolidColorBrush x:Key="RightPanelBackBrush" Color="#F0F2F5"/>
+    <SolidColorBrush x:Key="RightPanelTextBrush" Color="#1F2329"/>
+    <SolidColorBrush x:Key="CardHeaderBackBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="CardHeaderTextBrush" Color="#1F2329"/>
+    <SolidColorBrush x:Key="StatusBarTextBrush" Color="#1F2329"/>
+
+    <!-- 5.2 左侧导航菜单项状态色 -->
+    <SolidColorBrush x:Key="MenuItemBackBrush" Color="#001529"/>
+    <SolidColorBrush x:Key="MenuItemHoverBrush" Color="#112A45"/>
+    <SolidColorBrush x:Key="MenuItemSelectedBrush" Color="#1677FF"/>
+    <SolidColorBrush x:Key="MenuItemTextBrush" Color="#C7D0DA"/>
+    <SolidColorBrush x:Key="DangerBrush" Color="#FF4D4F"/>
+    <SolidColorBrush x:Key="SuccessBrush" Color="#52C41A"/>
+    <SolidColorBrush x:Key="TextOnAccentBrush" Color="#FFFFFF"/>
+
+    <!-- 6. 业务状态色（两主题通用） -->
+    <SolidColorBrush x:Key="StatusGreenBrush" Color="#52C41A"/>
+    <SolidColorBrush x:Key="StatusRedBrush" Color="#FF4D4F"/>
+    <SolidColorBrush x:Key="StatusOrangeBrush" Color="#FA8C16"/>
+    <SolidColorBrush x:Key="StatusBlueBrush" Color="#1677FF"/>
+    <SolidColorBrush x:Key="StatusPurpleBrush" Color="#722ED1"/>
+    <SolidColorBrush x:Key="StatusGrayBrush" Color="#999999"/>
+
+    <!-- 7. 浅色管理页通用色 -->
+    <SolidColorBrush x:Key="HeaderBlueBrush" Color="#001529"/>
+    <SolidColorBrush x:Key="CardBackBrush" Color="#F0F2F5"/>
+    <SolidColorBrush x:Key="PanelLightBrush" Color="#F7F8FA"/>
+    <SolidColorBrush x:Key="BorderNormalBrush" Color="#E5E6EB"/>
+    <SolidColorBrush x:Key="TextDisabledBrush" Color="#B0B0B0"/>
+    <SolidColorBrush x:Key="TextDarkBrush" Color="#1F2329"/>
+    <SolidColorBrush x:Key="InfoBackBrush" Color="#E8F4FF"/>
+    <SolidColorBrush x:Key="WarnBackBrush" Color="#FFFBE6"/>
+    <SolidColorBrush x:Key="WarnBorderBrush" Color="#FFE58F"/>
+    <SolidColorBrush x:Key="SuccessBackBrush" Color="#F6FFED"/>
+    <SolidColorBrush x:Key="DangerBackBrush" Color="#FFF2F0"/>
+    <SolidColorBrush x:Key="TerminalBackBrush" Color="#1E1E1E"/>
+    <SolidColorBrush x:Key="TerminalTextBrush" Color="#4EC9B0"/>
+    <SolidColorBrush x:Key="OverlayMaskBrush" Color="#66000000"/>
+
+</ResourceDictionary>

@@ -1,0 +1,15 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- ============================================================
+         Fonts.xaml：全局字体定义（单一声明，处处引用）
+         字体回退链由来：
+         WPF 默认字体 (Segoe UI) 不含中文字符。在非中文系统（如俄语环境）或特定精简版系统中，
+         系统级字体链接 (Font Linking) 可能失效，导致中文显示为空白（Zero-width glyph）。
+         故强制指定回退顺序：Segoe UI (西文/俄文) -> Microsoft YaHei (中文) -> SimSun (宋体兜底)。
+         使用：FontFamily="{DynamicResource AppFontFamily}"
+         ============================================================ -->
+
+    <FontFamily x:Key="AppFontFamily">Segoe UI, Microsoft YaHei, SimSun, Sans-Serif</FontFamily>
+
+</ResourceDictionary>

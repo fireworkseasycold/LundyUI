@@ -1,0 +1,21 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- ============================================================
+         Generic.xaml：LundyUI 装配入口（唯一对外暴露的合并字典）
+         顺序即优先级：先加载的颜色/画笔被后加载项覆盖同名键（此处同键无冲突）。
+         1) Theming/Resources/ThemeShared.xaml  —— 皮：主题键兜底（浅色默认值，恒久加载）
+         2) Styles/*.xaml                        —— 肉+骨：原生控件样式/模板（全 DynamicResource）
+         业务方只需在 App.Resources 合并本文件一次，再叠加各自的 ActiveTheme 覆盖字典即可。
+         ============================================================ -->
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Theming/Resources/ThemeShared.xaml" />
+        <ResourceDictionary Source="Styles/Fonts.xaml" />
+        <ResourceDictionary Source="Styles/Calendar.xaml" />
+        <ResourceDictionary Source="Styles/DataGrid.xaml" />
+        <ResourceDictionary Source="Styles/ListControls.xaml" />
+        <ResourceDictionary Source="Styles/ButtonsAndToggles.xaml" />
+        <ResourceDictionary Source="Styles/InputAndSurfaces.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+</ResourceDictionary>

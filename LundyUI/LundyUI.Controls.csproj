@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- ============================================================
+       LundyUI.Controls：LundyUI 独立 WPF 控件库（业务零依赖，纯皮肤可复用框架）
+       分层：
+         Theming/       皮+引擎：ThemeManager / ThemeConfig / 颜色·画笔·字体资源
+         Styles/        肉+骨：原生控件样式（Style + 所需 ControlTemplate，颜色走 DynamicResource）
+         CustomControls/ 自定义新控件（LoadingCircle / Pagination / DateTimePicker）
+         Converters/    IValueConverter 集合
+         Behaviors/     附加行为
+         Generic.xaml   装配入口（等价原 _TemplatesMerged.xaml）
+       约定：模板/样式禁止硬编码色值，一律引用 Theming 提供的主题键（DynamicResource）；
+             业务层不得修改本库样式，仅允许覆盖资源键。
+       ============================================================ -->
+  <PropertyGroup>
+    <!-- 多目标：保留 net6 兼容旧工程，并扩展 net8/net9 覆盖新项目（UI 库面向消费端需宽覆盖） -->
+    <TargetFrameworks>net6.0-windows7.0;net8.0-windows7.0;net9.0-windows7.0</TargetFrameworks>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>LundyUI.Controls</RootNamespace>
+    <AssemblyName>LundyUI.Controls</AssemblyName>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+
+    <!-- ============== NuGet 打包元数据 ============== -->
+    <PackageId>LundyUI.Controls</PackageId>
+    <Version>1.0.1</Version>
+    <Authors>LundyUI</Authors>
+    <Description>独立 WPF 控件库：配置驱动主题引擎（json 换肤）+ 原生控件样式（DynamicResource）+ 自定义控件（DateTimePicker/LoadingCircle/Pagination）。业务零依赖，任何 WPF 项目引用即可获得完整主题能力。</Description>
+    <PackageTags>wpf;theme;theming;ui;controls;styles;skinning</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <NeutralLanguage>zh-CN</NeutralLanguage>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <RepositoryUrl>https://github.com/fireworkseasycold/LundyUI</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- 把 README 作为包的 readme 一并打入 nupkg（与 PackageReadmeFile 配对） -->
+    <None Include="README.md" Pack="true" PackagePath="\" Visible="false" />
+  </ItemGroup>
+</Project>
