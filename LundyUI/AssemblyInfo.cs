@@ -10,4 +10,5 @@ using System.Windows.Markup;
 [assembly: XmlnsDefinition("https://github.com/fireworkseasycold/LundyUI", "LundyUI.Controls")]
 [assembly: XmlnsDefinition("https://github.com/fireworkseasycold/LundyUI", "LundyUI.Controls.CustomControls")]
 [assembly: XmlnsDefinition("https://github.com/fireworkseasycold/LundyUI", "LundyUI.Controls.Theming")]
+[assembly: XmlnsDefinition("https://github.com/fireworkseasycold/LundyUI", "LundyUI.Controls.Converters")]
 [assembly: XmlnsPrefix("https://github.com/fireworkseasycold/LundyUI", "lui")]
