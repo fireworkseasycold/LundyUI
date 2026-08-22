@@ -1,9 +1,11 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using LundyUI.Controls.CustomControls;
+using System.Windows.Media;
 using System.Windows.Input;
 using System.Windows.Markup;
-using System.Windows.Media;
 using System.Windows.Shapes;
 
 namespace LundyUI.Demo;
@@ -119,5 +121,54 @@ public partial class ThemePaletteView : UserControl
 	private void OnOverlayClick(object sender, MouseButtonEventArgs e)
 	{
 		if (e.OriginalSource == Overlay) Overlay.Visibility = Visibility.Collapsed;
+	}
+
+	/// <summary>
+	/// 演示 lui: 自定义控件 ImageViewerWindow 弹窗可用：构造示例图片项并打开查看器。
+	/// </summary>
+	private void OnOpenImageViewer(object sender, RoutedEventArgs e)
+	{
+		if (_demoImages == null)
+		{
+			_demoImages = new List<ImageViewItem>();
+			for (int i = 1; i <= 3; i++)
+			{
+				_demoImages.Add(new ImageViewItem { ImagePath = CreateDemoImagePath(i) });
+			}
+		}
+		var viewer = new ImageViewerWindow();
+		viewer.ShowImages(_demoImages, 0, "LundyUI 图片查看器演示");
+		viewer.Show();
+	}
+
+	private static List<ImageViewItem>? _demoImages;
+
+	/// <summary>程序化生成一张示例位图路径（验证 ImageViewerWindow 加载、缩放、导航）。</summary>
+	private static string CreateDemoImagePath(int index)
+	{
+		var bmp = new System.Windows.Media.Imaging.RenderTargetBitmap(640, 400, 96, 96, PixelFormats.Pbgra32);
+		var canvas = new System.Windows.Controls.Canvas();
+		canvas.Background = new SolidColorBrush(Color.FromRgb((byte)(30 + index * 50), 60, (byte)(120 + index * 30)));
+		var tb = new TextBlock
+		{
+			Text = "LundyUI 示例图 " + index,
+			FontSize = 32,
+			Foreground = Brushes.White
+		};
+		tb.Measure(new Size(640, 400));
+		Canvas.SetLeft(tb, (640 - tb.DesiredSize.Width) / 2);
+		Canvas.SetTop(tb, (400 - tb.DesiredSize.Height) / 2);
+		canvas.Children.Add(tb);
+		canvas.Measure(new Size(640, 400));
+		canvas.Arrange(new Rect(0, 0, 640, 400));
+		bmp.Render(canvas);
+		string dir = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "LundyUI.Demo");
+		System.IO.Directory.CreateDirectory(dir);
+		string file = System.IO.Path.Combine(dir, "demo-" + index + ".png");
+		var enc = new System.Windows.Media.Imaging.PngBitmapEncoder();
+		enc.Frames.Add(System.Windows.Media.Imaging.BitmapFrame.Create(bmp));
+		using var fs = System.IO.File.Create(file);
+		enc.Save(fs);
+		return file;
 	}
 }

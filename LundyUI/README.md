@@ -86,6 +86,8 @@ LundyUI/
     ├── DateTimePicker.xaml(.cs)    # 日期时间选择（日历+时分秒+确定回写）
     ├── LoadingCircleControl.xaml(.cs) # 加载圈（圆环描边+无限旋转）
     ├── PaginationControl.xaml(.cs) # 分页（页码/省略号/跳转）
+    ├── ImageViewerWindow.xaml(.cs) # 图片查看器（缩放/拖拽/上一张下一张；多语言可注入，零业务依赖）
+    ├── ImageViewItem.cs            # 图片查看器数据项（宿主将自身图片模型转换为本类型传入）
     └── FunctionEventArgs.cs        # 库内泛型事件参数（Pagination 用）
 ```
 
@@ -244,6 +246,21 @@ xmlns:cc="clr-namespace:LundyUI.Controls.CustomControls;assembly=LundyUI.Control
 <cc:PaginationControl MaxPageCount="8" PageIndex="2"
                       IsJumpEnabled="True" PageUpdated="OnPageUpdated" />
 ```
+
+### ImageViewer（图片查看器）
+```csharp
+using LundyUI.Controls.CustomControls;
+
+var viewer = new ImageViewerWindow();
+// 可选：覆盖静态 Localize 接入宿主多语言字典（默认内置中文）
+ImageViewerWindow.Localize = key => MyLang.TryGetValue(key, out var t) ? t : key;
+// 将自身图片模型转换为 ImageViewerItem 后传入，并指定起始索引与标题
+var items = myImages.Select(i => new ImageViewerItem { ImagePath = i.Path }).ToList();
+viewer.ShowImages(items, startIndex: 0, title: "视觉数据");
+viewer.Show();
+```
+- 支持缩放（滚轮/加减/适应窗口/原始大小）、按住拖拽、上一张/下一张导航。
+- `ImageViewerWindow.Localize` 为静态委托，宿主可覆盖以接入自身多语言；默认内置中文。
 
 ```csharp
 // PageUpdated 事件携带新页码

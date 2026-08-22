@@ -11,6 +11,15 @@ namespace LundyUI.Controls.CustomControls;
 /// </summary>
 public partial class DateTimePicker : UserControl
 {
+	/// <summary>
+	/// 日历允许显示的最大年份。
+	/// WPF 原生 Calendar 在切换到“年视图/月视图”时会在内部构造 new DateTime(year, month, day)，
+	/// 当显示年份接近 DateTime.MaxValue.Year(9999) 时会因年份越界抛出
+	/// “Year, Month, and Day parameters describe an un-representable DateTime”异常。
+	/// 通过 DisplayDateEnd 将年份上限收窄到 9998，保证内部计算不会越过 9999。
+	/// </summary>
+	private static readonly int SafeMaxYear = DateTime.MaxValue.Year - 1;
+
 	public static readonly DependencyProperty SelectedDateTimeProperty =
 		DependencyProperty.Register(nameof(SelectedDateTime), typeof(DateTime?), typeof(DateTimePicker),
 			new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnSelectedDateTimeChanged));
@@ -28,6 +37,9 @@ public partial class DateTimePicker : UserControl
 	{
 		InitializeComponent();
 		PickerPopup.PlacementTarget = this;
+		// 收紧日历可显示范围，规避 WPF Calendar 年份面板构造非法 DateTime 的框架缺陷
+		DateCalendar.DisplayDateStart = new DateTime(1, 1, 1);
+		DateCalendar.DisplayDateEnd = new DateTime(SafeMaxYear, 12, 31);
 		BuildTimeItems();
 		ApplyFormat();
 		UpdateDisplay();
@@ -96,6 +108,11 @@ public partial class DateTimePicker : UserControl
 		}
 
 		DateTime baseTime = SelectedDateTime ?? DateTime.Now;
+		// 若绑定值落在日期上限附近（WPF Calendar 年视图内部会推导更晚年份导致越界），回退到当前时间
+		if (baseTime.Year > SafeMaxYear)
+		{
+			baseTime = DateTime.Now;
+		}
 		_draft = baseTime;
 		_confirmed = false;
 

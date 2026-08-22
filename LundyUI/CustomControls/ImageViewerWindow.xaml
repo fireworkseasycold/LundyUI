@@ -1,0 +1,105 @@
+﻿<Window x:Class="LundyUI.Controls.CustomControls.ImageViewerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Height="700" Width="1000"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
+        Background="{DynamicResource TerminalBackBrush}"
+        KeyDown="Window_KeyDown">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- 顶部工具栏 -->
+        <Border Grid.Row="0" Background="{DynamicResource TerminalBackBrush}" Padding="10,8">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- 标题 -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock x:Name="TitleText" Text="图片查看" Foreground="{DynamicResource TextOnAccentBrush}" FontSize="16" FontWeight="Bold" Margin="0,0,15,0"/>
+                    <TextBlock x:Name="TitleDetailText" Text="" Foreground="{DynamicResource StatusGrayBrush}" FontSize="14" VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <!-- 缩放控制 -->
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button x:Name="ZoomOutButton" Content="&#x2212;" Width="35" Height="35" FontSize="18" 
+                            Foreground="{DynamicResource TextOnAccentBrush}" Background="#444" BorderThickness="0"
+                            Click="ZoomOutButton_Click"/>
+                    <TextBlock x:Name="ZoomTextBlock" Text="100%" Foreground="{DynamicResource TextOnAccentBrush}" 
+                               FontSize="14" VerticalAlignment="Center" Margin="15,0"/>
+                    <Button x:Name="ZoomInButton" Content="+" Width="35" Height="35" FontSize="18" 
+                            Foreground="{DynamicResource TextOnAccentBrush}" Background="#444" BorderThickness="0"
+                            Click="ZoomInButton_Click"/>
+                    <Button x:Name="FitWindowButton" Content="适应窗口" Width="60" Height="35" FontSize="12" 
+                            Foreground="{DynamicResource TextOnAccentBrush}" Background="#444" BorderThickness="0" Margin="10,0,0,0"
+                            Click="FitToWindowButton_Click"/>
+                    <Button x:Name="ActualSizeButton" Content="1:1" Width="45" Height="35" FontSize="12" 
+                            Foreground="{DynamicResource TextOnAccentBrush}" Background="#444" BorderThickness="0" Margin="5,0,0,0"
+                            Click="ActualSizeButton_Click"/>
+                </StackPanel>
+
+                <!-- 关闭按钮 -->
+                <Button x:Name="CloseButton" Grid.Column="2" Content="&#x2715;" Width="40" Height="35" FontSize="16"
+                        Foreground="{DynamicResource TextOnAccentBrush}" Background="{DynamicResource StatusRedBrush}" BorderThickness="0"
+                        Click="CloseButton_Click"/>
+            </Grid>
+        </Border>
+
+        <!-- 图片显示区域 -->
+        <Border Grid.Row="1" Background="{DynamicResource TerminalBackBrush}" ClipToBounds="True">
+            <ScrollViewer x:Name="ImageScrollViewer"
+                          HorizontalScrollBarVisibility="Auto"
+                          VerticalScrollBarVisibility="Auto"
+                          PanningMode="Both"
+                          MouseWheel="ImageScrollViewer_MouseWheel"
+                          MouseLeftButtonDown="ImageScrollViewer_MouseLeftButtonDown"
+                          MouseMove="ImageScrollViewer_MouseMove"
+                          MouseLeftButtonUp="ImageScrollViewer_MouseLeftButtonUp">
+                <Image x:Name="MainImage"
+                       RenderOptions.BitmapScalingMode="HighQuality"
+                       Stretch="None"
+                       Cursor="SizeAll"/>
+            </ScrollViewer>
+        </Border>
+
+        <!-- 底部导航栏 -->
+        <Border Grid.Row="2" Background="{DynamicResource TerminalBackBrush}" Padding="10,8">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- 图片信息 -->
+                <TextBlock x:Name="ImageInfoTextBlock" Grid.Column="0" 
+                           Text="1 / 1" Foreground="{DynamicResource StatusGrayBrush}" FontSize="14" VerticalAlignment="Center"/>
+
+                <!-- 导航按钮 -->
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button x:Name="PrevButton" Content="上一张" Width="90" Height="35" FontSize="13"
+                            Foreground="{DynamicResource TextOnAccentBrush}" Background="#444" BorderThickness="0"
+                            Click="PrevButton_Click"/>
+                    <Button x:Name="NextButton" Content="下一张" Width="90" Height="35" FontSize="13" Margin="10,0,0,0"
+                            Foreground="{DynamicResource TextOnAccentBrush}" Background="#444" BorderThickness="0"
+                            Click="NextButton_Click"/>
+                </StackPanel>
+
+                <!-- 文件名 -->
+                <TextBlock x:Name="FileNameTextBlock" Grid.Column="2" 
+                           Text="" Foreground="{DynamicResource StatusGrayBrush}" FontSize="12" VerticalAlignment="Center"/>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

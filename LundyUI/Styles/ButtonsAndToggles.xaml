@@ -1,5 +1,6 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:lui="clr-namespace:LundyUI.Controls">
 
     <!-- ============================================================
          ButtonsAndToggles.xaml：按钮/开关/单选控件族模板（原生，无硬编码色值）
@@ -23,7 +24,7 @@
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="3"
+                            CornerRadius="{Binding Path=(lui:Controls.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
                             Padding="{TemplateBinding Padding}">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" RecognizesAccessKey="True" />
                     </Border>
@@ -112,8 +113,8 @@
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border x:Name="RootBorder" Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="3" SnapsToDevicePixels="True">
-                        <Border x:Name="StateOverlay" Background="Transparent" CornerRadius="3">
+                            CornerRadius="{Binding Path=(lui:Controls.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}" SnapsToDevicePixels="True">
+                        <Border x:Name="StateOverlay" Background="Transparent" CornerRadius="{Binding Path=(lui:Controls.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
                                               Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" />
                         </Border>
@@ -157,6 +158,11 @@
                 <Setter Property="BorderBrush" Value="{DynamicResource BorderNormalBrush}" />
                 <Setter Property="Foreground" Value="{DynamicResource TextDisabledBrush}" />
             </Trigger>
+<!-- lui:Controls.Accent=True 时切换为强调色主按钮 -->
+<Trigger Property="lui:Controls.Accent" Value="True">
+    <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource AccentBrush}" />
+</Trigger>
         </Style.Triggers>
     </Style>
 
