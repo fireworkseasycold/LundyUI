@@ -1,6 +1,6 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace LundyUI.Controls.Theming
+namespace LundyUI.WPF.Theming
 {
     /// <summary>
     /// 主题定义（纯数据，零业务依赖）。

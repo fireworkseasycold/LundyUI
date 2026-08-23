@@ -1,7 +1,7 @@
 ﻿name: Publish NuGet
 
 # ============================================================
-# 使用 nuget.org「Trusted Publishing（受信发布）」发布 LundyUI.Controls。
+# 使用 nuget.org「Trusted Publishing（受信发布）」发布 LundyUI.WPF。
 # 免长期 API Key：GitHub Actions 通过 OIDC 向 nuget.org 证明身份，
 # 用 NuGet/login@v1 换一次性、约 1 小时有效的临时 API Key 后推送。
 # 前置条件：
@@ -33,11 +33,11 @@ jobs:
           dotnet-version: '9.0.x'
 
       - name: Restore
-        run: dotnet restore LundyUI/LundyUI.Controls.csproj
+        run: dotnet restore LundyUI/LundyUI.WPF.csproj
 
-      # 版本单一来源：仓库根 Directory.Build.props 的 <Version>（当前 1.0.1），UI 库与 Demo 同版本。
+      # 版本单一来源：仓库根 Directory.Build.props 的 <Version>（当前 1.0.5），UI 库与 Demo 同版本。
       - name: Pack
-        run: dotnet pack LundyUI/LundyUI.Controls.csproj -c Release -o ./nupkg
+        run: dotnet pack LundyUI/LundyUI.WPF.csproj -c Release -o ./nupkg
 
       # Trusted Publishing：OIDC 令牌 → nuget.org 临时 API Key（尽量靠近 push 步骤，避免提前过期）
       - name: NuGet login (OIDC → temp API key)

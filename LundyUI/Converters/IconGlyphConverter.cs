@@ -1,11 +1,11 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Windows.Data;
 
-namespace LundyUI.Controls.Converters
+namespace LundyUI.WPF.Converters
 {
     /// <summary>
     /// 图标名 -> MDI 字形 通用转换器（UI 框架级，不含任何业务语义）。
@@ -18,7 +18,7 @@ namespace LundyUI.Controls.Converters
     public sealed class IconGlyphConverter : IValueConverter
     {
         private const string ResourceName =
-            "LundyUI.Controls.Resources.Icons.materialdesignicons.codepoints";
+            "LundyUI.WPF.Resources.Icons.materialdesignicons.codepoints";
 
         // 线程安全的懒加载：加载失败退化空表 -> 转换器严格告警并返回空，不抛不阻塞。
         private static readonly Lazy<Dictionary<string, string>> Glyphs =

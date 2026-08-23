@@ -1,4 +1,4 @@
-﻿# LundyUI.Controls
+﻿# LundyUI.WPF
 
 ![LundyUI Logo](https://raw.githubusercontent.com/fireworkseasycold/LundyUI/main/LundyUI/Resources/Images/LundyUI-Logo.png)
 
@@ -8,8 +8,8 @@
 
 | 组件 | 说明 | 版本 |
 |------|------|------|
-| `LundyUI.Controls` | WPF 控件库（NuGet：`LundyUI.Controls`） | **1.0.4** |
-| `LundyUI.Demo` | 主题样板示范程序（与控件库严格对应） | 1.0.4 |
+| `LundyUI.WPF` | WPF 控件库（NuGet：`LundyUI.WPF`） | **1.0.5** |
+| `LundyUI.Demo` | 主题样板示范程序（与控件库严格对应） | 1.0.5 |
 
 > 版本号统一由仓库根目录 `Directory.Build.props` 的 `<Version>` 维护，UI 库与 Demo **共享同一版本**，升级时只改这一处即可双向同步。
 
@@ -76,7 +76,7 @@ ThemeShared 兜底 / ActiveTheme  →   Styles/*.xaml 里的 Setter 引用皮键
 
 ```
 LundyUI/
-├── LundyUI.Controls.csproj        # 控件库（net6/8/9-windows 多目标，含 NuGet 打包元数据）
+├── LundyUI.WPF.csproj        # 控件库（net6/8/9-windows 多目标，含 NuGet 打包元数据）
 ├── Generic.xaml                    # 装配入口：合并 皮(ThemeShared) + 肉骨(Styles)
 ├── Theming/                        # 皮 + 引擎
 │   ├── ThemeManager.cs             # 全局单例：多主题切换、原位替换、按键类型解析
@@ -112,7 +112,7 @@ LundyUI/
 
 | 方式 | 场景 | 说明 |
 |------|------|------|
-| A · NuGet 包引用 | 版本已发布，下游/生产使用 | `dotnet add package LundyUI.Controls`，安装即用、零外部依赖、可一键升级 |
+| A · NuGet 包引用 | 版本已发布，下游/生产使用 | `dotnet add package LundyUI.WPF`，安装即用、零外部依赖、可一键升级 |
 | B · 项目引用 | 框架与业务同仓、源码可改 | `ProjectReference`，改框架只改一处 |
 | C · 拷贝 dll | 明确不再改源码、独立分发 | 需保持 `pack://` 前缀与程序集名一致 |
 
@@ -121,22 +121,22 @@ LundyUI/
 ### 3.1 方式 A：NuGet 包引用（已发布后）
 
 ```bash
-dotnet add package LundyUI.Controls
+dotnet add package LundyUI.WPF
 ```
 
-- 包名 `LundyUI.Controls`，多目标 `net6.0-windows` / `net8.0-windows` / `net9.0-windows`，消费端匹配任一即可。
+- 包名 `LundyUI.WPF`，多目标 `net6.0-windows` / `net8.0-windows` / `net9.0-windows`，消费端匹配任一即可。
 - 零外部包依赖：不引入任何传递依赖。
-- 集成方式与下方 3.4 完全一致（`pack://application:,,,/LundyUI.Controls;component/...` 资源前缀不变）。
+- 集成方式与下方 3.4 完全一致（`pack://application:,,,/LundyUI.WPF;component/...` 资源前缀不变）。
 
 ### 3.2 方式 B：项目引用（源码可改，同仓联调）
 
 ```xml
-<ProjectReference Include="..\LundyUI\LundyUI.Controls.csproj" />
+<ProjectReference Include="..\LundyUI\LundyUI.WPF.csproj" />
 ```
 
 ### 3.3 方式 C：拷贝 dll 引用（仅分发用）
 
-把 `LundyUI.Controls.dll` 拷到你的 `lib/` 目录，再在 csproj 加 dll 引用。注意：若组件内嵌了 `.xaml` 资源，请确保 `pack://application:,,,/LundyUI.Controls;component/...` 的 URI 前缀与程序集名一致。
+把 `LundyUI.WPF.dll` 拷到你的 `lib/` 目录，再在 csproj 加 dll 引用。注意：若组件内嵌了 `.xaml` 资源，请确保 `pack://application:,,,/LundyUI.WPF;component/...` 的 URI 前缀与程序集名一致。
 
 ### 3.4 集成步骤（以"项目引用"为例）
 
@@ -148,9 +148,9 @@ dotnet add package LundyUI.Controls
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
         <!-- LundyUI 装配入口：皮(ThemeShared) + 肉骨(Styles) -->
-        <ResourceDictionary Source="pack://application:,,,/LundyUI.Controls;component/Generic.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LundyUI.WPF;component/Generic.xaml" />
         <!-- 活动主题字典占位：ThemeManager 启动时原位替换 -->
-        <ResourceDictionary Source="pack://application:,,,/LundyUI.Controls;component/Theming/Resources/ActiveTheme.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LundyUI.WPF;component/Theming/Resources/ActiveTheme.xaml" />
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </Application.Resources>
@@ -162,7 +162,7 @@ dotnet add package LundyUI.Controls
 ```csharp
 using System;
 using System.IO;
-using LundyUI.Controls.Theming;
+using LundyUI.WPF.Theming;
 
 protected override void OnStartup(StartupEventArgs e)
 {
@@ -237,7 +237,7 @@ Loaded += (_, _) => ThemeManager.Instance.ReApplyCurrentTheme();
 ## 5. 自定义控件用法
 
 ```xml
-xmlns:cc="clr-namespace:LundyUI.Controls.CustomControls;assembly=LundyUI.Controls"
+xmlns:cc="clr-namespace:LundyUI.WPF.CustomControls;assembly=LundyUI.WPF"
 ```
 
 ### DateTimePicker（日期时间选择）
@@ -260,7 +260,7 @@ xmlns:cc="clr-namespace:LundyUI.Controls.CustomControls;assembly=LundyUI.Control
 
 ### ImageViewer（图片查看器）
 ```csharp
-using LundyUI.Controls.CustomControls;
+using LundyUI.WPF.CustomControls;
 
 var viewer = new ImageViewerWindow();
 // 可选：覆盖静态 Localize 接入宿主多语言字典（默认内置中文）

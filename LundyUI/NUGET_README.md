@@ -1,4 +1,4 @@
-﻿# LundyUI.Controls
+﻿# LundyUI.WPF
 
 ![LundyUI Logo](https://raw.githubusercontent.com/fireworkseasycold/LundyUI/main/LundyUI/Resources/Images/LundyUI-Logo.png)
 
@@ -7,7 +7,7 @@
 ## 安装
 
 ```bash
-dotnet add package LundyUI.Controls
+dotnet add package LundyUI.WPF
 ```
 
 支持 `net6.0-windows` / `net8.0-windows` / `net9.0-windows`，零外部依赖。
@@ -18,8 +18,8 @@ dotnet add package LundyUI.Controls
 <Application.Resources>
   <ResourceDictionary>
     <ResourceDictionary.MergedDictionaries>
-      <ResourceDictionary Source="pack://application:,,,/LundyUI.Controls;component/Generic.xaml" />
-      <ResourceDictionary Source="pack://application:,,,/LundyUI.Controls;component/Theming/Resources/ActiveTheme.xaml" />
+      <ResourceDictionary Source="pack://application:,,,/LundyUI.WPF;component/Generic.xaml" />
+      <ResourceDictionary Source="pack://application:,,,/LundyUI.WPF;component/Theming/Resources/ActiveTheme.xaml" />
     </ResourceDictionary.MergedDictionaries>
   </ResourceDictionary>
 </Application.Resources>
@@ -45,7 +45,7 @@ ThemeManager.Instance.SwitchTheme("Dark");
 
 | 组件 | 版本 |
 |------|------|
-| `LundyUI.Controls` | 1.0.4 |
-| `LundyUI.Demo`（示范程序） | 1.0.4 |
+| `LundyUI.WPF` | 1.0.5 |
+| `LundyUI.Demo`（示范程序） | 1.0.5 |
 
 完整集成步骤、主题键速查、Demo 说明见仓库 `LundyUI/README.md`。

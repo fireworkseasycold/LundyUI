@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 
-namespace LundyUI.Controls.Theming
+namespace LundyUI.WPF.Theming
 {
     /// <summary>
     /// 全局主题管理器（单例）：配置驱动的多主题切换。

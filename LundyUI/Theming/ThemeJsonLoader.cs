@@ -1,9 +1,9 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 
-namespace LundyUI.Controls.Theming
+namespace LundyUI.WPF.Theming
 {
     /// <summary>
     /// themes-config.json 加载器：把配置驱动主题（ThemeConfig）映射为运行期 ThemeDefinition。

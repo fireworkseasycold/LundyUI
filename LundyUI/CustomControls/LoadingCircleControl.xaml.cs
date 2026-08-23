@@ -1,6 +1,6 @@
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
-namespace LundyUI.Controls.CustomControls;
+namespace LundyUI.WPF.CustomControls;
 
 /// <summary>
 /// LundyUI 加载圈（替代 HandyControl LoadingCircle）。

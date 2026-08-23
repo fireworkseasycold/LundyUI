@@ -1,6 +1,6 @@
-using System;
+﻿using System;
 
-namespace LundyUI.Controls.CustomControls;
+namespace LundyUI.WPF.CustomControls;
 
 /// <summary>
 /// 通用泛型事件参数（库内自持，替代 HandyControl.Data.FunctionEventArgs）。

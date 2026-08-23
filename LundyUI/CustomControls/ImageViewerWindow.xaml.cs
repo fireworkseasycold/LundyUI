@@ -6,7 +6,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace LundyUI.Controls.CustomControls;
+namespace LundyUI.WPF.CustomControls;
 
 /// <summary>
 /// 图片查看器（零业务依赖）。宿主构造后调用 <see cref="ShowImages"/> 并 Show()。

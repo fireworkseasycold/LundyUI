@@ -1,6 +1,6 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:lui="clr-namespace:LundyUI.Controls">
+                    xmlns:lui="clr-namespace:LundyUI.WPF">
 
     <!-- ============================================================
          ButtonsAndToggles.xaml：按钮/开关/单选控件族模板（原生，无硬编码色值）

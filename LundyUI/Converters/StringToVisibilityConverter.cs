@@ -1,9 +1,9 @@
-using System;
+﻿using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace LundyUI.Controls.Converters
+namespace LundyUI.WPF.Converters
 {
     /// <summary>字符串非空白 -> Visible，否则 -> Collapsed（UI 框架级，通用）。</summary>
     public sealed class StringToVisibilityConverter : IValueConverter

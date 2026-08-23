@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Solution>
-  <Project Path="LundyUI\LundyUI.Controls.csproj" />
+  <Project Path="LundyUI\LundyUI.WPF.csproj" />
   <Project Path="LundyUI.Demo\LundyUI.Demo.csproj" />
 </Solution>

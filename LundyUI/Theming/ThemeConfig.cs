@@ -1,6 +1,6 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace LundyUI.Controls.Theming
+namespace LundyUI.WPF.Theming
 {
     /// <summary>
     /// themes-config.json 根节点：{ "ThemeConfigs": { "Themes": [...] } }。

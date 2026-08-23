@@ -1,8 +1,8 @@
-<UserControl x:Class="LundyUI.Controls.CustomControls.MenuControl"
+﻿<UserControl x:Class="LundyUI.WPF.CustomControls.MenuControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:LundyUI.Controls.CustomControls"
-             xmlns:converters="clr-namespace:LundyUI.Controls.Converters"
+             xmlns:local="clr-namespace:LundyUI.WPF.CustomControls"
+             xmlns:converters="clr-namespace:LundyUI.WPF.Converters"
              Background="{DynamicResource WindowBackBrush}">
     <UserControl.Resources>
         <converters:BoolToExpandSymbolConverter x:Key="BoolToExpandSymbol"/>

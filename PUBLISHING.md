@@ -1,6 +1,6 @@
 ﻿# LundyUI NuGet 发布流程（Trusted Publishing · 免密钥）
 
-本文档记录 `LundyUI.Controls` 从本地打包到 CI/CD 自动发布到 nuget.org 的完整流程与配置说明。
+本文档记录 `LundyUI.WPF` 从本地打包到 CI/CD 自动发布到 nuget.org 的完整流程与配置说明。
 
 > 安全说明：本文不包含任何密码、API Key 或账号信息，涉及账号处一律使用占位符 `<占位>`。
 
@@ -30,7 +30,7 @@ LundyUI/
 │   └── workflows/
 │       └── nuget-publish.yml      # CI/CD 自动发布工作流
 ├── Directory.Build.props           # 版本号 / 通用元数据统一维护
-├── LundyUI/ (LundyUI.Controls.csproj)
+├── LundyUI/ (LundyUI.WPF.csproj)
 │   ├── Resources/Images/           # Logo / 图标资源（内嵌 + 打包）
 │   └── README.md                   # 包的 README
 └── LundyUI.Demo/                   # 示范工程（与库共享版本号）
@@ -57,7 +57,7 @@ LundyUI/
 
 ---
 
-## 4. 库工程打包配置（LundyUI.Controls.csproj）
+## 4. 库工程打包配置（LundyUI.WPF.csproj）
 
 关键 NuGet 元数据（多目标、许可证、图标、README、符号包）：
 
@@ -67,7 +67,7 @@ LundyUI/
   <TargetFrameworks>net6.0-windows7.0;net8.0-windows7.0;net9.0-windows7.0</TargetFrameworks>
   <UseWPF>true</UseWPF>
 
-  <PackageId>LundyUI.Controls</PackageId>
+  <PackageId>LundyUI.WPF</PackageId>
   <Authors>LundyUI</Authors>
   <Description>独立 WPF 控件库：配置驱动主题引擎（json 换肤）+ 原生控件样式（DynamicResource）+ 自定义控件。</Description>
   <PackageTags>wpf;theme;theming;ui;controls;styles;skinning</PackageTags>
@@ -132,9 +132,9 @@ jobs:
         with:
           dotnet-version: '9.0.x'    # 覆盖最高 TFM net9
 
-      - run: dotnet restore LundyUI/LundyUI.Controls.csproj
+      - run: dotnet restore LundyUI/LundyUI.WPF.csproj
 
-      - run: dotnet pack LundyUI/LundyUI.Controls.csproj -c Release -o ./nupkg
+      - run: dotnet pack LundyUI/LundyUI.WPF.csproj -c Release -o ./nupkg
 
       # Trusted Publishing：OIDC → nuget.org 临时 API Key
       - name: NuGet login (OIDC → temp API key)
@@ -167,7 +167,7 @@ jobs:
    - Repository Owner：`<你的 GitHub 用户名>`
    - Repository：`LundyUI`
    - Workflow File：`nuget-publish.yml`（必须与第 5 节的实体文件名一致）
-   - Glob Patterns / Packages：`LundyUI.Controls`（允许发布的具体包名）
+   - Glob Patterns / Packages：`LundyUI.WPF`（允许发布的具体包名）
 3. 保存策略。
 
 完成后，该仓库在该工作流下通过 OIDC 即拥有发布该包名的权限，全程无需长期 API Key。
@@ -208,7 +208,7 @@ GitHub Actions 会自动：restore → pack → OIDC 登录 → push 到 nuget.o
 - **验证发布**：工作流 Run 页面显示 **Success**；再通过版本索引确认：
   `https://api.nuget.org/v3-flatcontainer/lundyui.controls/index.json` 应能看到对应版本号。
 - **包页面短暂 404**：nuget.org 图库索引有延迟，属正常，稍等即可看到：
-  `https://www.nuget.org/packages/LundyUI.Controls`
+  `https://www.nuget.org/packages/LundyUI.WPF`
 - **push 报错但 login 成功**：多为第 5.4 节的坑（Linux 运行器 / `\` 续行），按表格修复即可。
 - **没有 `PackageLicenseExpression`**：nuget.org 会拒绝接收，务必在 csproj 中声明。
 
@@ -216,7 +216,7 @@ GitHub Actions 会自动：restore → pack → OIDC 登录 → push 到 nuget.o
 
 ## 10. 隐患与可选项
 
-- 发布后可在 README 加 NuGet 徽章：`https://img.shields.io/nuget/v/LundyUI.Controls`
+- 发布后可在 README 加 NuGet 徽章：`https://img.shields.io/nuget/v/LundyUI.WPF`
 - 建议配合语义化版本与仓库 Release/Tag 规范使用。
 - CI 中存在 Node.js 20 弃用警告（actions/checkout@v4、actions/setup-dotnet@v4），后续可将 action 版本升级到基于 Node 24 的版本以消除警告。
 
@@ -230,8 +230,8 @@ Demo 工程同时保留了两种引用方式，但**默认只启用工程引用*
 <ItemGroup>
   <!-- 默认启用：工程引用（源码开发模式）；验证发布包时再启用下方 NuGet 引用。
        ⚠ 两者不要同时启用，否则同一程序集来自两个来源会报“重复引用/程序集冲突”。 -->
-  <ProjectReference Include="..\LundyUI\LundyUI.Controls.csproj" />
-  <!-- <PackageReference Include="LundyUI.Controls" Version="1.0.1" /> -->
+  <ProjectReference Include="..\LundyUI\LundyUI.WPF.csproj" />
+  <!-- <PackageReference Include="LundyUI.WPF" Version="1.0.1" /> -->
 </ItemGroup>
 ```
 

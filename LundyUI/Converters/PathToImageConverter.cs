@@ -1,11 +1,11 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
 
-namespace LundyUI.Controls.Converters
+namespace LundyUI.WPF.Converters
 {
     /// <summary>图片路径字符串 -> ImageSource；空 / 加载失败返回 null（UI 框架级，通用，不静默抛错）。</summary>
     public sealed class PathToImageConverter : IValueConverter

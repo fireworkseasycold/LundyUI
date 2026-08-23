@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using LundyUI.Controls.CustomControls;
+using LundyUI.WPF.CustomControls;
 using System.Windows.Media;
 using System.Windows.Input;
 using System.Windows.Markup;

@@ -23,7 +23,7 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
-                    <Image Source="pack://application:,,,/LundyUI.Controls;component/Resources/Images/LundyUI-Logo.png"
+                    <Image Source="pack://application:,,,/LundyUI.WPF;component/Resources/Images/LundyUI-Logo.png"
                            Width="20" Height="20" Stretch="Uniform" Margin="0,0,8,0"/>
                     <TextBlock Text="LundyUI · 主题样板" FontSize="14" FontWeight="Bold"
                                VerticalAlignment="Center" Foreground="{DynamicResource TextDarkBrush}"/>

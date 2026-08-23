@@ -1,10 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 
-namespace LundyUI.Controls.CustomControls;
+namespace LundyUI.WPF.CustomControls;
 
 /// <summary>
 /// 菜单节点数据契约（零业务依赖）。

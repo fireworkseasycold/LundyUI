@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Media;
 
-namespace LundyUI.Controls;
+namespace LundyUI.WPF;
 
 /// <summary>
 /// LundyUI 面向"原生基础控件"的附加属性集合。

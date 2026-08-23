@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace LundyUI.Controls.CustomControls;
+namespace LundyUI.WPF.CustomControls;
 
 /// <summary>
 /// LundyUI 自定义菜单控件（零业务依赖）。

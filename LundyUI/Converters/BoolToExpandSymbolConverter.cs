@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace LundyUI.Controls.Converters;
+namespace LundyUI.WPF.Converters;
 
 /// <summary>
 /// 布尔值 → 展开/折叠符号（▲/▼）。

@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <!-- ============================================================
-       LundyUI.Controls：LundyUI 独立 WPF 控件库（业务零依赖，纯皮肤可复用框架）
+       LundyUI.WPF：LundyUI 独立 WPF 控件库（业务零依赖，纯皮肤可复用框架）
        分层：
          Theming/       皮+引擎：ThemeManager / ThemeConfig / 颜色·画笔·字体资源
          Styles/        肉+骨：原生控件样式（Style + 所需 ControlTemplate，颜色走 DynamicResource）
@@ -17,12 +17,12 @@
     <UseWPF>true</UseWPF>
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
-    <RootNamespace>LundyUI.Controls</RootNamespace>
-    <AssemblyName>LundyUI.Controls</AssemblyName>
+    <RootNamespace>LundyUI.WPF</RootNamespace>
+    <AssemblyName>LundyUI.WPF</AssemblyName>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
 
     <!-- ============== NuGet 打包元数据 ============== -->
-    <PackageId>LundyUI.Controls</PackageId>
+    <PackageId>LundyUI.WPF</PackageId>
     <Authors>LundyUI</Authors>
     <Description>独立 WPF 控件库：配置驱动主题引擎（json 换肤）+ 原生控件样式（DynamicResource）+ 自定义控件（DateTimePicker/LoadingCircle/Pagination）。业务零依赖，任何 WPF 项目引用即可获得完整主题能力。</Description>
     <PackageTags>wpf;theme;theming;ui;controls;styles;skinning</PackageTags>
@@ -46,7 +46,7 @@
     <!-- 图标字体：随程序集内嵌为 Resource，XAML 通过 pack 绝对 URI 引用 -->
     <Resource Include="Resources\Icons\MaterialDesignIcons.ttf" />
     <EmbeddedResource Include="Resources\Icons\materialdesignicons.codepoints"
-                      LogicalName="LundyUI.Controls.Resources.Icons.materialdesignicons.codepoints" />
+                      LogicalName="LundyUI.WPF.Resources.Icons.materialdesignicons.codepoints" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\LundyUI-Logo.png" />

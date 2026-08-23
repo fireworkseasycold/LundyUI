@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace LundyUI.Controls.CustomControls;
+namespace LundyUI.WPF.CustomControls;
 
 /// <summary>
 /// 图片查看器数据项（零业务依赖）。

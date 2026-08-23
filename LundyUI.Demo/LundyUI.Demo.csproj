@@ -22,8 +22,8 @@
 
          ⚠ 两者不要同时启用，否则会因同一程序集来自两个来源而报「重复引用/程序集冲突」。
          ================================================================ -->
-    <ProjectReference Include="..\LundyUI\LundyUI.Controls.csproj" />
-    <!-- <PackageReference Include="LundyUI.Controls" Version="1.0.1" /> -->
+    <ProjectReference Include="..\LundyUI\LundyUI.WPF.csproj" />
+    <!-- <PackageReference Include="LundyUI.WPF" Version="1.0.5" /> -->
   </ItemGroup>
   <ItemGroup>
     <!-- 主题/菜单 json 复制到输出目录：App 启动经 ThemeManager.ConfigBasePath 读取 -->
