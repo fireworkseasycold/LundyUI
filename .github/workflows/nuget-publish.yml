@@ -21,7 +21,7 @@ permissions:
 
 jobs:
   build-and-publish:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       - uses: actions/checkout@v4
@@ -52,3 +52,4 @@ jobs:
             --api-key ${{ steps.login.outputs.NUGET_API_KEY }} \
             --source https://api.nuget.org/v3/index.json \
             --skip-duplicate
+
