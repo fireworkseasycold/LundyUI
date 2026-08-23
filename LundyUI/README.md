@@ -1,6 +1,6 @@
 ﻿# LundyUI.Controls
 
-![LundyUI Logo](Resources/Images/LundyUI-Logo.png)
+![LundyUI Logo](https://raw.githubusercontent.com/fireworkseasycold/LundyUI/main/LundyUI/Resources/Images/LundyUI-Logo.png)
 
 独立 WPF 控件库（纯皮肤可复用框架，业务零依赖）。提供主题引擎、原生控件样式、自定义控件三大能力。
 
@@ -8,8 +8,8 @@
 
 | 组件 | 说明 | 版本 |
 |------|------|------|
-| `LundyUI.Controls` | WPF 控件库（NuGet：`LundyUI.Controls`） | **1.0.1** |
-| `LundyUI.Demo` | 主题样板示范程序（与控件库严格对应） | 1.0.1 |
+| `LundyUI.Controls` | WPF 控件库（NuGet：`LundyUI.Controls`） | **1.0.3** |
+| `LundyUI.Demo` | 主题样板示范程序（与控件库严格对应） | 1.0.3 |
 
 > 版本号统一由仓库根目录 `Directory.Build.props` 的 `<Version>` 维护，UI 库与 Demo **共享同一版本**，升级时只改这一处即可双向同步。
 
