@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -54,25 +54,28 @@ public partial class ThemePaletteView : UserControl
 
 	private void InitDemoMenu()
 	{
+		// 注意：图标一律走 Icon（M D I 图标名，IconGlyphConverter 解析字形）。
+		//       切勿把单个中文字符塞进 ImagePath——PathToImageConverter 会把它当文件路径解码
+		//       并抛 System.IO.FileNotFoundException（本例根因，已修复）。图标名已在字形表验证。
 		var data = new MenuNode
 		{
 			Name = "数据看板",
 			IsCategory = true,
 			IsExpanded = true,
-			ImagePath = "图"
+			Icon = "chart-bar"
 		};
-		data.Children.Add(new MenuNode { Name = "生产概览", ImagePath = "厂", Tag = "Dashboard" });
-		data.Children.Add(new MenuNode { Name = "实时报警", ImagePath = "警", Tag = "Alarm" });
+		data.Children.Add(new MenuNode { Name = "生产概览", Icon = "factory", Tag = "Dashboard" });
+		data.Children.Add(new MenuNode { Name = "实时报警", Icon = "bell-alert", Tag = "Alarm" });
 
 		var system = new MenuNode
 		{
 			Name = "系统",
 			IsCategory = true,
 			IsExpanded = true,
-			ImagePath = "设"
+			Icon = "cog"
 		};
-		system.Children.Add(new MenuNode { Name = "用户管理", ImagePath = "人", Tag = "User" });
-		system.Children.Add(new MenuNode { Name = "日志查询", ImagePath = "文", Tag = "Log" });
+		system.Children.Add(new MenuNode { Name = "用户管理", Icon = "account", Tag = "User" });
+		system.Children.Add(new MenuNode { Name = "日志查询", Icon = "file-document", Tag = "Log" });
 
 		DemoMenu.Add(data);
 		foreach (var child in data.Children)
@@ -290,38 +293,6 @@ public partial class ThemePaletteView : UserControl
 			if (found != null) return found;
 		}
 		return null;
-	}
-
-	/// <summary>
-	/// 递归清除 Control 的显式 Width/Height（恢复自然尺寸）；
-	/// 但 ScrollBar/ScrollViewer 以及布局面板/边框/图像/形状等必须保留显式尺寸，
-	/// 否则放大预览会塌陷或消失。
-	/// </summary>
-	private static void ResetControlSizes(DependencyObject root)
-	{
-		// 进度条模板没有默认自然高度，清除 Height 后会塌陷导致放大预览看不到，保持原尺寸
-		if (root is ProgressBar) return;
-
-		// 自定义 UserControl（DateTimePicker/MenuControl/LoadingCircle 等）显式尺寸来自调用处，
-		// 清除后会塌陷，保留以维持演示格内的真实排布
-		if (root is UserControl) return;
-
-		// 滚动条、滚动容器、布局面板、边框、图像、形状等保留显式尺寸
-		if (root is ScrollBar || root is ScrollViewer || root is Panel || root is Border
-		    || root is ToolBarTray || root is ToolBar || root is Image || root is Viewbox
-		    || root is Shape)
-		{
-			return;
-		}
-
-		if (root is Control control)
-		{
-			if (!double.IsNaN(control.Width)) control.Width = double.NaN;
-			if (!double.IsNaN(control.Height)) control.Height = double.NaN;
-		}
-		int count = VisualTreeHelper.GetChildrenCount(root);
-		for (int i = 0; i < count; i++)
-			ResetControlSizes(VisualTreeHelper.GetChild(root, i));
 	}
 
 	private void OnCloseOverlay(object sender, RoutedEventArgs e) => Overlay.Visibility = Visibility.Collapsed;

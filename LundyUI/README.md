@@ -1,4 +1,4 @@
-# LundyUI.Controls
+﻿# LundyUI.Controls
 
 ![LundyUI Logo](Resources/Images/LundyUI-Logo.png)
 
@@ -96,7 +96,7 @@ LundyUI/
 └── CustomControls/                 # 自定义新控件
     ├── DateTimePicker.xaml(.cs)    # 日期时间选择（日历+时分秒+确定回写）
     ├── LoadingCircleControl.xaml(.cs) # 加载圈（圆环描边+无限旋转）
-    ├── PaginationControl.xaml(.cs) # 分页（页码/省略号/跳转）
+    ├── PaginationControl.xaml(.cs) # 分页（◀ 当前/总数 ▶ + GO 跳转，无页码/省略号）
     ├── ImageViewerWindow.xaml(.cs) # 图片查看器（缩放/拖拽/上一张下一张；多语言可注入，零业务依赖）
     ├── ImageViewItem.cs            # 图片查看器数据项（宿主将自身图片模型转换为本类型传入）
     └── FunctionEventArgs.cs        # 库内泛型事件参数（Pagination 用）

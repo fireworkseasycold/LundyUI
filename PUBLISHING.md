@@ -219,3 +219,39 @@ GitHub Actions 会自动：restore → pack → OIDC 登录 → push 到 nuget.o
 - 发布后可在 README 加 NuGet 徽章：`https://img.shields.io/nuget/v/LundyUI.Controls`
 - 建议配合语义化版本与仓库 Release/Tag 规范使用。
 - CI 中存在 Node.js 20 弃用警告（actions/checkout@v4、actions/setup-dotnet@v4），后续可将 action 版本升级到基于 Node 24 的版本以消除警告。
+
+---
+
+## 11. Demo 引用方式分析（工程引用 vs NuGet）
+
+Demo 工程同时保留了两种引用方式，但**默认只启用工程引用**：
+
+```xml
+<ItemGroup>
+  <!-- 默认启用：工程引用（源码开发模式）；验证发布包时再启用下方 NuGet 引用。
+       ⚠ 两者不要同时启用，否则同一程序集来自两个来源会报“重复引用/程序集冲突”。 -->
+  <ProjectReference Include="..\LundyUI\LundyUI.Controls.csproj" />
+  <!-- <PackageReference Include="LundyUI.Controls" Version="1.0.1" /> -->
+</ItemGroup>
+```
+
+### 两种方式对比
+
+| 维度 | 工程引用 ProjectReference | NuGet 引用 PackageReference |
+|------|------|------|
+| 开发调试 | 改动即生效，可断点进库源码 | 需重新打包 + 提升版本才能更新 |
+| 版本同步 | 与库共享 Directory.Build.props，天然同版本 | 需手动维护引用版本号 |
+| 是否验证发布包 | 否，不经过 NuGet 链路 | 是，能真实验证“安装即用” |
+| 对源的依赖 | 依赖仓库内源码工程 | 依赖包源可达、版本存在 |
+
+### 判断（结论）
+
+1. **日常开发/调试：应保持工程引用。** Demo 是 UI 库的样张与验证工程，与库同仓库、同版本、同步迭代，工程引用最能提效，符合“直接引用源码、版本由 Directory.Build.props 统一”的协作方式。
+2. **仅在特定场景临时切 NuGet 引用**：例如要校准“发布包装到空项目即可用”、给外部使用者做演示、或验证刚发布的版本号在源上生效。验证完应切回工程引用。
+3. **不要同时启用两者**。
+
+### 实测验证记录
+
+- 工程引用（状态 A）：`dotnet build -c Release` → 构建成功，0 错误。
+- 切换 NuGet 引用（状态 B）：`dotnet build -c Release` → 从 nuget.org 还原并构建成功，0 错误；本地 NuGet 缓存确认存在 `lundyui.controls/1.0.1`（net6/8/9 三个程序集 + 图标 + README）。
+- 已切回状态 A（工程引用）作为仓库默认值。

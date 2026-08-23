@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Windows;
 using LundyUI.Controls.Theming;
@@ -13,28 +13,25 @@ namespace LundyUI.Demo
     /// </summary>
     public partial class App : Application
     {
-        private const string PersistFile = "lundyui-theme.txt";
+        private const string PersistFileName = "lundyui-theme.txt";
 
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
             ThemeManager.Instance.Log = msg => Console.WriteLine(msg);
-            // 持久化：读写一个临时文件演示业务如何接入（真实业务会写自己的 ui-config/json）
+            string persistFile = Path.Combine(AppContext.BaseDirectory, PersistFileName);
             ThemeManager.Instance.SavedThemeName = () =>
-                PersistFile != null && File.Exists(PersistFile)
-                    ? File.ReadAllText(PersistFile).Trim()
+                File.Exists(persistFile)
+                    ? File.ReadAllText(persistFile).Trim()
                     : null;
             ThemeManager.Instance.SaveThemeName = name =>
-                File.WriteAllText(PersistFile, name);
+                File.WriteAllText(persistFile, name);
 
-            // 配置根目录：Demo 自带的 Configs/（themes/menu 两个 json 在此）。业务项目只需改此路径。
             ThemeManager.Instance.ConfigBasePath = Path.Combine(AppContext.BaseDirectory, "Configs");
-
-            // 从 themes-config.json 驱动加载主题；文件缺失/失败时为空集，落到 ThemeShared 默认浅色兜底
             ThemeManager.Instance.LoadThemesFromConfig();
-
             ThemeManager.Instance.Initialize();
+
         }
     }
 }

@@ -1,5 +1,7 @@
 using System;
+using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
 
@@ -20,8 +22,11 @@ namespace LundyUI.Controls.Converters
                 bmp.EndInit();
                 return bmp;
             }
-            catch
+            catch (Exception ex)
             {
+                // 不掩盖配置错误：路径无法作为图片解码时 Debug 告警，便于第一时间定位错误源（如把中文字符当图片路径）。
+                if (ex is FileNotFoundException or IOException or NotSupportedException or UriFormatException or FormatException)
+                    Debug.WriteLine($"[PathToImageConverter] 无法加载图片路径 '{path}'：{ex.GetType().Name}: {ex.Message}");
                 return null;
             }
         }

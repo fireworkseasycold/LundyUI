@@ -34,18 +34,18 @@
                 <!-- 缩放控制 -->
                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button x:Name="ZoomOutButton" Content="&#x2212;" Width="35" Height="35" FontSize="18" 
-                            Foreground="{DynamicResource TextOnAccentBrush}" Background="#444" BorderThickness="0"
+                            Foreground="{DynamicResource TextOnAccentBrush}" Background="{DynamicResource TerminalControlBrush}" BorderThickness="0"
                             Click="ZoomOutButton_Click"/>
                     <TextBlock x:Name="ZoomTextBlock" Text="100%" Foreground="{DynamicResource TextOnAccentBrush}" 
                                FontSize="14" VerticalAlignment="Center" Margin="15,0"/>
                     <Button x:Name="ZoomInButton" Content="+" Width="35" Height="35" FontSize="18" 
-                            Foreground="{DynamicResource TextOnAccentBrush}" Background="#444" BorderThickness="0"
+                            Foreground="{DynamicResource TextOnAccentBrush}" Background="{DynamicResource TerminalControlBrush}" BorderThickness="0"
                             Click="ZoomInButton_Click"/>
                     <Button x:Name="FitWindowButton" Content="适应窗口" Width="60" Height="35" FontSize="12" 
-                            Foreground="{DynamicResource TextOnAccentBrush}" Background="#444" BorderThickness="0" Margin="10,0,0,0"
+                            Foreground="{DynamicResource TextOnAccentBrush}" Background="{DynamicResource TerminalControlBrush}" BorderThickness="0" Margin="10,0,0,0"
                             Click="FitToWindowButton_Click"/>
                     <Button x:Name="ActualSizeButton" Content="1:1" Width="45" Height="35" FontSize="12" 
-                            Foreground="{DynamicResource TextOnAccentBrush}" Background="#444" BorderThickness="0" Margin="5,0,0,0"
+                            Foreground="{DynamicResource TextOnAccentBrush}" Background="{DynamicResource TerminalControlBrush}" BorderThickness="0" Margin="5,0,0,0"
                             Click="ActualSizeButton_Click"/>
                 </StackPanel>
 
@@ -89,10 +89,10 @@
                 <!-- 导航按钮 -->
                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button x:Name="PrevButton" Content="上一张" Width="90" Height="35" FontSize="13"
-                            Foreground="{DynamicResource TextOnAccentBrush}" Background="#444" BorderThickness="0"
+                            Foreground="{DynamicResource TextOnAccentBrush}" Background="{DynamicResource TerminalControlBrush}" BorderThickness="0"
                             Click="PrevButton_Click"/>
                     <Button x:Name="NextButton" Content="下一张" Width="90" Height="35" FontSize="13" Margin="10,0,0,0"
-                            Foreground="{DynamicResource TextOnAccentBrush}" Background="#444" BorderThickness="0"
+                            Foreground="{DynamicResource TextOnAccentBrush}" Background="{DynamicResource TerminalControlBrush}" BorderThickness="0"
                             Click="NextButton_Click"/>
                 </StackPanel>
 

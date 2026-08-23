@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -29,37 +29,37 @@ namespace LundyUI.Controls.Theming
         /// <summary>配置根目录（业务启动时注入，如指向各自 Configs/ 目录）。json 加载依赖此属性定位 themes-config.json。</summary>
         public string ConfigBasePath { get; set; } = string.Empty;
 
-    /// <summary>主题来源（业务在启动时注册，如从 themes-config.json 读取）</summary>
-    public void AddThemes(IEnumerable<ThemeDefinition> themes)
-    {
-        if (themes == null) return;
-        foreach (ThemeDefinition t in themes)
+        /// <summary>主题来源（业务在启动时注册，如从 themes-config.json 读取）</summary>
+        public void AddThemes(IEnumerable<ThemeDefinition> themes)
         {
-            if (string.IsNullOrWhiteSpace(t.Name)) continue;
-            _themes.RemoveAll(x => x.Name == t.Name);
-            _themes.Add(t);
+            if (themes == null) return;
+            foreach (ThemeDefinition t in themes)
+            {
+                if (string.IsNullOrWhiteSpace(t.Name)) continue;
+                _themes.RemoveAll(x => x.Name == t.Name);
+                _themes.Add(t);
+            }
         }
-    }
 
-    /// <summary>
-    /// 从配置加载主题（json 驱动）：定位 <see cref="ConfigBasePath"/> 下的 themes-config.json，
-    /// 解析 ThemeConfigs.Themes 后注册到主题列表。文件缺失/解析失败返回 false（不抛异常）。
-    /// 与 AddThemes 可混用：本方法幂等（同名主题覆盖）。
-    /// </summary>
-    public bool LoadThemesFromConfig()
-    {
-        if (string.IsNullOrWhiteSpace(ConfigBasePath)) return false;
-        string file = Path.Combine(ConfigBasePath, "themes", "themes-config.json");
-        if (!File.Exists(file))
+        /// <summary>
+        /// 从配置加载主题（json 驱动）：定位 <see cref="ConfigBasePath"/> 下的 themes-config.json，
+        /// 解析 ThemeConfigs.Themes 后注册到主题列表。文件缺失/解析失败返回 false（不抛异常）。
+        /// 与 AddThemes 可混用：本方法幂等（同名主题覆盖）。
+        /// </summary>
+        public bool LoadThemesFromConfig()
         {
-            Log?.Invoke($"[LundyUI.Theme] 未找到主题配置: {file}");
-            return false;
+            if (string.IsNullOrWhiteSpace(ConfigBasePath)) return false;
+            string file = Path.Combine(ConfigBasePath, "themes", "themes-config.json");
+            if (!File.Exists(file))
+            {
+                Log?.Invoke($"[LundyUI.Theme] 未找到主题配置: {file}");
+                return false;
+            }
+            List<ThemeDefinition> themes = ThemeJsonLoader.Load(file);
+            AddThemes(themes);
+            Log?.Invoke($"[LundyUI.Theme] 已从 {file} 加载 {themes.Count} 个主题");
+            return themes.Count > 0;
         }
-        List<ThemeDefinition> themes = ThemeJsonLoader.Load(file);
-        AddThemes(themes);
-        Log?.Invoke($"[LundyUI.Theme] 已从 {file} 加载 {themes.Count} 个主题");
-        return themes.Count > 0;
-    }
 
         /// <summary>单例实例（调用前应先经业务 AddThemes + 注入持久化，再调用 Initialize）</summary>
         public static ThemeManager Instance => _instance.Value;
