@@ -1,0 +1,54 @@
+﻿name: Publish NuGet
+
+# ============================================================
+# 使用 nuget.org「Trusted Publishing（受信发布）」发布 LundyUI.Controls。
+# 免长期 API Key：GitHub Actions 通过 OIDC 向 nuget.org 证明身份，
+# 用 NuGet/login@v1 换一次性、约 1 小时有效的临时 API Key 后推送。
+# 前置条件：
+#   1) nuget.org → 账户 → Trusted Publishing 配置策略：
+#        Owner=fireworkseasycold / Repository=LundyUI / Workflow File=nuget-publish.yml
+#   2) GitHub 仓库 Secret：NUGET_USER = 你的 nuget.org 用户名（Profile 名，非邮箱）
+# ============================================================
+on:
+  workflow_dispatch:        # 手动：Actions → Publish NuGet → Run workflow
+  push:
+    tags:
+      - 'v*'                # 推送 v1.0.1 样式标签时自动触发
+
+permissions:
+  contents: read
+  id-token: write           # 关键：允许 GitHub 为本次作业签发 OIDC 令牌（受信发布依赖）
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          # 覆盖最高 TFM net9（构建可向下兼容产出 net6/8/9 三个目标程序集）
+          dotnet-version: '9.0.x'
+
+      - name: Restore
+        run: dotnet restore LundyUI/LundyUI.Controls.csproj
+
+      # 版本单一来源：仓库根 Directory.Build.props 的 <Version>（当前 1.0.1），UI 库与 Demo 同版本。
+      - name: Pack
+        run: dotnet pack LundyUI/LundyUI.Controls.csproj -c Release -o ./nupkg
+
+      # Trusted Publishing：OIDC 令牌 → nuget.org 临时 API Key（尽量靠近 push 步骤，避免提前过期）
+      - name: NuGet login (OIDC → temp API key)
+        id: login
+        uses: NuGet/login@v1
+        with:
+          user: ${{ secrets.NUGET_USER }}   # nuget.org 用户名（非邮箱）
+
+      - name: Push to nuget.org
+        run: |
+          dotnet nuget push ./nupkg/*.nupkg \
+            --api-key ${{ steps.login.outputs.NUGET_API_KEY }} \
+            --source https://api.nuget.org/v3/index.json \
+            --skip-duplicate

@@ -23,12 +23,12 @@
 
     <!-- ============== NuGet 打包元数据 ============== -->
     <PackageId>LundyUI.Controls</PackageId>
-    <Version>1.0.1</Version>
     <Authors>LundyUI</Authors>
     <Description>独立 WPF 控件库：配置驱动主题引擎（json 换肤）+ 原生控件样式（DynamicResource）+ 自定义控件（DateTimePicker/LoadingCircle/Pagination）。业务零依赖，任何 WPF 项目引用即可获得完整主题能力。</Description>
     <PackageTags>wpf;theme;theming;ui;controls;styles;skinning</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>L-EXE.png</PackageIcon>
     <NeutralLanguage>zh-CN</NeutralLanguage>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
@@ -47,5 +47,12 @@
     <Resource Include="Resources\Icons\MaterialDesignIcons.ttf" />
     <EmbeddedResource Include="Resources\Icons\materialdesignicons.codepoints"
                       LogicalName="LundyUI.Controls.Resources.Icons.materialdesignicons.codepoints" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\LundyUI-Logo.png" />
+    <Resource Include="Resources\Images\L-EXE.png" />
+    <Resource Include="Resources\Images\L-EXE.ico" />
+    <None Include="Resources\Images\L-EXE.png" Pack="true" PackagePath="\" Visible="false" />
+    <None Include="Resources\Images\LundyUI-Logo.png" Pack="true" PackagePath="\" Visible="false" />
   </ItemGroup>
 </Project>

@@ -7,6 +7,10 @@
     <LangVersion>latest</LangVersion>
     <RootNamespace>LundyUI.Demo</RootNamespace>
     <AssemblyName>LundyUI.Demo</AssemblyName>
+    <Product>LundyUI</Product>
+    <AssemblyTitle>LundyUI 主题样板 Demo</AssemblyTitle>
+    <ApplicationIcon>..\LundyUI\Resources\Images\L-EXE.ico</ApplicationIcon>
+    <Company>LundyUI</Company>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\LundyUI\LundyUI.Controls.csproj" />

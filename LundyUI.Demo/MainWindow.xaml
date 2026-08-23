@@ -22,8 +22,12 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Column="0" Text="🎨 LundyUI · 主题样板" FontSize="14" FontWeight="Bold"
-                           VerticalAlignment="Center" Foreground="{DynamicResource TextDarkBrush}"/>
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Image Source="pack://application:,,,/LundyUI.Controls;component/resources/images/lundyui-logo.png"
+                           Width="20" Height="20" Stretch="Uniform" Margin="0,0,8,0"/>
+                    <TextBlock Text="LundyUI · 主题样板" FontSize="14" FontWeight="Bold"
+                               VerticalAlignment="Center" Foreground="{DynamicResource TextDarkBrush}"/>
+                </StackPanel>
 
                 <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
                     <TextBlock Text="主题：" VerticalAlignment="Center"
