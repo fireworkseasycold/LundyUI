@@ -45,7 +45,7 @@ ThemeManager.Instance.SwitchTheme("Dark");
 
 | 组件 | 版本 |
 |------|------|
-| `LundyUI.Controls` | 1.0.3 |
-| `LundyUI.Demo`（示范程序） | 1.0.3 |
+| `LundyUI.Controls` | 1.0.4 |
+| `LundyUI.Demo`（示范程序） | 1.0.4 |
 
 完整集成步骤、主题键速查、Demo 说明见仓库 `LundyUI/README.md`。
