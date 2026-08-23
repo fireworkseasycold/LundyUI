@@ -41,4 +41,11 @@
     <!-- 把 README 作为包的 readme 一并打入 nupkg（与 PackageReadmeFile 配对） -->
     <None Include="README.md" Pack="true" PackagePath="\" Visible="false" />
   </ItemGroup>
+
+  <ItemGroup>
+    <!-- 图标字体：随程序集内嵌为 Resource，XAML 通过 pack 绝对 URI 引用 -->
+    <Resource Include="Resources\Icons\MaterialDesignIcons.ttf" />
+    <EmbeddedResource Include="Resources\Icons\materialdesignicons.codepoints"
+                      LogicalName="LundyUI.Controls.Resources.Icons.materialdesignicons.codepoints" />
+  </ItemGroup>
 </Project>

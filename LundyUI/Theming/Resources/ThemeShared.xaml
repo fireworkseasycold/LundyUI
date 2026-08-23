@@ -13,35 +13,64 @@
                正常运行时由活动主题字典覆盖同名键。
          ============================================================ -->
 
-    <!-- 1. 框架背景（浅灰内容底 + 白色面板） -->
+    <!-- ============================================================
+         主题键分层模型（分层仅体现在分区注释上，键与值保持不变，不拆 BaseSwatches）
+         L0 · 原始色板 Base Swatches —— 概念层，本字典不定义 L0 键；
+               下方 L1/L2 的取值即原始色值（#XX 十六进制），换肤时在活动主题字典覆盖。
+         L1 · 语义令牌 Semantic Tokens —— 与控件解耦的语义色。
+         L2 · 组件别名 Component Alias —— 控件模板直接引用，命名统一（Back=背景/Text=前景/Border=描边）。
+         ============================================================ -->
+
+    <!-- ============================================================
+         L1 · 语义令牌 Semantic Tokens
+         换肤按"语义"覆盖：功能色 / 文字层级 / 业务状态色。
+         ============================================================ -->
+
+    <!-- L1-1 功能色（强调 / 主要 / 危险 / 成功） -->
+    <SolidColorBrush x:Key="AccentBrush" Color="#1677FF"/>
+    <Color x:Key="AccentColor">#1677FF</Color>
+    <SolidColorBrush x:Key="PrimaryBrush" Color="#1677FF"/>
+    <SolidColorBrush x:Key="DangerBrush" Color="#FF4D4F"/>
+    <SolidColorBrush x:Key="SuccessBrush" Color="#52C41A"/>
+
+    <!-- L1-2 文字层级 -->
+    <SolidColorBrush x:Key="TextOnDarkBrush" Color="#1F2329"/>
+    <SolidColorBrush x:Key="TextSecondaryBrush" Color="#646A73"/>
+    <SolidColorBrush x:Key="TextMutedBrush" Color="#8C8C8C"/>
+    <SolidColorBrush x:Key="TextOnAccentBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="TextDarkBrush" Color="#1F2329"/>
+    <SolidColorBrush x:Key="TextDisabledBrush" Color="#B0B0B0"/>
+
+    <!-- L1-3 业务状态色（两主题通用） -->
+    <SolidColorBrush x:Key="StatusGreenBrush" Color="#52C41A"/>
+    <SolidColorBrush x:Key="StatusRedBrush" Color="#FF4D4F"/>
+    <SolidColorBrush x:Key="StatusOrangeBrush" Color="#FA8C16"/>
+    <SolidColorBrush x:Key="StatusBlueBrush" Color="#1677FF"/>
+    <SolidColorBrush x:Key="StatusPurpleBrush" Color="#722ED1"/>
+    <SolidColorBrush x:Key="StatusGrayBrush" Color="#999999"/>
+
+    <!-- ============================================================
+         L2 · 组件别名 Component Alias
+         控件模板直接引用的键；跨文件引用一律走本层，不直接引用 L0。
+         ============================================================ -->
+
+    <!-- L2-1 框架背景 / 面板 -->
     <SolidColorBrush x:Key="WindowBackBrush" Color="#F0F2F5"/>
     <SolidColorBrush x:Key="StatusBarBackBrush" Color="#FFFFFF"/>
     <SolidColorBrush x:Key="PanelBackBrush" Color="#FFFFFF"/>
     <SolidColorBrush x:Key="PanelBorderBrush" Color="#E5E6EB"/>
 
-    <!-- 2. 强调色 -->
-    <SolidColorBrush x:Key="AccentBrush" Color="#1677FF"/>
-    <Color x:Key="AccentColor">#1677FF</Color>
-
-    <!-- 3. 文字 -->
-    <SolidColorBrush x:Key="TextOnDarkBrush" Color="#1F2329"/>
-    <SolidColorBrush x:Key="TextSecondaryBrush" Color="#646A73"/>
-    <SolidColorBrush x:Key="TextMutedBrush" Color="#8C8C8C"/>
-
-    <!-- 4. 内容区 / 面板 -->
+    <!-- L2-2 内容区 / 面板 -->
     <SolidColorBrush x:Key="ContentBackBrush" Color="#F0F2F5"/>
     <SolidColorBrush x:Key="SplitterBrush" Color="#E5E6EB"/>
     <SolidColorBrush x:Key="LogPanelBackBrush" Color="#F0F2F5"/>
     <SolidColorBrush x:Key="LogPanelBorderBrush" Color="#E5E6EB"/>
 
-    <!-- 5. 语义按钮色 -->
-    <SolidColorBrush x:Key="PrimaryBrush" Color="#1677FF"/>
-
-    <!-- 5.0 按钮状态叠层色（自绘 Button 模板 VSM 使用，主题提供而非模板内联） -->
+    <!-- L2-3 自绘按钮状态叠层（模板 VSM 使用，主题提供而非模板内联） -->
     <SolidColorBrush x:Key="HoverOverlayBrush" Color="#1AFFFFFF"/>
     <SolidColorBrush x:Key="PressedOverlayBrush" Color="#33FFFFFF"/>
 
-    <!-- 5.1 界面结构色 -->
+    <!-- L2-4 界面结构色 -->
     <SolidColorBrush x:Key="TitleBarBackBrush" Color="#F0F2F5"/>
     <SolidColorBrush x:Key="TitleBarTextBrush" Color="#1F2329"/>
     <SolidColorBrush x:Key="RightPanelBackBrush" Color="#F0F2F5"/>
@@ -50,34 +79,23 @@
     <SolidColorBrush x:Key="CardHeaderTextBrush" Color="#1F2329"/>
     <SolidColorBrush x:Key="StatusBarTextBrush" Color="#1F2329"/>
 
-    <!-- 5.2 左侧导航菜单项状态色 -->
+    <!-- L2-5 左侧导航菜单项状态色 -->
     <SolidColorBrush x:Key="MenuItemBackBrush" Color="#001529"/>
     <SolidColorBrush x:Key="MenuItemHoverBrush" Color="#112A45"/>
     <SolidColorBrush x:Key="MenuItemSelectedBrush" Color="#1677FF"/>
     <SolidColorBrush x:Key="MenuItemTextBrush" Color="#C7D0DA"/>
-    <SolidColorBrush x:Key="DangerBrush" Color="#FF4D4F"/>
-    <SolidColorBrush x:Key="SuccessBrush" Color="#52C41A"/>
-    <SolidColorBrush x:Key="TextOnAccentBrush" Color="#FFFFFF"/>
 
-    <!-- 6. 业务状态色（两主题通用） -->
-    <SolidColorBrush x:Key="StatusGreenBrush" Color="#52C41A"/>
-    <SolidColorBrush x:Key="StatusRedBrush" Color="#FF4D4F"/>
-    <SolidColorBrush x:Key="StatusOrangeBrush" Color="#FA8C16"/>
-    <SolidColorBrush x:Key="StatusBlueBrush" Color="#1677FF"/>
-    <SolidColorBrush x:Key="StatusPurpleBrush" Color="#722ED1"/>
-    <SolidColorBrush x:Key="StatusGrayBrush" Color="#999999"/>
-
-    <!-- 7. 浅色管理页通用色 -->
+    <!-- L2-6 浅色管理页通用色 -->
     <SolidColorBrush x:Key="CardBackBrush" Color="#F0F2F5"/>
     <SolidColorBrush x:Key="PanelLightBrush" Color="#F7F8FA"/>
     <SolidColorBrush x:Key="BorderNormalBrush" Color="#E5E6EB"/>
-    <SolidColorBrush x:Key="TextDisabledBrush" Color="#B0B0B0"/>
-    <SolidColorBrush x:Key="TextDarkBrush" Color="#1F2329"/>
     <SolidColorBrush x:Key="InfoBackBrush" Color="#E8F4FF"/>
     <SolidColorBrush x:Key="WarnBackBrush" Color="#FFFBE6"/>
     <SolidColorBrush x:Key="WarnBorderBrush" Color="#FFE58F"/>
     <SolidColorBrush x:Key="SuccessBackBrush" Color="#F6FFED"/>
     <SolidColorBrush x:Key="DangerBackBrush" Color="#FFF2F0"/>
+
+    <!-- L2-7 终端 / 遮罩 -->
     <SolidColorBrush x:Key="TerminalBackBrush" Color="#1E1E1E"/>
     <SolidColorBrush x:Key="TerminalTextBrush" Color="#4EC9B0"/>
     <SolidColorBrush x:Key="OverlayMaskBrush" Color="#66000000"/>

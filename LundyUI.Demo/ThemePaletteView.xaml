@@ -1,9 +1,10 @@
-﻿<UserControl x:Class="LundyUI.Demo.ThemePaletteView"
+<UserControl x:Class="LundyUI.Demo.ThemePaletteView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:local="clr-namespace:LundyUI.Demo"
              xmlns:appControls="clr-namespace:LundyUI.Controls.CustomControls;assembly=LundyUI.Controls"
              mc:Ignorable="d"
              d:DesignHeight="900" d:DesignWidth="1400">
@@ -19,17 +20,45 @@
             <Setter Property="Margin" Value="0,0,0,8" />
         </Style>
 
-        <!-- 展示格：每个控件的演示卡片，宽度在节内统一 -->
-        <Style x:Key="DemoCellStyle" TargetType="Border">
+        <!-- 展示格：统一 400x300 外壳，内部内容由 ContentPresenter 填满 -->
+        <Style x:Key="DemoCellStyle" TargetType="local:DemoCell">
+            <Setter Property="Width" Value="400" />
+            <Setter Property="Height" Value="300" />
             <Setter Property="Background" Value="{DynamicResource CardBackBrush}" />
             <Setter Property="BorderBrush" Value="{DynamicResource BorderNormalBrush}" />
             <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="CornerRadius" Value="3" />
-            <Setter Property="Padding" Value="6" />
+            <Setter Property="Padding" Value="8" />
             <Setter Property="Margin" Value="4" />
             <Setter Property="VerticalAlignment" Value="Top" />
             <Setter Property="Cursor" Value="Hand" />
             <Setter Property="ToolTip" Value="点击放大查看" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="local:DemoCell">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="3"
+                                Padding="{TemplateBinding Padding}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="{TemplateBinding Title}"
+                                           FontSize="10"
+                                           Foreground="{DynamicResource TextMutedBrush}"
+                                           Margin="0,0,0,6" />
+                                <ContentPresenter Grid.Row="1"
+                                                  Content="{TemplateBinding Content}"
+                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                  HorizontalAlignment="Stretch"
+                                                  VerticalAlignment="Stretch" />
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
 
         <Style x:Key="SectionTitleStyle" TargetType="TextBlock">
@@ -39,21 +68,12 @@
             <Setter Property="Margin" Value="0,0,0,8" />
         </Style>
 
-        <Style x:Key="DemoLabelStyle" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="9" />
-            <Setter Property="Foreground" Value="{DynamicResource TextMutedBrush}" />
-            <Setter Property="Margin" Value="0,0,0,4" />
-        </Style>
-
-        <!-- 颜色样例格 -->
         <Style x:Key="ColorSwatchStyle" TargetType="Border">
-            <Setter Property="Height" Value="18" />
             <Setter Property="CornerRadius" Value="2" />
             <Setter Property="BorderBrush" Value="#66808080" />
             <Setter Property="BorderThickness" Value="1" />
         </Style>
 
-        <!-- 用于面板演示的小色块 -->
         <Style x:Key="PanelDemoBlock" TargetType="Border">
             <Setter Property="Width" Value="16" />
             <Setter Property="Height" Value="16" />
@@ -66,872 +86,635 @@
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
             <StackPanel Margin="8">
 
-                <!-- ============ 标题 ============ -->
+                <!-- 标题 -->
                 <Border Style="{StaticResource SectionCardStyle}">
                     <StackPanel>
-                        <TextBlock Text="🎨 UI 样式样板（Theme Palette）"
-                                   FontSize="14"
-                                   FontWeight="Bold"
-                                   Foreground="{DynamicResource TextDarkBrush}" />
-                        <TextBlock Text="原生 WPF 控件 + 项目自定义控件平铺展示全部主题键效果：文本/背景/下拉框等一律使用标注 key 绑定，禁止混用。修改主题配置后切回本页验收。点击任意展示格可放大预览。"
-                                   FontSize="10"
-                                   Foreground="{DynamicResource TextSecondaryBrush}"
-                                   TextWrapping="Wrap"
-                                   Margin="0,2,0,0" />
+                        <TextBlock Text="UI 样式样板（Theme Palette）" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource TextDarkBrush}" />
+                        <TextBlock Text="原生 WPF 控件 + 项目自定义控件平铺展示全部主题键效果。点击任意展示格可放大预览。"
+                                   FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}" TextWrapping="Wrap" Margin="0,2,0,0" />
                     </StackPanel>
                 </Border>
 
-                <!-- ============ 1. 结构背景色 ============ -->
+                <!-- 1. 主题色板 -->
                 <Border Style="{StaticResource SectionCardStyle}">
                     <StackPanel>
-                        <TextBlock Text="1. 结构背景色（Border.Background）" Style="{StaticResource SectionTitleStyle}" />
-                        <WrapPanel>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="200" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <Border Style="{StaticResource ColorSwatchStyle}" Background="{DynamicResource WindowBackBrush}" />
-                                    <TextBlock Text="WindowBackBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="200" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <Border Style="{StaticResource ColorSwatchStyle}" Background="{DynamicResource ContentBackBrush}" />
-                                    <TextBlock Text="ContentBackBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="200" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <Border Style="{StaticResource ColorSwatchStyle}" Background="{DynamicResource PanelBackBrush}" />
-                                    <TextBlock Text="PanelBackBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="200" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <Border Style="{StaticResource ColorSwatchStyle}" Background="{DynamicResource PanelLightBrush}" />
-                                    <TextBlock Text="PanelLightBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="200" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <Border Style="{StaticResource ColorSwatchStyle}" Background="{DynamicResource CardBackBrush}" />
-                                    <TextBlock Text="CardBackBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="200" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <Border Style="{StaticResource ColorSwatchStyle}" Background="{DynamicResource LogPanelBackBrush}" />
-                                    <TextBlock Text="LogPanelBackBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="200" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <Border Style="{StaticResource ColorSwatchStyle}" Background="{DynamicResource TitleBarBackBrush}" />
-                                    <TextBlock Text="TitleBarBackBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="200" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <Border Style="{StaticResource ColorSwatchStyle}" Background="{DynamicResource StatusBarBackBrush}" />
-                                    <TextBlock Text="StatusBarBackBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="200" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <Border Style="{StaticResource ColorSwatchStyle}" Background="{DynamicResource RightPanelBackBrush}" />
-                                    <TextBlock Text="RightPanelBackBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="200" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <Border Style="{StaticResource ColorSwatchStyle}" Background="{DynamicResource CardHeaderBackBrush}" />
-                                    <TextBlock Text="CardHeaderBackBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="200" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <Border Style="{StaticResource ColorSwatchStyle}" Background="{DynamicResource MenuItemBackBrush}" />
-                                    <TextBlock Text="MenuItemBackBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="200" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <Border Style="{StaticResource ColorSwatchStyle}" Background="{DynamicResource MenuItemHoverBrush}" />
-                                    <TextBlock Text="MenuItemHoverBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="200" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <Border Style="{StaticResource ColorSwatchStyle}" Background="{DynamicResource MenuItemSelectedBrush}" />
-                                    <TextBlock Text="MenuItemSelectedBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="200" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <Border Style="{StaticResource ColorSwatchStyle}" Background="{DynamicResource PrimaryBrush}" />
-                                    <TextBlock Text="PrimaryBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="200" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <Border Style="{StaticResource ColorSwatchStyle}" Background="{DynamicResource AccentBrush}" />
-                                    <TextBlock Text="AccentBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
-                                </StackPanel>
-                            </Border>
-                        </WrapPanel>
+                        <TextBlock Text="1. 主题色板（结构与语义）" Style="{StaticResource SectionTitleStyle}" />
+                        <TextBlock Text="1.1 结构背景色" FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,0,0,4" />
+                        <TextBlock Text="小色块 = 主题键实际颜色，键名即 DynamicResource 引用名。" FontSize="8" Foreground="{DynamicResource TextMutedBrush}" Margin="0,0,0,4" />
+                        <WrapPanel x:Name="StructureSwatches" />
+
+                        <TextBlock Text="1.2 语义背景色" FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,12,0,4" />
+                        <WrapPanel x:Name="SemanticSwatches" />
+
+                        <TextBlock Text="1.3 文本与边框色" FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,12,0,4" />
+                        <WrapPanel x:Name="TextBorderSwatches" />
+
+                        <TextBlock Text="1.4 状态色" FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,12,0,4" />
+                        <WrapPanel x:Name="StatusSwatches" />
                     </StackPanel>
                 </Border>
 
-                <!-- ============ 2. 语义背景色 ============ -->
+                <!-- 2. 基础交互控件 -->
                 <Border Style="{StaticResource SectionCardStyle}">
                     <StackPanel>
-                        <TextBlock Text="2. 语义背景色（消息/徽章/终端）" Style="{StaticResource SectionTitleStyle}" />
+                        <TextBlock Text="2. 基础交互控件（Button / ToggleButton / RepeatButton / CheckBox / RadioButton / Slider / ProgressBar / Label）" Style="{StaticResource SectionTitleStyle}" />
                         <WrapPanel>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="200" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <Border Style="{StaticResource ColorSwatchStyle}" Background="{DynamicResource InfoBackBrush}" />
-                                    <TextBlock Text="InfoBackBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="200" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <Border Style="{StaticResource ColorSwatchStyle}" Background="{DynamicResource WarnBackBrush}" />
-                                    <TextBlock Text="WarnBackBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="200" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <Border Style="{StaticResource ColorSwatchStyle}" Background="{DynamicResource SuccessBackBrush}" />
-                                    <TextBlock Text="SuccessBackBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="200" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <Border Style="{StaticResource ColorSwatchStyle}" Background="{DynamicResource DangerBackBrush}" />
-                                    <TextBlock Text="DangerBackBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="200" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <Border Style="{StaticResource ColorSwatchStyle}" Background="{DynamicResource TerminalBackBrush}" />
-                                    <TextBlock Text="TerminalBackBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="200" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <Border Style="{StaticResource ColorSwatchStyle}" Background="{DynamicResource TerminalTextBrush}" />
-                                    <TextBlock Text="TerminalTextBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
-                                </StackPanel>
-                            </Border>
-                        </WrapPanel>
-                    </StackPanel>
-                </Border>
-
-                <!-- ============ 3. 文本色 ============ -->
-                <Border Style="{StaticResource SectionCardStyle}">
-                    <StackPanel>
-                        <TextBlock Text="3. 文本色（TextBlock.Foreground）" Style="{StaticResource SectionTitleStyle}" />
-                        <WrapPanel>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="200" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="TextDarkBrush 正文" FontSize="10" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" />
-                                    <TextBlock Text="TextDarkBrush" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" TextAlignment="Center" Margin="0,2,0,0" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="200" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="TextOnDarkBrush 面板底" FontSize="10" Foreground="{DynamicResource TextOnDarkBrush}" TextAlignment="Center" />
-                                    <TextBlock Text="TextOnDarkBrush" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" TextAlignment="Center" Margin="0,2,0,0" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="200" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="TextSecondaryBrush 次要" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}" TextAlignment="Center" />
-                                    <TextBlock Text="TextSecondaryBrush" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" TextAlignment="Center" Margin="0,2,0,0" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="200" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="TextMutedBrush 弱化" FontSize="10" Foreground="{DynamicResource TextMutedBrush}" TextAlignment="Center" />
-                                    <TextBlock Text="TextMutedBrush" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" TextAlignment="Center" Margin="0,2,0,0" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="200" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="TextDisabledBrush 禁用" FontSize="10" Foreground="{DynamicResource TextDisabledBrush}" TextAlignment="Center" />
-                                    <TextBlock Text="TextDisabledBrush" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" TextAlignment="Center" Margin="0,2,0,0" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="200" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <Border Style="{StaticResource ColorSwatchStyle}" Background="{DynamicResource AccentBrush}">
-                                        <TextBlock Text="TextOnAccentBrush" FontSize="9" Foreground="{DynamicResource TextOnAccentBrush}" TextAlignment="Center" VerticalAlignment="Center" />
-                                    </Border>
-                                    <TextBlock Text="TextOnAccentBrush" FontSize="9" Foreground="{DynamicResource TextMutedBrush}" TextAlignment="Center" Margin="0,2,0,0" />
-                                </StackPanel>
-                            </Border>
-                        </WrapPanel>
-                    </StackPanel>
-                </Border>
-
-                <!-- ============ 4. 边框色 ============ -->
-                <Border Style="{StaticResource SectionCardStyle}">
-                    <StackPanel>
-                        <TextBlock Text="4. 边框色（Border.BorderBrush）" Style="{StaticResource SectionTitleStyle}" />
-                        <WrapPanel>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="200" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <Border Height="18" CornerRadius="2" BorderBrush="#66808080" BorderThickness="1" Padding="1">
-                                        <Border Height="14" CornerRadius="1" Background="{DynamicResource ContentBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="2" />
-                                    </Border>
-                                    <TextBlock Text="BorderNormalBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="200" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <Border Height="18" CornerRadius="2" BorderBrush="#66808080" BorderThickness="1" Padding="1">
-                                        <Border Height="14" CornerRadius="1" Background="{DynamicResource ContentBackBrush}" BorderBrush="{DynamicResource PanelBorderBrush}" BorderThickness="2" />
-                                    </Border>
-                                    <TextBlock Text="PanelBorderBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="200" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <Border Height="18" CornerRadius="2" BorderBrush="#66808080" BorderThickness="1" Padding="1">
-                                        <Border Height="14" CornerRadius="1" Background="{DynamicResource ContentBackBrush}" BorderBrush="{DynamicResource SplitterBrush}" BorderThickness="2" />
-                                    </Border>
-                                    <TextBlock Text="SplitterBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="200" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <Border Height="18" CornerRadius="2" BorderBrush="#66808080" BorderThickness="1" Padding="1">
-                                        <Border Height="14" CornerRadius="1" Background="{DynamicResource ContentBackBrush}" BorderBrush="{DynamicResource LogPanelBorderBrush}" BorderThickness="2" />
-                                    </Border>
-                                    <TextBlock Text="LogPanelBorderBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="200" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <Border Height="18" CornerRadius="2" BorderBrush="#66808080" BorderThickness="1" Padding="1">
-                                        <Border Height="14" CornerRadius="1" Background="{DynamicResource ContentBackBrush}" BorderBrush="{DynamicResource WarnBorderBrush}" BorderThickness="2" />
-                                    </Border>
-                                    <TextBlock Text="WarnBorderBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
-                                </StackPanel>
-                            </Border>
-                        </WrapPanel>
-                    </StackPanel>
-                </Border>
-
-                <!-- ============ 5. 状态色 ============ -->
-                <Border Style="{StaticResource SectionCardStyle}">
-                    <StackPanel>
-                        <TextBlock Text="5. 状态色（指示灯/徽标/强调）" Style="{StaticResource SectionTitleStyle}" />
-                        <WrapPanel>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="200" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <Border Style="{StaticResource ColorSwatchStyle}" Background="{DynamicResource StatusGreenBrush}" />
-                                    <TextBlock Text="StatusGreenBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="200" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <Border Style="{StaticResource ColorSwatchStyle}" Background="{DynamicResource StatusOrangeBrush}" />
-                                    <TextBlock Text="StatusOrangeBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="200" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <Border Style="{StaticResource ColorSwatchStyle}" Background="{DynamicResource StatusRedBrush}" />
-                                    <TextBlock Text="StatusRedBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="200" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <Border Style="{StaticResource ColorSwatchStyle}" Background="{DynamicResource StatusBlueBrush}" />
-                                    <TextBlock Text="StatusBlueBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="200" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <Border Style="{StaticResource ColorSwatchStyle}" Background="{DynamicResource StatusPurpleBrush}" />
-                                    <TextBlock Text="StatusPurpleBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="200" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <Border Style="{StaticResource ColorSwatchStyle}" Background="{DynamicResource StatusGrayBrush}" />
-                                    <TextBlock Text="StatusGrayBrush" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" TextAlignment="Center" Margin="0,2,0,0" />
-                                </StackPanel>
-                            </Border>
-                        </WrapPanel>
-                    </StackPanel>
-                </Border>
-
-                <!-- ============ 6. 按钮 ============ -->
-                <Border Style="{StaticResource SectionCardStyle}">
-                    <StackPanel>
-                        <TextBlock Text="6. 按钮（Button / ToggleButton / RepeatButton）" Style="{StaticResource SectionTitleStyle}" />
-                        <WrapPanel>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="300" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="Button（默认，隐式样式）" Style="{StaticResource DemoLabelStyle}" />
-                                    <Button Content="默认按钮" FontSize="10" MinHeight="22" Padding="8,0" HorizontalAlignment="Left" />
-                                    <TextBlock Text="隐式 Button 默认样式（ButtonsAndToggles 定义）" FontSize="8" Foreground="{DynamicResource TextMutedBrush}" Margin="0,2,0,0" TextWrapping="Wrap" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="300" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="Button（多尺寸）" Style="{StaticResource DemoLabelStyle}" />
-                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
-                                        <Button Content="主" MinWidth="52" MinHeight="22" FontSize="10" Padding="0" Margin="0,0,4,0" />
-                                        <Button Content="危" MinWidth="52" MinHeight="22" FontSize="10" Padding="0" Margin="0,0,4,0" />
-                                        <Button Content="成" MinWidth="52" MinHeight="22" FontSize="10" Padding="0" />
+                            <local:DemoCell Title="Button（默认，隐式样式）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Button Content="默认按钮" HorizontalAlignment="Left" />
+                                    <TextBlock Grid.Row="1" Text="隐式 Button 默认样式（ButtonsAndToggles 定义）" FontSize="8" Foreground="{DynamicResource TextMutedBrush}" TextWrapping="Wrap" VerticalAlignment="Bottom" />
+                                </Grid>
+                            </local:DemoCell>
+                            <local:DemoCell Title="Button（语义示例）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                                <StackPanel VerticalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Content="主要" />
+                                        <Button Content="危险" Background="{DynamicResource DangerBrush}" BorderBrush="{DynamicResource DangerBrush}" />
+                                        <Button Content="成功" Background="{DynamicResource SuccessBrush}" BorderBrush="{DynamicResource SuccessBrush}" />
                                     </StackPanel>
-                                    <TextBlock Text="自绘 Button 样式，颜色全 DynamicResource" FontSize="8" Foreground="{DynamicResource TextMutedBrush}" TextWrapping="Wrap" />
+                                    <TextBlock Text="自绘 Button 样式，颜色全 DynamicResource" FontSize="8" Foreground="{DynamicResource TextMutedBrush}" TextWrapping="Wrap" Margin="0,4,0,0" />
                                 </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="300" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="ToggleButton（切换）" Style="{StaticResource DemoLabelStyle}" />
-                                    <ToggleButton Content="开关" FontSize="10" MinHeight="22" HorizontalAlignment="Left" MinWidth="70" />
+                            </local:DemoCell>
+                            <local:DemoCell Title="ToggleButton（切换）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                                <StackPanel VerticalAlignment="Center">
+                                    <ToggleButton Content="开关" HorizontalAlignment="Left" MinWidth="70" />
                                 </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="300" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="Button（禁用态）" Style="{StaticResource DemoLabelStyle}" />
-                                    <Button Content="不可用" FontSize="10" MinHeight="22" Padding="8,0" IsEnabled="False" HorizontalAlignment="Left" />
-                                    <TextBlock Text="禁用态：暗底灰字（PanelBackBrush + TextDisabledBrush）" FontSize="8" Foreground="{DynamicResource TextMutedBrush}" Margin="0,2,0,0" TextWrapping="Wrap" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="300" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="RepeatButton（重复按钮）" Style="{StaticResource DemoLabelStyle}" />
-                                    <RepeatButton Content="按住递增" FontSize="10" MinHeight="22" Padding="8,0" HorizontalAlignment="Left"
+                            </local:DemoCell>
+                            <local:DemoCell Title="Button（禁用态）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Button Content="不可用" IsEnabled="False" HorizontalAlignment="Left" />
+                                    <TextBlock Grid.Row="1" Text="禁用态：暗底灰字（PanelBackBrush + TextDisabledBrush）" FontSize="8" Foreground="{DynamicResource TextMutedBrush}" TextWrapping="Wrap" VerticalAlignment="Bottom" />
+                                </Grid>
+                            </local:DemoCell>
+                            <local:DemoCell Title="RepeatButton（重复按钮）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                                <StackPanel VerticalAlignment="Center">
+                                    <RepeatButton Content="按住递增" HorizontalAlignment="Left"
                                                   Background="{DynamicResource PrimaryBrush}" Foreground="{DynamicResource TextOnAccentBrush}" />
                                 </StackPanel>
-                            </Border>
+                            </local:DemoCell>
+                            <local:DemoCell Title="CheckBox / RadioButton" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                                <StackPanel VerticalAlignment="Center">
+                                    <CheckBox Content="启用选项" />
+                                    <RadioButton Content="模式 A" IsChecked="True" GroupName="palette1" Margin="0,4,0,0" />
+                                    <RadioButton Content="模式 B" GroupName="palette1" Margin="0,4,0,0" />
+                                </StackPanel>
+                            </local:DemoCell>
+                            <local:DemoCell Title="Slider（滑块）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                                <StackPanel VerticalAlignment="Center">
+                                    <Slider Minimum="0" Maximum="100" Value="60" />
+                                </StackPanel>
+                            </local:DemoCell>
+                            <local:DemoCell Title="ProgressBar（进度条）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                                <StackPanel VerticalAlignment="Center">
+                                    <ProgressBar Height="12" Value="65" />
+                                    <ProgressBar Height="12" Value="40" Foreground="{DynamicResource StatusOrangeBrush}" Margin="0,6,0,0" />
+                                </StackPanel>
+                            </local:DemoCell>
+                            <local:DemoCell Title="Label（标签）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                                <StackPanel VerticalAlignment="Center">
+                                    <Label Content="Label 标签文本" Background="{DynamicResource PanelBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" Padding="6,2" HorizontalAlignment="Left" />
+                                </StackPanel>
+                            </local:DemoCell>
                         </WrapPanel>
                     </StackPanel>
                 </Border>
 
-                <!-- ============ 7. 输入控件 ============ -->
+                <!-- 3. 输入与编辑 -->
                 <Border Style="{StaticResource SectionCardStyle}">
                     <StackPanel>
-                        <TextBlock Text="7. 输入控件（TextBox 隐式样式自包含；页面变体在自身 XAML 定义本地键）" Style="{StaticResource SectionTitleStyle}" />
+                        <TextBlock Text="3. 输入与编辑（TextBox / PasswordBox / ComboBox / RichTextBox）" Style="{StaticResource SectionTitleStyle}" />
                         <WrapPanel>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="300" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="TextBox（文本框）" Style="{StaticResource DemoLabelStyle}" />
-                                    <TextBox MinHeight="22" FontSize="10" Margin="0,0,0,4" Text="输入文本示例"
-                                             Background="{DynamicResource PanelBackBrush}" Foreground="{DynamicResource TextDarkBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" />
+                            <local:DemoCell Title="TextBox（文本框）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBox Text="输入文本示例" />
                                 </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="300" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="PasswordBox（密码框）" Style="{StaticResource DemoLabelStyle}" />
-                                    <PasswordBox MinHeight="22" FontSize="10" Margin="0,0,0,4" Password="123456" PasswordChar="●"
-                                                 Background="{DynamicResource PanelBackBrush}" Foreground="{DynamicResource TextDarkBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" />
+                            </local:DemoCell>
+                            <local:DemoCell Title="PasswordBox（密码框）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                                <StackPanel VerticalAlignment="Center">
+                                    <PasswordBox Password="123456" PasswordChar="●" />
                                 </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="300" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="ComboBox（下拉框）" Style="{StaticResource DemoLabelStyle}" />
-                                    <ComboBox MinHeight="22" FontSize="10" Margin="0,0,0,4" HorizontalAlignment="Stretch"
-                                              Background="{DynamicResource PanelBackBrush}" Foreground="{DynamicResource TextDarkBrush}" BorderBrush="{DynamicResource BorderNormalBrush}">
+                            </local:DemoCell>
+                            <local:DemoCell Title="ComboBox（下拉框）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                                <StackPanel VerticalAlignment="Center">
+                                    <ComboBox>
                                         <ComboBoxItem Content="选项一" />
                                         <ComboBoxItem Content="选项二" />
                                         <ComboBoxItem Content="选项三" />
                                     </ComboBox>
                                 </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="300" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="CheckBox / RadioButton" Style="{StaticResource DemoLabelStyle}" />
-                                    <StackPanel Margin="0,0,0,4">
-                                        <CheckBox Content="启用选项" FontSize="10" Foreground="{DynamicResource TextDarkBrush}" />
-                                        <RadioButton Content="模式 A" FontSize="10" Foreground="{DynamicResource TextDarkBrush}" Margin="0,2,0,0" IsChecked="True" GroupName="palette1" />
-                                        <RadioButton Content="模式 B" FontSize="10" Foreground="{DynamicResource TextDarkBrush}" Margin="0,2,0,0" GroupName="palette1" />
-                                    </StackPanel>
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="300" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="DatePicker（日期选择）" Style="{StaticResource DemoLabelStyle}" />
-                                    <DatePicker MinHeight="24" FontSize="10" Margin="0,0,0,4" HorizontalAlignment="Stretch"
-                                                Background="{DynamicResource PanelBackBrush}" Foreground="{DynamicResource TextDarkBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="300" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="Slider（滑块）" Style="{StaticResource DemoLabelStyle}" />
-                                    <Slider Minimum="0" Maximum="100" Value="60" FontSize="10" Margin="0,0,0,4" HorizontalAlignment="Stretch"
-                                            Background="{DynamicResource PanelBackBrush}" Foreground="{DynamicResource AccentBrush}" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="300" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="ProgressBar（进度条）" Style="{StaticResource DemoLabelStyle}" />
-                                    <ProgressBar Height="12" Margin="0,0,0,4" Value="65" />
-                                    <ProgressBar Height="12" Margin="0,0,0,4" Value="40" Foreground="{DynamicResource StatusOrangeBrush}" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="300" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="Label（标签）" Style="{StaticResource DemoLabelStyle}" />
-                                    <Label Content="Label 标签文本" FontSize="10" Foreground="{DynamicResource TextDarkBrush}"
-                                           Background="{DynamicResource PanelBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" Padding="6,2" />
-                                </StackPanel>
-                            </Border>
+                            </local:DemoCell>
+                            <local:DemoCell Title="RichTextBox（富文本）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                                <RichTextBox VerticalAlignment="Stretch">
+                                    <FlowDocument>
+                                        <Paragraph>
+                                            <Run Text="富文本内容示例，可编辑、可多行。" />
+                                        </Paragraph>
+                                    </FlowDocument>
+                                </RichTextBox>
+                            </local:DemoCell>
                         </WrapPanel>
                     </StackPanel>
                 </Border>
 
-                <!-- ============ 8. 数据展示 ============ -->
+                <!-- 4. 数据展示 -->
                 <Border Style="{StaticResource SectionCardStyle}">
                     <StackPanel>
-                        <TextBlock Text="8. 数据展示（DataGrid 隐式样式内联默认列头/单元格；页面变体在自身 XAML 定义本地键）" Style="{StaticResource SectionTitleStyle}" />
+                        <TextBlock Text="4. 数据展示（ListBox / ListView / TreeView / DataGrid / Image）" Style="{StaticResource SectionTitleStyle}" />
                         <WrapPanel>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="300" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="ListBox（列表）" Style="{StaticResource DemoLabelStyle}" />
-                                    <ListBox MinHeight="80" FontSize="10" Margin="0,0,0,4"
-                                             Background="{DynamicResource PanelBackBrush}" Foreground="{DynamicResource TextDarkBrush}" BorderBrush="{DynamicResource BorderNormalBrush}">
-                                        <ListBoxItem Content="列表项一" />
-                                        <ListBoxItem Content="列表项二" />
-                                        <ListBoxItem Content="列表项三" />
-                                    </ListBox>
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="300" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="ListView（详细列表）" Style="{StaticResource DemoLabelStyle}" />
-                                    <ListView MinHeight="80" FontSize="10" Margin="0,0,0,4">
-                                        <ListView.View>
-                                            <GridView>
-                                                <GridViewColumn Header="名称" Width="60" DisplayMemberBinding="{Binding}" />
-                                                <GridViewColumn Header="状态" Width="50" DisplayMemberBinding="{Binding}" />
-                                            </GridView>
-                                        </ListView.View>
-                                        <ListViewItem Content="项目 A" />
-                                        <ListViewItem Content="项目 B" />
-                                        <ListViewItem Content="项目 C" />
-                                    </ListView>
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="300" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="TreeView（树）" Style="{StaticResource DemoLabelStyle}" />
-                                    <TreeView MinHeight="80" FontSize="10" Margin="0,0,0,4"
-                                              Background="{DynamicResource PanelBackBrush}" Foreground="{DynamicResource TextDarkBrush}" BorderBrush="{DynamicResource BorderNormalBrush}">
-                                        <TreeViewItem Header="节点一" IsExpanded="True">
-                                            <TreeViewItem Header="子节点 1" />
-                                            <TreeViewItem Header="子节点 2" />
-                                        </TreeViewItem>
-                                        <TreeViewItem Header="节点二" />
-                                    </TreeView>
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="300" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="DataGrid（数据表格）" Style="{StaticResource DemoLabelStyle}" />
-                                    <DataGrid MinHeight="120" FontSize="9" Margin="0,0,0,4" AutoGenerateColumns="False" HeadersVisibility="Column" CanUserAddRows="False"
-                                              Background="{DynamicResource PanelBackBrush}" Foreground="{DynamicResource TextDarkBrush}" BorderBrush="{DynamicResource BorderNormalBrush}"
-                                              RowBackground="{DynamicResource PanelBackBrush}" AlternatingRowBackground="{DynamicResource PanelLightBrush}"
-                                              GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="{DynamicResource BorderNormalBrush}">
-                                        <DataGrid.Columns>
-                                            <DataGridTextColumn Header="名称" Width="70" Binding="{Binding}" />
-                                            <DataGridTextColumn Header="数值" Width="50" Binding="{Binding}" />
-                                        </DataGrid.Columns>
-                                        <DataGrid.ItemsSource>
-                                            <x:Array Type="{x:Type sys:String}">
-                                                <sys:String>数据行一</sys:String>
-                                                <sys:String>数据行二</sys:String>
-                                                <sys:String>数据行三</sys:String>
-                                            </x:Array>
-                                        </DataGrid.ItemsSource>
-                                    </DataGrid>
-                                </StackPanel>
-                            </Border>
-                        </WrapPanel>
-                    </StackPanel>
-                </Border>
-
-                <!-- ============ 9. 容器与导航 ============ -->
-                <Border Style="{StaticResource SectionCardStyle}">
-                    <StackPanel>
-                        <TextBlock Text="9. 容器与导航（GroupBox / Expander / TabControl / Menu / StatusBar / ToolBar / ToolTip）" Style="{StaticResource SectionTitleStyle}" />
-                        <WrapPanel>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="300" MinHeight="120" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="GroupBox（分组框）" Style="{StaticResource DemoLabelStyle}" />
-                                    <GroupBox Header="分组标题" FontSize="10" Foreground="{DynamicResource TextDarkBrush}" Padding="4">
-                                        <TextBlock Text="分组内容" FontSize="10" Foreground="{DynamicResource TextDarkBrush}" />
-                                    </GroupBox>
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="300" MinHeight="120" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="Expander（折叠）" Style="{StaticResource DemoLabelStyle}" />
-                                    <Expander Header="展开查看详情" FontSize="10" Foreground="{DynamicResource TextDarkBrush}">
-                                        <TextBlock Text="折叠面板内容" FontSize="10" Foreground="{DynamicResource TextDarkBrush}" Margin="8,3" />
-                                    </Expander>
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="300" MinHeight="140" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="TabControl（选项卡）" Style="{StaticResource DemoLabelStyle}" />
-                                    <TabControl MinHeight="100" FontSize="10"
-                                                Background="{DynamicResource PanelBackBrush}" Foreground="{DynamicResource TextDarkBrush}" BorderBrush="{DynamicResource BorderNormalBrush}">
-                                        <TabItem Header="页签一">
-                                            <TextBlock Text="页签一内容" FontSize="10" Foreground="{DynamicResource TextDarkBrush}" Margin="5" />
-                                        </TabItem>
-                                        <TabItem Header="页签二">
-                                            <TextBlock Text="页签二内容" FontSize="10" Foreground="{DynamicResource TextDarkBrush}" Margin="5" />
-                                        </TabItem>
-                                    </TabControl>
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="300" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="Menu（菜单栏）" Style="{StaticResource DemoLabelStyle}" />
-                                    <Menu MinHeight="22" FontSize="10" Margin="0,0,0,4"
-                                          Background="{DynamicResource PanelBackBrush}" Foreground="{DynamicResource TextDarkBrush}">
-                                        <MenuItem Header="文件">
-                                            <MenuItem Header="打开" />
-                                            <MenuItem Header="保存" />
-                                        </MenuItem>
-                                        <MenuItem Header="帮助" />
-                                    </Menu>
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="300" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="ToolBar / ToolBarTray" Style="{StaticResource DemoLabelStyle}" />
-                                    <ToolBarTray Background="{DynamicResource PanelBackBrush}" IsLocked="True">
-                                        <ToolBar Band="0" BandIndex="0">
-                                            <Button Content="新建" FontSize="10" />
-                                            <Button Content="保存" FontSize="10" />
-                                            <Separator />
-                                            <ToggleButton Content="加粗" FontSize="10" />
-                                        </ToolBar>
-                                    </ToolBarTray>
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="300" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="StatusBar（状态栏）" Style="{StaticResource DemoLabelStyle}" />
-                                    <StatusBar MinHeight="22" FontSize="10" Margin="0,0,0,4"
-                                               Background="{DynamicResource StatusBarBackBrush}" Foreground="{DynamicResource StatusBarTextBrush}">
-                                        <StatusBarItem Content="就绪" />
-                                        <Separator />
-                                        <StatusBarItem Content="2026-08-20" />
-                                    </StatusBar>
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="300" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="ToolTip（悬停提示）" Style="{StaticResource DemoLabelStyle}" />
-                                    <Button Content="鼠标悬停此处" FontSize="10" MinHeight="22" Padding="8,0" HorizontalAlignment="Left"
-                                            ToolTip="这是 ToolTip 提示内容" />
-                                </StackPanel>
-                            </Border>
-                        </WrapPanel>
-                    </StackPanel>
-                </Border>
-
-                <!-- ============ 10. 编辑与媒体 ============ -->
-                <Border Style="{StaticResource SectionCardStyle}">
-                    <StackPanel>
-                        <TextBlock Text="10. 编辑与媒体（RichTextBox / Calendar / Image / Viewbox）" Style="{StaticResource SectionTitleStyle}" />
-                        <WrapPanel>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="300" MinHeight="120" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="RichTextBox（富文本）" Style="{StaticResource DemoLabelStyle}" />
-                                    <RichTextBox MinHeight="80" FontSize="10" Margin="0,0,0,4"
-                                                 Background="{DynamicResource PanelBackBrush}" Foreground="{DynamicResource TextDarkBrush}" BorderBrush="{DynamicResource BorderNormalBrush}">
-                                        <FlowDocument>
-                                            <Paragraph>
-                                                <Run Text="富文本内容示例，可编辑、可多行。" />
-                                            </Paragraph>
-                                        </FlowDocument>
-                                    </RichTextBox>
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="300" MinHeight="280" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="Calendar（日历）" Style="{StaticResource DemoLabelStyle}" />
-                                    <Calendar FontSize="12" Margin="0,0,0,4"
-                                              Background="{DynamicResource PanelBackBrush}" Foreground="{DynamicResource TextDarkBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="300" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="Image（图像）" Style="{StaticResource DemoLabelStyle}" />
-                                    <Image Width="48" Height="48" HorizontalAlignment="Left" Margin="0,0,0,4">
+                            <local:DemoCell Title="ListBox（列表）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                                <ListBox>
+                                    <ListBoxItem Content="列表项一" />
+                                    <ListBoxItem Content="列表项二" />
+                                    <ListBoxItem Content="列表项三" />
+                                </ListBox>
+                            </local:DemoCell>
+                            <local:DemoCell Title="ListView（详细列表）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                                <ListView>
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Header="名称" Width="60" DisplayMemberBinding="{Binding}" />
+                                            <GridViewColumn Header="状态" Width="50" DisplayMemberBinding="{Binding}" />
+                                        </GridView>
+                                    </ListView.View>
+                                    <ListViewItem Content="项目 A" />
+                                    <ListViewItem Content="项目 B" />
+                                    <ListViewItem Content="项目 C" />
+                                </ListView>
+                            </local:DemoCell>
+                            <local:DemoCell Title="TreeView（树）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                                <TreeView>
+                                    <TreeViewItem Header="节点一" IsExpanded="True">
+                                        <TreeViewItem Header="子节点 1" />
+                                        <TreeViewItem Header="子节点 2" />
+                                    </TreeViewItem>
+                                    <TreeViewItem Header="节点二" />
+                                </TreeView>
+                            </local:DemoCell>
+                            <local:DemoCell Title="DataGrid（数据表格）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                                <DataGrid AutoGenerateColumns="False" HeadersVisibility="Column" CanUserAddRows="False"
+                                          RowBackground="{DynamicResource PanelBackBrush}" AlternatingRowBackground="{DynamicResource PanelLightBrush}"
+                                          GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="{DynamicResource BorderNormalBrush}"
+                                          ItemsSource="{Binding EditableRows, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="名称" Width="*" Binding="{Binding Name}" />
+                                        <DataGridTextColumn Header="数值" Width="50" Binding="{Binding Value}" />
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </local:DemoCell>
+                            <local:DemoCell Title="Image（图片）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                                <Grid>
+                                    <Image Width="140" Height="170" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center">
                                         <Image.Source>
                                             <DrawingImage>
                                                 <DrawingImage.Drawing>
-                                                    <GeometryDrawing Brush="{DynamicResource AccentBrush}">
+                                                    <GeometryDrawing Brush="{DynamicResource PrimaryBrush}">
                                                         <GeometryDrawing.Geometry>
-                                                            <PathGeometry Figures="M0,0 L48,0 L48,48 L0,48 Z M8,8 L40,8 L40,40 L8,40 Z" />
+                                                            <EllipseGeometry Center="70,85" RadiusX="55" RadiusY="70"/>
                                                         </GeometryDrawing.Geometry>
                                                     </GeometryDrawing>
                                                 </DrawingImage.Drawing>
                                             </DrawingImage>
                                         </Image.Source>
                                     </Image>
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="300" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="Viewbox（自适应缩放）" Style="{StaticResource DemoLabelStyle}" />
-                                    <Viewbox Width="120" Height="48" HorizontalAlignment="Left" Stretch="Uniform">
-                                        <Canvas Width="120" Height="40">
-                                            <Rectangle Canvas.Left="0" Canvas.Top="0" Width="40" Height="40" Fill="{DynamicResource AccentBrush}" />
-                                            <Rectangle Canvas.Left="45" Canvas.Top="10" Width="30" Height="20" Fill="{DynamicResource StatusOrangeBrush}" />
-                                            <Ellipse Canvas.Left="90" Canvas.Top="10" Width="20" Height="20" Fill="{DynamicResource StatusGreenBrush}" />
-                                        </Canvas>
-                                    </Viewbox>
-                                </StackPanel>
-                            </Border>
+                                    <TextBlock Text="原生 Image + DrawingImage（矢量图，跟随主题色）" FontSize="8" Foreground="{DynamicResource TextMutedBrush}" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                                </Grid>
+                            </local:DemoCell>
                         </WrapPanel>
                     </StackPanel>
                 </Border>
 
-                <!-- ============ 11. 滚动与布局面板 ============ -->
+                <!-- 5. 界面布局与导航 -->
                 <Border Style="{StaticResource SectionCardStyle}">
                     <StackPanel>
-                        <TextBlock Text="11. 滚动与布局面板（ScrollBar / ScrollViewer / GridSplitter / Border / Canvas / DockPanel / Grid / StackPanel / WrapPanel / UniformGrid）" Style="{StaticResource SectionTitleStyle}" />
+                        <TextBlock Text="5. 界面布局与导航（Menu / ContextMenu / ToolBar / 标题栏 / 状态栏 / 侧边栏）" Style="{StaticResource SectionTitleStyle}" />
                         <WrapPanel>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="220" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="ScrollBar（垂直）" Style="{StaticResource DemoLabelStyle}" />
-                                    <ScrollBar Orientation="Vertical" Height="70" Width="14" Minimum="0" Maximum="100" Value="30" HorizontalAlignment="Left"
-                                               Background="{DynamicResource PanelBackBrush}" Foreground="{DynamicResource TextDarkBrush}" />
+                            <local:DemoCell Title="菜单栏（原生 Menu）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                                <Border Background="{DynamicResource PanelBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}"
+                                        BorderThickness="1" CornerRadius="3" Padding="2" VerticalAlignment="Top" Height="30">
+                                    <Menu VerticalAlignment="Center">
+                                        <MenuItem Header="文件">
+                                            <MenuItem Header="新建" />
+                                            <MenuItem Header="打开" />
+                                            <Separator />
+                                            <MenuItem Header="退出" />
+                                        </MenuItem>
+                                        <MenuItem Header="编辑">
+                                            <MenuItem Header="撤销" />
+                                            <MenuItem Header="重做" />
+                                        </MenuItem>
+                                        <MenuItem Header="视图" />
+                                    </Menu>
+                                </Border>
+                            </local:DemoCell>
+                            <local:DemoCell Title="工具栏（原生 ToolBar）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                                <ToolBarTray VerticalAlignment="Top" Background="{DynamicResource PanelBackBrush}">
+                                    <ToolBar>
+                                        <Button Content="新建" />
+                                        <Button Content="打开" />
+                                        <Separator />
+                                        <ToggleButton Content="加粗" />
+                                        <ComboBox Width="90">
+                                            <ComboBoxItem Content="缩放 100%" />
+                                        </ComboBox>
+                                    </ToolBar>
+                                </ToolBarTray>
+                            </local:DemoCell>
+                            <local:DemoCell Title="右键菜单（ContextMenu）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                                <StackPanel VerticalAlignment="Center">
+                                    <Button Content="在按钮上单击右键">
+                                        <Button.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Header="复制" />
+                                                <MenuItem Header="粘贴" />
+                                                <Separator />
+                                                <MenuItem Header="删除" />
+                                            </ContextMenu>
+                                        </Button.ContextMenu>
+                                    </Button>
                                 </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="220" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="ScrollBar（水平）" Style="{StaticResource DemoLabelStyle}" />
-                                    <ScrollBar Orientation="Horizontal" Height="14" Width="150" Minimum="0" Maximum="100" Value="60" HorizontalAlignment="Left"
-                                               Background="{DynamicResource PanelBackBrush}" Foreground="{DynamicResource TextDarkBrush}" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="300" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="ScrollViewer（滚动容器）" Style="{StaticResource DemoLabelStyle}" />
-                                    <ScrollViewer MinHeight="80" VerticalScrollBarVisibility="Auto" Margin="0,0,0,4"
-                                                  Background="{DynamicResource PanelBackBrush}" Foreground="{DynamicResource TextDarkBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1">
-                                        <StackPanel>
-                                            <TextBlock Text="滚动内容 1" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" Margin="4,2" />
-                                            <TextBlock Text="滚动内容 2" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" Margin="4,2" />
-                                            <TextBlock Text="滚动内容 3" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" Margin="4,2" />
-                                            <TextBlock Text="滚动内容 4" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" Margin="4,2" />
-                                            <TextBlock Text="滚动内容 5" FontSize="9" Foreground="{DynamicResource TextDarkBrush}" Margin="4,2" />
-                                        </StackPanel>
-                                    </ScrollViewer>
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="220" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="GridSplitter（分隔条）" Style="{StaticResource DemoLabelStyle}" />
-                                    <Grid MinHeight="40" Margin="0,0,0,4">
+                            </local:DemoCell>
+                            <local:DemoCell Title="标题栏（TitleBar）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                                <Border Background="{DynamicResource TitleBarBackBrush}" Height="34" CornerRadius="3" Padding="10,0"
+                                        VerticalAlignment="Top" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="0,0,0,1">
+                                    <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition />
-                                            <ColumnDefinition Width="4" />
-                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
-                                        <Border Background="{DynamicResource PanelBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" />
-                                        <GridSplitter Grid.Column="1" Width="4" Background="{DynamicResource SplitterBrush}" HorizontalAlignment="Stretch" />
-                                        <Border Grid.Column="2" Background="{DynamicResource PanelLightBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" />
+                                        <TextBlock Text="页面标题 · TitleBar" Foreground="{DynamicResource TitleBarTextBrush}" FontSize="12" VerticalAlignment="Center"/>
+                                        <Button Grid.Column="1" Content="操作" Height="24" Padding="12,0" Margin="8,0,0,0" VerticalAlignment="Center"
+                                                MinWidth="0" Background="{DynamicResource PanelBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}"
+                                                BorderThickness="1" Foreground="{DynamicResource TitleBarTextBrush}"/>
                                     </Grid>
+                                </Border>
+                            </local:DemoCell>
+                            <local:DemoCell Title="状态栏（原生 StatusBar）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                                <StatusBar VerticalAlignment="Bottom">
+                                    <StatusBarItem>
+                                        <TextBlock Text="就绪" />
+                                    </StatusBarItem>
+                                    <Separator/>
+                                    <StatusBarItem>
+                                        <TextBlock Text="2026-08-22 09:30" />
+                                    </StatusBarItem>
+                                </StatusBar>
+                            </local:DemoCell>
+                            <local:DemoCell Title="侧边栏（RightPanel）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                                <Border Background="{DynamicResource RightPanelBackBrush}" CornerRadius="3" Padding="10" Width="120" Height="110" HorizontalAlignment="Left">
+                                    <StackPanel>
+                                        <TextBlock Text="侧边配置" Foreground="{DynamicResource RightPanelTextBrush}" FontSize="11" FontWeight="SemiBold"/>
+                                        <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                                            <TextBlock Text="启用" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="10" VerticalAlignment="Center"/>
+                                            <ToggleButton Content="ON" Margin="6,0,0,0" MinWidth="46" Height="22"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                                            <TextBlock Text="等级" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="10" VerticalAlignment="Center"/>
+                                            <ComboBox Width="54" Height="22" Margin="6,0,0,0"><ComboBoxItem Content="高"/></ComboBox>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+                            </local:DemoCell>
+                        </WrapPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- 6. 容器与导航 -->
+                <Border Style="{StaticResource SectionCardStyle}">
+                    <StackPanel>
+                        <TextBlock Text="6. 容器与导航（GroupBox / Expander / TabControl / ScrollViewer / ScrollBar / GridSplitter）" Style="{StaticResource SectionTitleStyle}" />
+                        <WrapPanel>
+                            <local:DemoCell Title="GroupBox（分组框）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                                <GroupBox Header="基础设置" Padding="6">
+                                    <StackPanel>
+                                        <TextBlock Text="分组内容示例，标题在边框上沿。" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}" TextWrapping="Wrap"/>
+                                    </StackPanel>
+                                </GroupBox>
+                            </local:DemoCell>
+                            <local:DemoCell Title="Expander（折叠）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                                <Expander Header="高级选项" IsExpanded="True">
+                                    <TextBlock Text="展开后可编辑的高级项说明文字。" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}" TextWrapping="Wrap" Margin="4"/>
+                                </Expander>
+                            </local:DemoCell>
+                            <local:DemoCell Title="TabControl（选项卡）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                                <TabControl>
+                                    <TabItem Header="概览">
+                                        <TextBlock Text="概览页内容" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                                    </TabItem>
+                                    <TabItem Header="详情">
+                                        <TextBlock Text="详情页内容" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                                    </TabItem>
+                                </TabControl>
+                            </local:DemoCell>
+                            <local:DemoCell Title="ScrollViewer（滚动）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                                <ScrollViewer VerticalScrollBarVisibility="Auto" Height="100" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1">
+                                    <StackPanel Margin="4">
+                                        <TextBlock Text="滚动区域第 1 行 · 设备状态数据" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}"/>
+                                        <TextBlock Text="滚动区域第 2 行 · 设备状态数据" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,4,0,0"/>
+                                        <TextBlock Text="滚动区域第 3 行 · 设备状态数据" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,4,0,0"/>
+                                        <TextBlock Text="滚动区域第 4 行 · 设备状态数据" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,4,0,0"/>
+                                        <TextBlock Text="滚动区域第 5 行 · 设备状态数据" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,4,0,0"/>
+                                        <TextBlock Text="滚动区域第 6 行 · 设备状态数据" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,4,0,0"/>
+                                        <TextBlock Text="滚动区域第 7 行 · 设备状态数据" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,4,0,0"/>
+                                        <TextBlock Text="滚动区域第 8 行 · 设备状态数据" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,4,0,0"/>
+                                        <TextBlock Text="滚动区域第 9 行 · 设备状态数据" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,4,0,0"/>
+                                        <TextBlock Text="滚动区域第 10 行 · 设备状态数据" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}" Margin="0,4,0,0"/>
+                                        <TextBlock Text="继续向下滚动以查看全部…" FontSize="10" Foreground="{DynamicResource TextMutedBrush}" Margin="0,4,0,0"/>
+                                    </StackPanel>
+                                </ScrollViewer>
+                            </local:DemoCell>
+                            <local:DemoCell Title="ScrollBar（滚动条）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <ScrollBar Width="18" Height="140" Orientation="Vertical" Minimum="0" Maximum="100" Value="40" LargeChange="10"/>
+                                    <ScrollBar Width="160" Height="18" Orientation="Horizontal" Minimum="0" Maximum="100" Value="60" Margin="16,0,0,0"/>
                                 </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="220" MouseLeftButtonUp="OnCellClick">
+                            </local:DemoCell>
+                            <local:DemoCell Title="GridSplitter（分隔条）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" MinWidth="60"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*" MinWidth="60"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border Grid.Column="0" Background="{DynamicResource PanelBackBrush}" CornerRadius="3"
+                                            BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1">
+                                        <TextBlock Text="左栏（拖动分隔条可调）" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}"
+                                                   HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                                    </Border>
+                                    <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Stretch"
+                                                  Background="{DynamicResource BorderNormalBrush}" ResizeBehavior="PreviousAndNext" ShowsPreview="True"/>
+                                    <Border Grid.Column="2" Background="{DynamicResource PanelLightBrush}" CornerRadius="3"
+                                            BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1">
+                                        <TextBlock Text="右栏" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}"
+                                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </Grid>
+                            </local:DemoCell>
+                        </WrapPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- 7. 日历与时间 -->
+                <Border Style="{StaticResource SectionCardStyle}">
+                    <StackPanel>
+                        <TextBlock Text="7. 日历（Calendar / DatePicker）" Style="{StaticResource SectionTitleStyle}" />
+                        <WrapPanel>
+                            <local:DemoCell Title="Calendar（日历）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                                <Calendar Width="250" Height="118" SelectedDate="2026-08-22T00:00:00"/>
+                            </local:DemoCell>
+                            <local:DemoCell Title="DatePicker（日期选择）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                                <StackPanel VerticalAlignment="Center">
+                                    <DatePicker Width="180" />
+                                    <TextBlock Text="可点击展开日历选择日期" FontSize="8" Foreground="{DynamicResource TextMutedBrush}" Margin="10,6,0,0" />
+                                </StackPanel>
+                            </local:DemoCell>
+                        </WrapPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- 8. 状态与反馈 -->
+                <Border Style="{StaticResource SectionCardStyle}">
+                    <StackPanel>
+                        <TextBlock Text="8. 状态与反馈（语义 Banner / 状态指示灯 / ToolTip / Popup）" Style="{StaticResource SectionTitleStyle}" />
+                        <WrapPanel>
+                            <local:DemoCell Title="语义 Banner（信息/警告）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
                                 <StackPanel>
-                                    <TextBlock Text="Border（边框）" Style="{StaticResource DemoLabelStyle}" />
-                                    <Border MinHeight="40" Background="{DynamicResource PanelBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="2" CornerRadius="4" Padding="6">
-                                        <TextBlock Text="Border 内容" FontSize="10" Foreground="{DynamicResource TextDarkBrush}" />
+                                    <Border Background="{DynamicResource InfoBackBrush}" CornerRadius="3" Padding="6,4" Height="26" VerticalAlignment="Top">
+                                        <TextBlock Text="信息提示：设备初始化完成" Foreground="{DynamicResource TextOnDarkBrush}" FontSize="10" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <Border Background="{DynamicResource WarnBackBrush}" CornerRadius="3" Padding="6,4" Height="26" Margin="0,6,0,0"
+                                            BorderBrush="{DynamicResource WarnBorderBrush}" BorderThickness="1">
+                                        <TextBlock Text="警告提示：参数接近上限" Foreground="{DynamicResource TextOnDarkBrush}" FontSize="10" VerticalAlignment="Center"/>
                                     </Border>
                                 </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="220" MouseLeftButtonUp="OnCellClick">
+                            </local:DemoCell>
+                            <local:DemoCell Title="语义 Banner（成功/危险）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
                                 <StackPanel>
-                                    <TextBlock Text="Canvas（绝对定位）" Style="{StaticResource DemoLabelStyle}" />
-                                    <Canvas Height="50" Background="{DynamicResource PanelBackBrush}" Margin="0,0,0,4">
-                                        <Border Style="{StaticResource PanelDemoBlock}" Canvas.Left="4" Canvas.Top="4" Background="{DynamicResource AccentBrush}" />
-                                        <Border Style="{StaticResource PanelDemoBlock}" Canvas.Left="40" Canvas.Top="20" Background="{DynamicResource StatusOrangeBrush}" />
-                                        <Border Style="{StaticResource PanelDemoBlock}" Canvas.Left="80" Canvas.Top="8" Background="{DynamicResource StatusGreenBrush}" />
-                                    </Canvas>
+                                    <Border Background="{DynamicResource SuccessBackBrush}" CornerRadius="3" Padding="6,4" Height="26" VerticalAlignment="Top">
+                                        <TextBlock Text="成功提示：保存完成" Foreground="{DynamicResource TextOnDarkBrush}" FontSize="10" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <Border Background="{DynamicResource DangerBackBrush}" CornerRadius="3" Padding="6,4" Height="26" Margin="0,6,0,0">
+                                        <TextBlock Text="危险提示：安全门打开" Foreground="{DynamicResource TextOnDarkBrush}" FontSize="10" VerticalAlignment="Center"/>
+                                    </Border>
                                 </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="220" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="DockPanel（停靠）" Style="{StaticResource DemoLabelStyle}" />
-                                    <DockPanel Height="50" Background="{DynamicResource PanelBackBrush}" LastChildFill="True">
-                                        <Border DockPanel.Dock="Left" Style="{StaticResource PanelDemoBlock}" Width="24" Height="40" Background="{DynamicResource AccentBrush}" />
-                                        <Border DockPanel.Dock="Top" Style="{StaticResource PanelDemoBlock}" Height="18" Background="{DynamicResource StatusOrangeBrush}" />
-                                        <Border Background="{DynamicResource StatusGreenBrush}" Margin="2" CornerRadius="2" />
-                                    </DockPanel>
+                            </local:DemoCell>
+                            <local:DemoCell Title="状态指示灯（Status 系列）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                                <WrapPanel VerticalAlignment="Center">
+                                    <StackPanel Margin="4"><Ellipse Width="14" Height="14" Fill="{DynamicResource StatusGreenBrush}"/><TextBlock Text="运行" FontSize="8" Foreground="{DynamicResource TextMutedBrush}" HorizontalAlignment="Center"/></StackPanel>
+                                    <StackPanel Margin="4"><Ellipse Width="14" Height="14" Fill="{DynamicResource StatusRedBrush}"/><TextBlock Text="停止" FontSize="8" Foreground="{DynamicResource TextMutedBrush}" HorizontalAlignment="Center"/></StackPanel>
+                                    <StackPanel Margin="4"><Ellipse Width="14" Height="14" Fill="{DynamicResource StatusOrangeBrush}"/><TextBlock Text="告警" FontSize="8" Foreground="{DynamicResource TextMutedBrush}" HorizontalAlignment="Center"/></StackPanel>
+                                    <StackPanel Margin="4"><Ellipse Width="14" Height="14" Fill="{DynamicResource StatusBlueBrush}"/><TextBlock Text="通讯" FontSize="8" Foreground="{DynamicResource TextMutedBrush}" HorizontalAlignment="Center"/></StackPanel>
+                                    <StackPanel Margin="4"><Ellipse Width="14" Height="14" Fill="{DynamicResource StatusPurpleBrush}"/><TextBlock Text="维护" FontSize="8" Foreground="{DynamicResource TextMutedBrush}" HorizontalAlignment="Center"/></StackPanel>
+                                    <StackPanel Margin="4"><Ellipse Width="14" Height="14" Fill="{DynamicResource StatusGrayBrush}"/><TextBlock Text="离线" FontSize="8" Foreground="{DynamicResource TextMutedBrush}" HorizontalAlignment="Center"/></StackPanel>
+                                </WrapPanel>
+                            </local:DemoCell>
+                            <local:DemoCell Title="ToolTip（悬浮提示）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                                <StackPanel VerticalAlignment="Center">
+                                    <Button Content="鼠标悬停查看提示" ToolTip="这是 ToolTip 提示内容，延迟约 0.5s 显示。" />
                                 </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="220" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="Grid（行列）" Style="{StaticResource DemoLabelStyle}" />
-                                    <Grid Height="50" Background="{DynamicResource PanelBackBrush}">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition />
-                                            <RowDefinition />
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition />
-                                            <ColumnDefinition />
-                                            <ColumnDefinition />
-                                        </Grid.ColumnDefinitions>
-                                        <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Background="{DynamicResource AccentBrush}" Margin="1" CornerRadius="2" />
-                                        <Border Grid.Row="0" Grid.Column="2" Background="{DynamicResource StatusOrangeBrush}" Margin="1" CornerRadius="2" />
-                                        <Border Grid.Row="1" Grid.Column="0" Background="{DynamicResource StatusGreenBrush}" Margin="1" CornerRadius="2" />
-                                        <Border Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Background="{DynamicResource StatusBlueBrush}" Margin="1" CornerRadius="2" />
-                                    </Grid>
+                            </local:DemoCell>
+                            <local:DemoCell Title="Popup（弹出层）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                                <StackPanel VerticalAlignment="Center">
+                                    <ToggleButton x:Name="PopupToggle" Content="切换弹出层" MinWidth="90"/>
+                                    <Popup IsOpen="{Binding IsChecked, ElementName=PopupToggle}"
+                                           PlacementTarget="{Binding ElementName=PopupToggle}"
+                                           StaysOpen="False" AllowsTransparency="True" VerticalOffset="4">
+                                        <Border Background="{DynamicResource PanelBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}"
+                                                BorderThickness="1" CornerRadius="4" Padding="10">
+                                            <TextBlock Text="这是 Popup 弹出内容" FontSize="10" Foreground="{DynamicResource TextDarkBrush}"/>
+                                        </Border>
+                                    </Popup>
                                 </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="220" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="StackPanel（堆叠）" Style="{StaticResource DemoLabelStyle}" />
-                                    <StackPanel Height="50" Background="{DynamicResource PanelBackBrush}" Orientation="Horizontal">
-                                        <Border Style="{StaticResource PanelDemoBlock}" Background="{DynamicResource AccentBrush}" />
-                                        <Border Style="{StaticResource PanelDemoBlock}" Background="{DynamicResource StatusOrangeBrush}" />
-                                        <Border Style="{StaticResource PanelDemoBlock}" Background="{DynamicResource StatusGreenBrush}" />
-                                        <Border Style="{StaticResource PanelDemoBlock}" Background="{DynamicResource StatusBlueBrush}" />
-                                    </StackPanel>
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="220" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="WrapPanel（自动换行）" Style="{StaticResource DemoLabelStyle}" />
-                                    <WrapPanel Height="50" Background="{DynamicResource PanelBackBrush}">
-                                        <Border Style="{StaticResource PanelDemoBlock}" Background="{DynamicResource AccentBrush}" />
-                                        <Border Style="{StaticResource PanelDemoBlock}" Background="{DynamicResource StatusOrangeBrush}" />
-                                        <Border Style="{StaticResource PanelDemoBlock}" Background="{DynamicResource StatusGreenBrush}" />
-                                        <Border Style="{StaticResource PanelDemoBlock}" Background="{DynamicResource StatusBlueBrush}" />
-                                        <Border Style="{StaticResource PanelDemoBlock}" Background="{DynamicResource StatusPurpleBrush}" />
-                                    </WrapPanel>
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="220" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="UniformGrid（均匀网格）" Style="{StaticResource DemoLabelStyle}" />
-                                    <UniformGrid Height="50" Background="{DynamicResource PanelBackBrush}" Columns="3">
-                                        <Border Style="{StaticResource PanelDemoBlock}" Background="{DynamicResource AccentBrush}" />
-                                        <Border Style="{StaticResource PanelDemoBlock}" Background="{DynamicResource StatusOrangeBrush}" />
-                                        <Border Style="{StaticResource PanelDemoBlock}" Background="{DynamicResource StatusGreenBrush}" />
-                                        <Border Style="{StaticResource PanelDemoBlock}" Background="{DynamicResource StatusBlueBrush}" />
-                                        <Border Style="{StaticResource PanelDemoBlock}" Background="{DynamicResource StatusPurpleBrush}" />
-                                        <Border Style="{StaticResource PanelDemoBlock}" Background="{DynamicResource StatusGrayBrush}" />
-                                    </UniformGrid>
-                                </StackPanel>
-                            </Border>
+                            </local:DemoCell>
                         </WrapPanel>
                     </StackPanel>
                 </Border>
 
-                <!-- ============ 12. 自定义控件 ============ -->
+                <!-- 9. 控制台与日志 -->
                 <Border Style="{StaticResource SectionCardStyle}">
                     <StackPanel>
-                        <TextBlock Text="12. 自定义控件（DateTimePicker / LoadingCircle / Pagination / ImageViewer / MenuControl）" Style="{StaticResource SectionTitleStyle}" />
+                        <TextBlock Text="9. 控制台与日志（Terminal / LogPanel）" Style="{StaticResource SectionTitleStyle}" />
                         <WrapPanel>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="300" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="DateTimePicker（日期时间选择）" Style="{StaticResource DemoLabelStyle}" />
-                                    <appControls:DateTimePicker MinHeight="32" FontSize="10" Margin="0,0,0,4" HorizontalAlignment="Stretch" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="300" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="LoadingCircle（加载圈）" Style="{StaticResource DemoLabelStyle}" />
-                                    <appControls:LoadingCircleControl Width="32" Height="32" Margin="0,0,0,4" HorizontalAlignment="Left" Foreground="{DynamicResource AccentBrush}" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="300" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="Pagination（分页）" Style="{StaticResource DemoLabelStyle}" />
-                                    <appControls:PaginationControl MinHeight="32" Margin="0,0,0,4" HorizontalAlignment="Left"
-                                                                   MaxPageCount="8" PageIndex="2" IsJumpEnabled="True" />
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource DemoCellStyle}" Width="300" MouseLeftButtonUp="OnCellClick">
-                                <StackPanel>
-                                    <TextBlock Text="LoadingCircle（状态色）" Style="{StaticResource DemoLabelStyle}" />
-                                    <appControls:LoadingCircleControl Width="32" Height="32" Margin="0,0,0,4" HorizontalAlignment="Left" Foreground="{DynamicResource StatusOrangeBrush}" />
-                                </StackPanel>
-                            </Border>
-                            <Border Background="{DynamicResource PanelBackBrush}" BorderBrush="{DynamicResource AccentBrush}" BorderThickness="1" CornerRadius="3" Margin="4" Padding="6" Width="300" VerticalAlignment="Top">
-                                <StackPanel>
-                                    <TextBlock Text="ImageViewer（图片查看器）" Style="{StaticResource DemoLabelStyle}" />
-                                    <Button Content="打开图片查看器" MinHeight="30" Margin="0,4,0,0"
-                                            HorizontalAlignment="Stretch"
-                                            Click="OnOpenImageViewer"
-                                            ToolTip="验证 lui: 自定义控件 ImageViewerWindow 弹窗可用" />
-                                </StackPanel>
-                            </Border>
-                            <Border Background="{DynamicResource PanelBackBrush}" BorderBrush="{DynamicResource AccentBrush}" BorderThickness="1" CornerRadius="3" Margin="4" Padding="6" Width="300" VerticalAlignment="Top">
-                                <StackPanel>
-                                    <TextBlock Text="MenuControl（菜单）" Style="{StaticResource DemoLabelStyle}" />
-                                    <appControls:MenuControl Height="160" Margin="-6,4,-6,0"
-                                                             ItemsSource="{Binding DemoMenu, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                             MenuExpand="Visible" />
-                                </StackPanel>
-                            </Border>
+                            <local:DemoCell Title="终端（Terminal）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                                <Border Background="{DynamicResource TerminalBackBrush}" CornerRadius="3" Padding="8" Height="112" VerticalAlignment="Top">
+                                    <StackPanel>
+                                        <TextBlock Text="LundyUI 终端" Foreground="{DynamicResource TextMutedBrush}" FontSize="9"/>
+                                        <TextBlock Text="$ LundyUI 启动完成" Foreground="{DynamicResource TerminalTextBrush}" FontSize="10" FontFamily="Consolas" Margin="0,6,0,0"/>
+                                        <TextBlock Text="$ 主题已应用：浅色商务" Foreground="{DynamicResource TerminalTextBrush}" FontSize="10" FontFamily="Consolas" Margin="0,4,0,0"/>
+                                        <TextBlock Text="$ 输入 help 查看命令…" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="10" FontFamily="Consolas" Margin="0,4,0,0"/>
+                                    </StackPanel>
+                                </Border>
+                            </local:DemoCell>
+                            <local:DemoCell Title="日志面板（LogPanel）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                                <Border Background="{DynamicResource LogPanelBackBrush}" CornerRadius="3" Padding="8" Height="112" VerticalAlignment="Top"
+                                        BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1">
+                                    <StackPanel>
+                                        <TextBlock Text="[信息] 连接到 PLC" Foreground="{DynamicResource StatusBlueBrush}" FontSize="9" FontFamily="Consolas" Margin="0,0,0,0"/>
+                                        <TextBlock Text="[警告] 温度偏高" Foreground="{DynamicResource StatusOrangeBrush}" FontSize="9" FontFamily="Consolas" Margin="0,4,0,0"/>
+                                        <TextBlock Text="[错误] 通信超时" Foreground="{DynamicResource StatusRedBrush}" FontSize="9" FontFamily="Consolas" Margin="0,4,0,0"/>
+                                        <TextBlock Text="[成功] 配方已保存" Foreground="{DynamicResource StatusGreenBrush}" FontSize="9" FontFamily="Consolas" Margin="0,4,0,0"/>
+                                    </StackPanel>
+                                </Border>
+                            </local:DemoCell>
                         </WrapPanel>
                     </StackPanel>
                 </Border>
 
-                <!-- ============ 13. 统一绑定规范 ============ -->
+                <!-- 10. 自定义控件 -->
                 <Border Style="{StaticResource SectionCardStyle}">
                     <StackPanel>
-                        <TextBlock Text="✅ 统一绑定规范（控件层以原生 WPF + 项目自定义控件为主；模板族统一由 Resource/Templates 提供）"
-                                   FontSize="12"
-                                   FontWeight="SemiBold"
-                                   Foreground="{DynamicResource TextDarkBrush}"
-                                   Margin="0,0,0,6" />
-                        <TextBlock Text="· 面板/卡片背景 → CardBackBrush；页面背景 → ContentBackBrush；日志区背景与卡片一致"
-                                   FontSize="10" Foreground="{DynamicResource TextDarkBrush}" TextWrapping="Wrap" Margin="0,0,0,2" />
-                        <TextBlock Text="· 明暗原则：背景与文字必须同明暗——暗底亮字 / 亮底暗字；禁用态统一暗底灰字"
-                                   FontSize="10" Foreground="{DynamicResource TextDarkBrush}" TextWrapping="Wrap" Margin="0,0,0,2" />
-                        <TextBlock Text="· 模板内部控件一律 Style={x:Null} 彻底隔离隐式样式，禁止靠重置属性打补丁"
-                                   FontSize="10" Foreground="{DynamicResource TextDarkBrush}" TextWrapping="Wrap" Margin="0,0,0,2" />
-                        <TextBlock Text="· 类型匹配：Brush 属性只能绑 Brush 键（*Brush）；颜色一律在主题字典中声明"
-                                   FontSize="10" Foreground="{DynamicResource TextDarkBrush}" TextWrapping="Wrap" Margin="0,0,0,2" />
-                        <TextBlock Text="· 样板交互：点击任意展示格弹出放大预览（VisualBrush 实时引用原格子，主题跟随），点遮罩或右上角 ✕ 关闭"
-                                   FontSize="10" Foreground="{DynamicResource TextDarkBrush}" TextWrapping="Wrap" Margin="0,0,0,2" />
-                        <TextBlock Text="· 文本：正文 → TextDarkBrush；次要 → TextSecondaryBrush；弱化 → TextMutedBrush；禁用 → TextDisabledBrush"
-                                   FontSize="10" Foreground="{DynamicResource TextDarkBrush}" TextWrapping="Wrap" Margin="0,0,0,2" />
-                        <TextBlock Text="· 输入/数据控件一律原生类型；基础外观由 Controls 隐式样式提供，页面变体在其自身 XAML 定义本地键"
-                                   FontSize="10" Foreground="{DynamicResource TextDarkBrush}" TextWrapping="Wrap" Margin="0,0,0,2" />
-                        <TextBlock Text="· 布局说明：本节使用 WrapPanel 实现响应式，窗口宽度变化时展示格自动换行；控件使用 MinHeight 而非固定 Height，避免内容截断"
-                                   FontSize="10" Foreground="{DynamicResource TextDarkBrush}" TextWrapping="Wrap" Margin="0,0,0,2" />
+                        <TextBlock Text="10. 自定义控件（MenuControl / DateTimePicker / LoadingCircle / Pagination / ImageViewer）" Style="{StaticResource SectionTitleStyle}" />
+                        <WrapPanel>
+                            <local:DemoCell Title="MenuControl（侧边菜单）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                                <appControls:MenuControl ItemsSource="{Binding DemoMenu, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                         Width="260" Height="118" VerticalAlignment="Top" />
+                            </local:DemoCell>
+                            <local:DemoCell Title="DateTimePicker（日期时间）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                                <appControls:DateTimePicker Width="220" Height="32" VerticalAlignment="Center"/>
+                            </local:DemoCell>
+                            <local:DemoCell Title="LoadingCircle（加载圈）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <appControls:LoadingCircleControl Width="36" Height="36" Foreground="{DynamicResource AccentBrush}"/>
+                                    <appControls:LoadingCircleControl Width="36" Height="36" Foreground="{DynamicResource StatusGreenBrush}" Margin="14,0,0,0"/>
+                                    <TextBlock Text="加载中…" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" VerticalAlignment="Center" Margin="14,0,0,0"/>
+                                </StackPanel>
+                            </local:DemoCell>
+                            <local:DemoCell Title="Pagination（分页）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                                <appControls:PaginationControl MaxPageCount="6" PageIndex="3"/>
+                            </local:DemoCell>
+                            <local:DemoCell Title="ImageViewer（图片查看器）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                                <StackPanel VerticalAlignment="Center">
+                                    <Button Content="打开图片查看器" Click="OnOpenImageViewer" Padding="14,6"/>
+                                    <TextBlock Text="缩放 / 拖拽 / 上一张下一张；多语言可注入" FontSize="8" Foreground="{DynamicResource TextMutedBrush}" TextWrapping="Wrap" Margin="0,6,0,0"/>
+                                </StackPanel>
+                            </local:DemoCell>
+                        </WrapPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- 11. 综合业务样张 -->
+                <Border Style="{StaticResource SectionCardStyle}">
+                    <StackPanel>
+                        <TextBlock Text="11. 综合业务样张（标题栏 + 工具栏 + 数据 + 分页 + 状态栏拼装）" Style="{StaticResource SectionTitleStyle}" />
+                        <Border Background="{DynamicResource WindowBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1"
+                                CornerRadius="3" Padding="6">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <Border Grid.Row="0" Background="{DynamicResource TitleBarBackBrush}" CornerRadius="2" Padding="8,5">
+                                    <TextBlock Text="业务页面 · 生产线监控" Foreground="{DynamicResource TitleBarTextBrush}" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                </Border>
+
+                                <Border Grid.Row="1" Background="{DynamicResource PanelBackBrush}" Padding="0,4,0,4" Margin="0,6,0,0">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <Button Content="刷新" Height="26" Padding="12,0" Margin="4,0,0,0" VerticalAlignment="Center"/>
+                                        <Button Content="导出" Height="26" Padding="12,0" Margin="4,0,0,0" VerticalAlignment="Center"/>
+                                        <Button Content="报警" Height="26" Padding="12,0" Margin="4,0,0,0" VerticalAlignment="Center" Background="{DynamicResource DangerBrush}" BorderBrush="{DynamicResource DangerBrush}"/>
+                                        <TextBox Width="120" Height="26" Margin="12,0,0,0" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+                                        <Button Content="查询" Height="26" Padding="12,0" Margin="4,0,0,0" VerticalAlignment="Center" Background="{DynamicResource PrimaryBrush}" Foreground="{DynamicResource TextOnAccentBrush}"/>
+                                    </StackPanel>
+                                </Border>
+
+                                <Grid Grid.Row="2" Margin="0,6,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <DataGrid AutoGenerateColumns="False" HeadersVisibility="Column" CanUserAddRows="False" Height="130"
+                                              RowBackground="{DynamicResource PanelBackBrush}" AlternatingRowBackground="{DynamicResource PanelLightBrush}"
+                                              GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="{DynamicResource BorderNormalBrush}"
+                                              ItemsSource="{Binding Machines, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="设备" Width="*" Binding="{Binding Name}" />
+                                            <DataGridTextColumn Header="状态" Width="70" Binding="{Binding Status}" />
+                                            <DataGridTextColumn Header="温度/℃" Width="60" Binding="{Binding Temp}" />
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                    <Border Grid.Column="1" Width="150" Margin="6,0,0,0" Background="{DynamicResource RightPanelBackBrush}" CornerRadius="2" Padding="6">
+                                        <StackPanel>
+                                            <TextBlock Text="实时状态" Foreground="{DynamicResource RightPanelTextBrush}" FontSize="10" FontWeight="SemiBold"/>
+                                            <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                                                <Ellipse Width="10" Height="10" Fill="{DynamicResource StatusGreenBrush}" VerticalAlignment="Center"/>
+                                                <TextBlock Text="运行中" Foreground="{DynamicResource RightPanelTextBrush}" FontSize="10" Margin="4,0,0,0"/>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                                                <Ellipse Width="10" Height="10" Fill="{DynamicResource StatusBlueBrush}" VerticalAlignment="Center"/>
+                                                <TextBlock Text="通信正常" Foreground="{DynamicResource RightPanelTextBrush}" FontSize="10" Margin="4,0,0,0"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+
+                                <Grid Grid.Row="3" Margin="0,6,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <appControls:PaginationControl MaxPageCount="10" PageIndex="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                    <Border Grid.Column="1" Background="{DynamicResource StatusBarBackBrush}" CornerRadius="2" Padding="8,3">
+                                        <TextBlock Text="共 96 条 · 2 台设备在线" Foreground="{DynamicResource StatusBarTextBrush}" FontSize="10"/>
+                                    </Border>
+                                </Grid>
+                            </Grid>
+                        </Border>
+                        <TextBlock Text="以上即 LundyUI 全量主题键在原生 WPF 控件 + 自定义控件上的实际效果。切换顶部主题可整体实时换肤。"
+                                   FontSize="10" Foreground="{DynamicResource TextMutedBrush}" Margin="0,6,0,0"/>
                     </StackPanel>
                 </Border>
 
             </StackPanel>
         </ScrollViewer>
 
-        <!-- ============ 放大预览浮层（点击展示格弹出；点遮罩或右上角 ✕ 关闭） ============ -->
-        <Border x:Name="Overlay" Visibility="Collapsed" Background="{DynamicResource OverlayMaskBrush}" MouseLeftButtonUp="OnOverlayClick">
-            <Border MaxWidth="900" MaxHeight="700" Background="{DynamicResource CardBackBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="8" Padding="16" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="28">
+        <!-- 放大预览浮层：点击展示格弹出，克隆格子内容为真实尺寸，便于检查细节与交互弹层 -->
+        <Grid x:Name="Overlay" Visibility="Collapsed"
+              Background="{DynamicResource OverlayMaskBrush}"
+              MouseLeftButtonDown="OnOverlayClick">
+            <Border Width="880" Height="600"
+                    Background="{DynamicResource WindowBackBrush}"
+                    BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" CornerRadius="6"
+                    Padding="16">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="20" ShadowDepth="3" Opacity="0.4" />
+                </Border.Effect>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <TextBlock x:Name="OverlayTitle" Grid.Row="0" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextDarkBrush}" TextWrapping="Wrap" Margin="0,0,34,8" />
-                    <ScrollViewer x:Name="OverlayScroll" Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                        <ContentControl x:Name="OverlayHost" Focusable="False" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock x:Name="OverlayTitle" FontSize="13" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextDarkBrush}" VerticalAlignment="Center"
+                                   TextTrimming="CharacterEllipsis" />
+                        <Button Grid.Column="1" Content="✕" Width="26" Height="26" Padding="0"
+                                Margin="16,0,0,0" Cursor="Hand" ToolTip="关闭"
+                                Background="{DynamicResource PanelLightBrush}"
+                                Click="OnCloseOverlay" />
+                    </Grid>
+                    <!-- 横向滚动必须 Disabled：Auto 会让 ScrollViewer 用无限宽测量内容，
+                         Slider/ProgressBar 等 Width=NaN 的拉伸型控件会塌缩成自然宽度（不可见/不可拖）。
+                         有限宽 + 宿主 Stretch 后它们能撑满预览区，与 400 宽原格行为一致 -->
+                    <ScrollViewer Grid.Row="1" Margin="0,12,0,0"
+                                  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                        <ContentControl x:Name="OverlayHost" HorizontalAlignment="Stretch" VerticalAlignment="Top" />
                     </ScrollViewer>
-                    <Border Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Width="22" Height="22" CornerRadius="11" Background="{DynamicResource PanelLightBrush}" BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1" Cursor="Hand" ToolTip="关闭" MouseLeftButtonUp="OnCloseOverlay">
-                        <TextBlock Text="✕" FontSize="11" Foreground="{DynamicResource TextDarkBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    </Border>
                 </Grid>
             </Border>
-        </Border>
+        </Grid>
     </Grid>
 </UserControl>

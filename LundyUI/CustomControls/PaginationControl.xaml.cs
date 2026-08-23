@@ -1,16 +1,17 @@
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace LundyUI.Controls.CustomControls;
 
 /// <summary>
 /// LundyUI 分页控件（替代 HandyControl Pagination）。
+/// 精简版布局：◀ 当前/总数 ▶ [跳转框] GO（无首页/末页/页码按钮）。
 /// 行为兼容：MaxPageCount / PageIndex(双向) / IsJumpEnabled / DataCountPerPage(兼容绑定，不展示)，
 /// 翻页动作通过 PageUpdated 事件上抛新页码（库内 FunctionEventArgs）。
+/// 跳转输入框仅允许 1~总页数 的整数：非数字字符输入被拦截，越界/非法值在跳转时自动忽略并回填当前页码。
 /// </summary>
 public partial class PaginationControl : UserControl
 {
@@ -36,6 +37,8 @@ public partial class PaginationControl : UserControl
 	public PaginationControl()
 	{
 		InitializeComponent();
+		// 粘贴到跳转框时同样过滤非数字字符
+		DataObject.AddPastingHandler(JumpBox, OnJumpBoxPasting);
 		RebuildPageButtons();
 	}
 
@@ -75,60 +78,20 @@ public partial class PaginationControl : UserControl
 
 	private static void OnIsJumpEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 	{
-		if (d is PaginationControl ctl) ctl.JumpPanel.Visibility = ctl.IsJumpEnabled ? Visibility.Visible : Visibility.Collapsed;
+		// 跳转框始终显示，此属性保留兼容用，不再控制可见性。
 	}
 
-	/// <summary>重建页码按钮：当前页前后各 2 页，首尾保留，断层用省略号（-1 标记）。</summary>
+	/// <summary>刷新按钮可用态 + 当前/总数文本 + 跳转框回填当前页码。</summary>
 	private void RebuildPageButtons()
 	{
-		PageButtonsHost.Items.Clear();
-
 		int max = Math.Max(1, MaxPageCount);
 		int cur = PageIndex < 1 ? 1 : (PageIndex > max ? max : PageIndex);
 
-		foreach (int page in BuildPageSequence(cur, max))
-		{
-			Button btn = new Button
-			{
-				Content = page < 0 ? "…" : page.ToString(),
-				IsEnabled = page > 0,
-				Margin = new Thickness(4, 0, 0, 0),
-			};
-			btn.SetResourceReference(StyleProperty, "PageButtonStyle");
-			if (page == cur)
-			{
-				// 当前页高亮（局部值覆盖样式，主题键动态跟随）
-				btn.Background = (Brush)FindResource("AccentBrush");
-				btn.Foreground = (Brush)FindResource("TextOnAccentBrush");
-				btn.IsEnabled = false;
-			}
-			if (page > 0)
-			{
-				int target = page;
-				btn.Click += (_, _) => GoToPage(target);
-			}
-			PageButtonsHost.Items.Add(btn);
-		}
-
 		PrevButton.IsEnabled = cur > 1;
 		NextButton.IsEnabled = cur < max;
-	}
 
-	private static List<int> BuildPageSequence(int cur, int max)
-	{
-		List<int> pages = new List<int>();
-		if (max <= 7)
-		{
-			for (int i = 1; i <= max; i++) pages.Add(i);
-			return pages;
-		}
-
-		pages.Add(1);
-		if (cur > 4) pages.Add(-1);
-		for (int i = Math.Max(2, cur - 2); i <= Math.Min(max - 1, cur + 2); i++) pages.Add(i);
-		if (cur < max - 3) pages.Add(-1);
-		pages.Add(max);
-		return pages;
+		PageInfo.Text = $"{cur} / {max}";
+		JumpBox.Text = cur.ToString();
 	}
 
 	private void GoToPage(int index)
@@ -149,15 +112,51 @@ public partial class PaginationControl : UserControl
 		if (e.Key == Key.Enter) DoJump();
 	}
 
+	/// <summary>输入过滤：仅允许数字字符，非数字（字母/符号）自动忽略。</summary>
+	private void OnJumpPreviewTextInput(object sender, TextCompositionEventArgs e)
+	{
+		foreach (char c in e.Text)
+		{
+			if (!char.IsDigit(c))
+			{
+				e.Handled = true;
+				return;
+			}
+		}
+	}
+
+	/// <summary>粘贴过滤：仅保留数字，无数字则取消粘贴。</summary>
+	private void OnJumpBoxPasting(object sender, DataObjectPastingEventArgs e)
+	{
+		if (e.DataObject.GetDataPresent(DataFormats.UnicodeText)
+		    && e.DataObject.GetData(DataFormats.UnicodeText) is string text)
+		{
+			string filtered = new string(text.Where(char.IsDigit).ToArray());
+			if (filtered.Length == 0)
+			{
+				e.CancelCommand();
+			}
+			else
+			{
+				e.DataObject.SetData(DataFormats.UnicodeText, filtered);
+			}
+		}
+		else
+		{
+			e.CancelCommand();
+		}
+	}
+
+	/// <summary>跳转：仅接受 1~总页数 的整数；非法值（越界/非整数）自动忽略并回填当前页码。</summary>
 	private void DoJump()
 	{
-		if (int.TryParse(JumpBox.Text, out int index))
+		if (int.TryParse(JumpBox.Text, out int index) && index >= 1 && index <= MaxPageCount)
 		{
 			GoToPage(index);
 		}
 		else
 		{
-			JumpBox.Clear();
+			JumpBox.Text = PageIndex.ToString();
 		}
 	}
 }

@@ -65,7 +65,7 @@
                                                Padding="2,0"
                                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                                Focusable="{TemplateBinding Focusable}"
-                                               IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}"
+                                               IsReadOnly="False"
                                                IsEnabled="{TemplateBinding IsEnabled}"
                                                HorizontalAlignment="Stretch" />
                             <Button x:Name="PART_Button"

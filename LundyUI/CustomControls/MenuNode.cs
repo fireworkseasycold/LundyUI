@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -9,11 +9,12 @@ namespace LundyUI.Controls.CustomControls;
 /// <summary>
 /// 菜单节点数据契约（零业务依赖）。
 /// 可直接 new 硬编码，也可由宿主从任意配置/JSON 转换而来。
-/// 控件内部只读取 Name/ImagePath/IsCategory/IsExpanded/MenuShow/Children。
+/// 控件内部只读取 Name/Icon/ImagePath/IsCategory/IsExpanded/MenuShow/Children。
 /// </summary>
 public sealed class MenuNode : INotifyPropertyChanged
 {
     private string _name = string.Empty;
+    private string? _icon;
     private string? _imagePath;
     private bool _isCategory;
     private bool _isExpanded = true;
@@ -28,7 +29,14 @@ public sealed class MenuNode : INotifyPropertyChanged
         set => SetProperty(ref _name, value);
     }
 
-    /// <summary>图标路径或 emoji 字符。</summary>
+    /// <summary>字体图标名（Material Design Icons，如 "chart-bar"）；由 IconGlyphConverter 解析为字形，未命中时严格告警并置空。</summary>
+    public string? Icon
+    {
+        get => _icon;
+        set => SetProperty(ref _icon, value);
+    }
+
+    /// <summary>图片路径字符串（png/svg）；直接渲染 Image，不走图标字体。Icon 与 ImagePath 互斥，皆空则隐藏图标。</summary>
     public string? ImagePath
     {
         get => _imagePath;

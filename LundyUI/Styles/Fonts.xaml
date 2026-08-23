@@ -8,8 +8,13 @@
          系统级字体链接 (Font Linking) 可能失效，导致中文显示为空白（Zero-width glyph）。
          故强制指定回退顺序：Segoe UI (西文/俄文) -> Microsoft YaHei (中文) -> SimSun (宋体兜底)。
          使用：FontFamily="{DynamicResource AppFontFamily}"
+         ============================================================================
+         IconFontFamily：MDI 图标字体（随程序集内嵌 Resource）。
+         依据：Material Design Icons（@mdi/font latest）；字形由 IconGlyphConverter 从内嵌 materialdesignicons.codepoints 数据表解析。
+         使用：FontFamily="{DynamicResource IconFontFamily}"，只读字形字符（非文本）。
          ============================================================ -->
 
     <FontFamily x:Key="AppFontFamily">Segoe UI, Microsoft YaHei, SimSun, Sans-Serif</FontFamily>
+    <FontFamily x:Key="IconFontFamily">pack://application:,,,/LundyUI.Controls;component/Resources/Icons/MaterialDesignIcons.ttf#Material Design Icons</FontFamily>
 
 </ResourceDictionary>
