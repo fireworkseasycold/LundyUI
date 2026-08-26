@@ -1,4 +1,4 @@
-﻿using System.Windows;
+using System.Windows;
 using System.Windows.Media;
 
 namespace LundyUI.WPF;
@@ -58,4 +58,28 @@ public static class Controls
 
 	public static void SetAccent(DependencyObject element, bool value) => element.SetValue(AccentProperty, value);
 	public static bool GetAccent(DependencyObject element) => (bool)element.GetValue(AccentProperty);
+
+	// ===== GridSplitter 扇形把手可调属性 =====
+	// FanAngle: 0=左开口 / 90=上开口 / 180=右开口 / 270=下开口 ; NaN=自动
+	public static readonly DependencyProperty SplitterFanAngleProperty =
+		DependencyProperty.RegisterAttached(
+			"SplitterFanAngle", typeof(double), typeof(Controls),
+			new FrameworkPropertyMetadata(double.NaN, FrameworkPropertyMetadataOptions.AffectsRender));
+	public static void SetSplitterFanAngle(DependencyObject o, double v) => o.SetValue(SplitterFanAngleProperty, v);
+	public static double GetSplitterFanAngle(DependencyObject o) => (double)o.GetValue(SplitterFanAngleProperty);
+
+	public static readonly DependencyProperty SplitterFanExpandedSizeProperty =
+		DependencyProperty.RegisterAttached(
+			"SplitterFanExpandedSize", typeof(double), typeof(Controls),
+			new FrameworkPropertyMetadata(22.0, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange));
+	public static void SetSplitterFanExpandedSize(DependencyObject o, double v) => o.SetValue(SplitterFanExpandedSizeProperty, v);
+	public static double GetSplitterFanExpandedSize(DependencyObject o) => (double)o.GetValue(SplitterFanExpandedSizeProperty);
+
+	public static readonly DependencyProperty SplitterFanCollapsedSizeProperty =
+		DependencyProperty.RegisterAttached(
+			"SplitterFanCollapsedSize", typeof(double), typeof(Controls),
+			new FrameworkPropertyMetadata(9.0, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange));
+	public static void SetSplitterFanCollapsedSize(DependencyObject o, double v) => o.SetValue(SplitterFanCollapsedSizeProperty, v);
+	public static double GetSplitterFanCollapsedSize(DependencyObject o) => (double)o.GetValue(SplitterFanCollapsedSizeProperty);
+
 }

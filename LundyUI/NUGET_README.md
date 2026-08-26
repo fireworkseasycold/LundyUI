@@ -1,4 +1,4 @@
-﻿# LundyUI.WPF
+# LundyUI.WPF
 
 ![LundyUI Logo](https://raw.githubusercontent.com/fireworkseasycold/LundyUI/main/LundyUI/Resources/Images/LundyUI-Logo.png)
 
@@ -45,7 +45,7 @@ ThemeManager.Instance.SwitchTheme("Dark");
 
 | 组件 | 版本 |
 |------|------|
-| `LundyUI.WPF` | 1.0.1 |
+| `$11.1.0 |
 | `LundyUI.Demo`（示范程序） | 1.0.1 |
 
 完整集成步骤、主题键速查、Demo 说明见仓库 `LundyUI/README.md`。

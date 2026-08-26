@@ -1,4 +1,4 @@
-﻿# LundyUI.WPF
+# LundyUI.WPF
 
 ![LundyUI Logo](https://raw.githubusercontent.com/fireworkseasycold/LundyUI/main/LundyUI/Resources/Images/LundyUI-Logo.png)
 
@@ -8,8 +8,8 @@
 
 | 组件 | 说明 | 版本 |
 |------|------|------|
-| `LundyUI.WPF` | WPF 控件库（NuGet：`LundyUI.WPF`） | **1.0.1** |
-| `LundyUI.Demo` | 主题样板示范程序（与控件库严格对应） | 1.0.1 |
+| `LundyUI.WPF` | WPF 控件库（NuGet：`LundyUI.WPF`） | **1.1.0** |
+| `LundyUI.Demo` | 主题样板示范程序（与控件库严格对应） | 1.1.0 |
 
 > 版本号统一由仓库根目录 `Directory.Build.props` 的 `<Version>` 维护，UI 库与 Demo **共享同一版本**，升级时只改这一处即可双向同步。
 
@@ -281,6 +281,28 @@ private void OnPageUpdated(object? sender, FunctionEventArgs<int> e)
 
 ---
 
+### GridSplitter（触摸友好扇柄分隔条）
+
+LundyUI 通过**改写原生 `GridSplitter` 的 ControlTemplate**，把触摸不方便的细竖线替换为三角形扇柄把手。拖动/命中/预览仍走 WPF 原生 `GridSplitter` 逻辑，**无需更换控件名**，凡声明 `<GridSplitter>` 自动生效。
+
+折叠时显示一个小三角把手，悬停 / 键盘聚焦 / 拖动时动画放大为「带描边 + 三层配色」的三角，并紧贴底边显示一段短分隔地线。角度支持 0-360，默认按分隔方向自动判断（竖条尖朝左、横条尖朝上）。
+
+```xml
+xmlns:lui="clr-namespace:LundyUI.WPF;assembly=LundyUI.WPF"
+
+<!-- 默认：竖条尖朝左、横条尖朝上，角度自动推断 -->
+<GridSplitter Grid.Column="1" Width="40" />
+
+<!-- 指定角度与手柄尺寸（角度：0=上 / -90=左 / 90=右 / 180=下） -->
+<GridSplitter Grid.Column="1" Width="46"
+              lui:Controls.SplitterFanAngle="90"
+              lui:Controls.SplitterFanExpandedSize="30"
+              lui:Controls.SplitterFanCollapsedSize="12" />
+```
+
+> 手柄配色走主题键 `SplitterGripBrush` / `SplitterGripBorderBrush`（默认 `AccentBrush` 提亮派生），随主题联动。
+
+---
 ## 6. 约定与约束
 
 - **禁止硬编码色值**：所有颜色引用 `DynamicResource` 主题键。

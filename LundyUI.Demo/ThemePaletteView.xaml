@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="LundyUI.Demo.ThemePaletteView"
+<UserControl x:Class="LundyUI.Demo.ThemePaletteView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -6,6 +6,7 @@
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:LundyUI.Demo"
              xmlns:appControls="clr-namespace:LundyUI.WPF.CustomControls;assembly=LundyUI.WPF"
+             xmlns:lui="clr-namespace:LundyUI.WPF;assembly=LundyUI.WPF"
              mc:Ignorable="d"
              d:DesignHeight="900" d:DesignWidth="1400">
 
@@ -436,25 +437,36 @@
                                     <ScrollBar Width="160" Height="18" Orientation="Horizontal" Minimum="0" Maximum="100" Value="60" Margin="16,0,0,0"/>
                                 </StackPanel>
                             </local:DemoCell>
-                            <local:DemoCell Title="GridSplitter（分隔条）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
+                            <local:DemoCell Title="GridSplitter（半圆风扇把手 · 触摸友好）" Style="{StaticResource DemoCellStyle}" Click="OnCellClick">
                                 <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" MinWidth="60"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*" MinWidth="60"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Border Grid.Column="0" Background="{DynamicResource PanelBackBrush}" CornerRadius="3"
-                                            BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1">
-                                        <TextBlock Text="左栏（拖动分隔条可调）" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}"
-                                                   HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap"/>
-                                    </Border>
-                                    <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Stretch"
-                                                  Background="{DynamicResource BorderNormalBrush}" ResizeBehavior="PreviousAndNext" ShowsPreview="True"/>
-                                    <Border Grid.Column="2" Background="{DynamicResource PanelLightBrush}" CornerRadius="3"
-                                            BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1">
-                                        <TextBlock Text="右栏" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}"
-                                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    </Border>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="悬停/按下扇柄自动展开，横向拖动调宽；隐藏分隔线、可分左右上下（0-360°）"
+                                               FontSize="9" Foreground="{DynamicResource TextMutedBrush}" TextWrapping="Wrap"/>
+                                    <Grid Grid.Row="1" Margin="0,6,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" MinWidth="50"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*" MinWidth="50"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Border Grid.Column="0" Background="{DynamicResource PanelBackBrush}" CornerRadius="3"
+                                                BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1">
+                                            <TextBlock Text="左" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <GridSplitter Grid.Column="1" Width="40" HorizontalAlignment="Center"
+                                                      Background="Transparent" ResizeBehavior="PreviousAndNext" ShowsPreview="True"
+
+                                                      lui:Controls.SplitterFanExpandedSize="44"
+                                                      lui:Controls.SplitterFanCollapsedSize="20"/>
+                                        <Border Grid.Column="2" Background="{DynamicResource PanelLightBrush}" CornerRadius="3"
+                                                BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="1">
+                                            <TextBlock Text="右" FontSize="10" Foreground="{DynamicResource TextSecondaryBrush}"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </Grid>
                                 </Grid>
                             </local:DemoCell>
                         </WrapPanel>
