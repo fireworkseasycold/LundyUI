@@ -8,8 +8,8 @@
 
 | 组件 | 说明 | 版本 |
 |------|------|------|
-| `LundyUI.WPF` | WPF 控件库（NuGet：`LundyUI.WPF`） | **1.1.0** |
-| `LundyUI.Demo` | 主题样板示范程序（与控件库严格对应） | 1.1.0 |
+| `LundyUI.WPF` | WPF 控件库（NuGet：`LundyUI.WPF`） | **1.2.0** |
+| `LundyUI.Demo` | 主题样板示范程序（与控件库严格对应） | 1.2.0 |
 
 > 版本号统一由仓库根目录 `Directory.Build.props` 的 `<Version>` 维护，UI 库与 Demo **共享同一版本**，升级时只改这一处即可双向同步。
 

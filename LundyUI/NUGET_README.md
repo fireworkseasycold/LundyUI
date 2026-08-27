@@ -46,7 +46,7 @@ ThemeManager.Instance.SwitchTheme("Dark");
 
 | 组件 | 版本 |
 |------|------|
-| `LundyUI.WPF` | **1.1.0** |
-| `LundyUI.Demo`（示范程序） | 1.1.0 |
+| `LundyUI.WPF` | **1.2.0** |
+| `LundyUI.Demo`（示范程序） | 1.2.0 |
 
 完整集成步骤、主题键速查、Demo 说明见仓库 `LundyUI/README.md`。
