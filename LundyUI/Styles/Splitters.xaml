@@ -1,172 +1,64 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:custom="clr-namespace:LundyUI.WPF.CustomControls">
 
-                    xmlns:lui="clr-namespace:LundyUI.WPF"
-                    xmlns:conv="clr-namespace:LundyUI.WPF.Converters">
-
-    <conv:NaNToBoolConverter x:Key="NaNConverter"/>
-    <conv:NaNToZeroConverter x:Key="NaNToZeroConverter"/>
-    <conv:FanAngleConverter x:Key="FanAngleConverter"/>
-
-    <Storyboard x:Key="SbFanExpand">
-        <DoubleAnimation Storyboard.TargetName="FanScale" Storyboard.TargetProperty="ScaleX" To="1.25" Duration="0:0:0.15"/>
-        <DoubleAnimation Storyboard.TargetName="FanScale" Storyboard.TargetProperty="ScaleY" To="1.25" Duration="0:0:0.15"/>
-        <DoubleAnimation Storyboard.TargetName="FanHost" Storyboard.TargetProperty="Opacity" To="1.0" Duration="0:0:0.12"/>
-        <DoubleAnimation Storyboard.TargetName="CollapsedGrip" Storyboard.TargetProperty="Opacity" To="0.0" Duration="0:0:0.1"/>
-    </Storyboard>
-    <Storyboard x:Key="SbFanCollapse">
-        <DoubleAnimation Storyboard.TargetName="FanScale" Storyboard.TargetProperty="ScaleX" To="0.6" Duration="0:0:0.18"/>
-        <DoubleAnimation Storyboard.TargetName="FanScale" Storyboard.TargetProperty="ScaleY" To="0.6" Duration="0:0:0.18"/>
-        <DoubleAnimation Storyboard.TargetName="FanHost" Storyboard.TargetProperty="Opacity" To="0.0" Duration="0:0:0.2"/>
-        <DoubleAnimation Storyboard.TargetName="CollapsedGrip" Storyboard.TargetProperty="Opacity" To="0.9" Duration="0:0:0.18"/>
-    </Storyboard>
-
-    <!-- 隐式 GridSplitter 样式：复用 WPF 拖动逻辑，仅换视觉 -->
-    <Style TargetType="{x:Type GridSplitter}">
-        <Setter Property="MinWidth"  Value="40"/>
-        <Setter Property="MinHeight" Value="40"/>
+    <!-- ============================================================
+         TouchVerticalSplitter 隐式样式：触摸友好的垂直分隔条
+         视觉：细线 + 圆形手柄（不遮挡业务内容）
+         触摸热区：控件内部 Width = 2 * TouchHotExpand，GridSplitter 会居中于
+         Auto 列边界；Panel.ZIndex=1 保证热区浮在两侧面板之上可命中、可见
+         拖动：鼠标走原生 GridSplitter；触摸走 Manipulation（IsManipulationEnabled）
+         ============================================================ -->
+    <Style TargetType="{x:Type custom:TouchVerticalSplitter}">
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="ShowsPreview"  Value="True"/>
+        <Setter Property="Focusable" Value="True"/>
         <Setter Property="ResizeBehavior" Value="PreviousAndNext"/>
+        <Setter Property="Cursor" Value="SizeWE"/>
+        <Setter Property="Panel.ZIndex" Value="1"/>
 
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type GridSplitter}">
-                    <Grid Background="{TemplateBinding Background}">
+                <ControlTemplate TargetType="{x:Type custom:TouchVerticalSplitter}">
+                    <Grid Background="Transparent">
 
-                        <!-- ============================================================
-                             可旋转手柄单元 = 三角形(尖朝上) + 紧贴底边的地面线(分隔线)
-                             角度由 FanAngleConverter 计算：
-                             未显式设置(SplitterFanAngle=NaN)→ 竖条-90°(尖朝左+右线)/横条0°(尖朝上+下线)
-                             显式设置 → 使用用户值
-                             ============================================================ -->
-                        <!-- 折叠态小单元 -->
-                        <Grid x:Name="CollapsedGrip"
-                              HorizontalAlignment="Center"
-                              VerticalAlignment="Center"
-                              IsHitTestVisible="False" Opacity="0.9"
-                              RenderTransformOrigin="0.5,0.5">
-                            <Grid.Width>
-                                <Binding Path="(lui:Controls.SplitterFanCollapsedSize)"
-                                         RelativeSource="{RelativeSource TemplatedParent}"/>
-                            </Grid.Width>
-                            <Grid.Height>
-                                <Binding Path="(lui:Controls.SplitterFanCollapsedSize)"
-                                         RelativeSource="{RelativeSource TemplatedParent}"/>
-                            </Grid.Height>
-                            <Grid.RenderTransform>
-                                <RotateTransform>
-                                    <RotateTransform.Angle>
-                                        <MultiBinding Converter="{StaticResource FanAngleConverter}">
-                                            <Binding Path="(lui:Controls.SplitterFanAngle)"
-                                                     RelativeSource="{RelativeSource TemplatedParent}"/>
-                                            <Binding Path="ResizeDirection"
-                                                     RelativeSource="{RelativeSource TemplatedParent}"/>
-                                            <Binding Path="ActualWidth"
-                                                     RelativeSource="{RelativeSource TemplatedParent}"/>
-                                            <Binding Path="ActualHeight"
-                                                     RelativeSource="{RelativeSource TemplatedParent}"/>
-                                        </MultiBinding>
-                                    </RotateTransform.Angle>
-                                </RotateTransform>
-                            </Grid.RenderTransform>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <Path Grid.Row="0" Stretch="Fill" Data="M 0.5,0 L 1,1 L 0,1 Z"
-                                  Fill="{DynamicResource SplitterGripBrush}" Opacity="0.5"/>
-                            <Border Grid.Row="1" Height="3" CornerRadius="1.5"
-                                    Background="{DynamicResource SplitterBrush}"/>
-                        </Grid>
+                        <!-- 视觉细线：水平居中，高度可调 -->
+                        <Border x:Name="PART_VisualLine"
+                                Width="{TemplateBinding VisualLineWidth}"
+                                Height="{TemplateBinding HandleLineHeight}"
+                                CornerRadius="1"
+                                Background="{DynamicResource SplitterBrush}"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"/>
 
-                        <!-- 展开态大单元 -->
-                        <Grid x:Name="FanHost"
-                              HorizontalAlignment="Center"
-                              VerticalAlignment="Center"
-                              IsHitTestVisible="False" Opacity="0"
-                              RenderTransformOrigin="0.5,0.5">
-                            <Grid.Width>
-                                <Binding Path="(lui:Controls.SplitterFanExpandedSize)"
-                                         RelativeSource="{RelativeSource TemplatedParent}"/>
-                            </Grid.Width>
-                            <Grid.Height>
-                                <Binding Path="(lui:Controls.SplitterFanExpandedSize)"
-                                         RelativeSource="{RelativeSource TemplatedParent}"/>
-                            </Grid.Height>
-                            <Grid.RenderTransform>
-                                <TransformGroup>
-                                    <ScaleTransform x:Name="FanScale" ScaleX="0.6" ScaleY="0.6"/>
-                                    <RotateTransform>
-                                        <RotateTransform.Angle>
-                                            <MultiBinding Converter="{StaticResource FanAngleConverter}">
-                                                <Binding Path="(lui:Controls.SplitterFanAngle)"
-                                                         RelativeSource="{RelativeSource TemplatedParent}"/>
-                                                <Binding Path="ResizeDirection"
-                                                         RelativeSource="{RelativeSource TemplatedParent}"/>
-                                                <Binding Path="ActualWidth"
-                                                         RelativeSource="{RelativeSource TemplatedParent}"/>
-                                                <Binding Path="ActualHeight"
-                                                         RelativeSource="{RelativeSource TemplatedParent}"/>
-                                            </MultiBinding>
-                                        </RotateTransform.Angle>
-                                    </RotateTransform>
-                                </TransformGroup>
-                            </Grid.RenderTransform>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <Path Grid.Row="0" Stretch="Fill" Data="M 0.5,0 L 1,1 L 0,1 Z"
-                                  Fill="{DynamicResource SplitterGripBrush}" Opacity="0.1"
-                                  Stroke="{DynamicResource SplitterGripBorderBrush}" StrokeThickness="3"/>
-                            <Path Grid.Row="0" Stretch="Fill" Data="M 0.5,0 L 1,1 L 0,1 Z"
-                                  Margin="6,4,6,4"
-                                  Fill="{DynamicResource SplitterGripBrush}" Opacity="0.3"/>
-                            <Path Grid.Row="0" Stretch="Fill" Data="M 0.5,0 L 1,1 L 0,1 Z"
-                                  Margin="12,8,12,8"
-                                  Fill="{DynamicResource SplitterGripBrush}" Opacity="0.75"/>
-                            <Border Grid.Row="1" Height="4" Margin="6,0" CornerRadius="2"
-                                    Background="{DynamicResource SplitterBrush}"/>
-                        </Grid>
+                        <!-- 拖拽手柄：圆形圆点 -->
+                        <Ellipse x:Name="PART_Handle"
+                                 Width="{TemplateBinding HandleSize}"
+                                 Height="{TemplateBinding HandleSize}"
+                                 Fill="{DynamicResource SplitterGripBrush}"
+                                 Stroke="{DynamicResource SplitterGripBorderBrush}"
+                                 StrokeThickness="1.5"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"/>
                     </Grid>
 
                     <ControlTemplate.Triggers>
 
-
-
-
-                        <!-- 悬停 → 展开手柄 -->
+                        <!-- 悬停 → 细线变亮（提示可拖动） -->
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Trigger.EnterActions>
-                                <BeginStoryboard x:Name="FanHoverIn" Storyboard="{StaticResource SbFanExpand}"/>
-                            </Trigger.EnterActions>
-                            <Trigger.ExitActions>
-                                <RemoveStoryboard BeginStoryboardName="FanHoverIn"/>
-                                <BeginStoryboard x:Name="FanHoverOut" Storyboard="{StaticResource SbFanCollapse}"/>
-                            </Trigger.ExitActions>
+                            <Setter TargetName="PART_VisualLine" Property="Background" Value="{DynamicResource SplitterGripBrush}"/>
                         </Trigger>
 
-                        <!-- 键盘聚焦 → 展开手柄 -->
-                        <Trigger Property="IsKeyboardFocused" Value="True">
-                            <Trigger.EnterActions>
-                                <BeginStoryboard x:Name="FanFocusIn" Storyboard="{StaticResource SbFanExpand}"/>
-                            </Trigger.EnterActions>
-                            <Trigger.ExitActions>
-                                <RemoveStoryboard BeginStoryboardName="FanFocusIn"/>
-                                <BeginStoryboard x:Name="FanFocusOut" Storyboard="{StaticResource SbFanCollapse}"/>
-                            </Trigger.ExitActions>
-                        </Trigger>
-
-                        <!-- 拖动中 → 手柄放大到最大 -->
-                        <Trigger Property="IsMouseCaptured" Value="True">
-                            <Setter TargetName="FanHost"  Property="Opacity" Value="1.0"/>
-                            <Setter TargetName="CollapsedGrip" Property="Opacity" Value="0.0"/>
+                        <!-- 按下/拖动 → 线条 + 手柄高亮（鼠标与触摸统一由 IsDraggingVisual 驱动） -->
+                        <Trigger Property="IsDraggingVisual" Value="True">
+                            <Setter TargetName="PART_VisualLine" Property="Background" Value="{DynamicResource AccentBrush}"/>
+                            <Setter TargetName="PART_Handle" Property="Fill" Value="{DynamicResource AccentBrush}"/>
+                            <Setter TargetName="PART_Handle" Property="Stroke" Value="#FFFFFFFF"/>
                         </Trigger>
 
                         <!-- 禁用态 -->
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="CollapsedGrip" Property="Opacity" Value="0.3"/>
+                            <Setter TargetName="PART_VisualLine" Property="Opacity" Value="0.3"/>
+                            <Setter TargetName="PART_Handle" Property="Opacity" Value="0.3"/>
                         </Trigger>
 
                     </ControlTemplate.Triggers>

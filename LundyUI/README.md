@@ -281,26 +281,33 @@ private void OnPageUpdated(object? sender, FunctionEventArgs<int> e)
 
 ---
 
-### GridSplitter（触摸友好扇柄分隔条）
+### TouchVerticalSplitter（触摸友好垂直分隔条）
 
-LundyUI 通过**改写原生 `GridSplitter` 的 ControlTemplate**，把触摸不方便的细竖线替换为三角形扇柄把手。拖动/命中/预览仍走 WPF 原生 `GridSplitter` 逻辑，**无需更换控件名**，凡声明 `<GridSplitter>` 自动生效。
+工业触摸屏上原生 `GridSplitter` 只有几像素宽，手指难以命中。LundyUI 提供 `TouchVerticalSplitter`（继承原生 GridSplitter，业务 XAML 以 `lui:TouchVerticalSplitter` 引用）：
 
-折叠时显示一个小三角把手，悬停 / 键盘聚焦 / 拖动时动画放大为「带描边 + 三层配色」的三角，并紧贴底边显示一段短分隔地线。角度支持 0-360，默认按分隔方向自动判断（竖条尖朝左、横条尖朝上）。
+- **视觉**：仅一根 2px 细线 + 居中圆形手柄，不遮挡两侧业务内容
+- **隐形触摸热区**：控件内部 `Width = 2 * TouchHotExpand`（默认 40px）并用负 Margin 使 Auto 列塌缩为 0（零空间占用），热区左右各 20px 浮在两侧面板之上，总命中宽度约 40px
+- **拖动路径**：鼠标走原生 GridSplitter 逻辑；触摸走 Manipulation 事件（`IsManipulationEnabled`），解决触摸转鼠标导致的拖动漂移 / 光标乱跑 / 断触
+- **交互反馈**：按下 / 拖动时线条 + 手柄高亮（`IsDraggingVisual` 触发器）
+- **防拖没**：拖动遵循相邻列 `MinWidth` / `MaxWidth`
 
 ```xml
-xmlns:lui="clr-namespace:LundyUI.WPF;assembly=LundyUI.WPF"
+xmlns:lui="https://github.com/fireworkseasycold/LundyUI"
 
-<!-- 默认：竖条尖朝左、横条尖朝上，角度自动推断 -->
-<GridSplitter Grid.Column="1" Width="40" />
+<!-- 分隔条所在列必须为 Auto；相邻业务列设 MinWidth 防拖没 -->
+<Grid.ColumnDefinitions>
+    <ColumnDefinition Width="*"  MinWidth="120"/>
+    <ColumnDefinition Width="Auto"/>
+    <ColumnDefinition Width="2*" MinWidth="200"/>
+</Grid.ColumnDefinitions>
 
-<!-- 指定角度与手柄尺寸（角度：0=上 / -90=左 / 90=右 / 180=下） -->
-<GridSplitter Grid.Column="1" Width="46"
-              lui:Controls.SplitterFanAngle="90"
-              lui:Controls.SplitterFanExpandedSize="30"
-              lui:Controls.SplitterFanCollapsedSize="12" />
+<lui:TouchVerticalSplitter Grid.Column="1"/>
 ```
 
-> 手柄配色走主题键 `SplitterGripBrush` / `SplitterGripBorderBrush`（默认 `AccentBrush` 提亮派生），随主题联动。
+可调属性：`VisualLineWidth`（细线宽，默认 2）、`TouchHotExpand`（热区半宽，默认 20）、`HandleSize`（手柄直径，默认 18）、`HandleLineHeight`（细线高，默认 80）。
+
+> 配色走主题键 `SplitterBrush` / `SplitterGripBrush` / `SplitterGripBorderBrush`，随主题联动。
+> 注意：旧版扇柄 `lui:GridSplitter` 已彻底移除，请改用 `TouchVerticalSplitter`。
 
 ---
 ## 6. 约定与约束

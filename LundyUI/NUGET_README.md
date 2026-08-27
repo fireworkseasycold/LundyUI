@@ -40,12 +40,13 @@ ThemeManager.Instance.SwitchTheme("Dark");
 - **LoadingCircleControl**：加载圈
 - **PaginationControl**：分页（前 当前/总数 后 + GO 跳转）
 - **ImageViewerWindow**：图片查看器（缩放/拖拽/上一张下一张，多语言可注入）
+- **TouchVerticalSplitter**：触摸友好的垂直分隔条（2px 细线 + 圆形手柄，约 40px 隐形热区，鼠标走原生拖动、触摸走 Manipulation，防拖没）
 
 ## 版本
 
 | 组件 | 版本 |
 |------|------|
-| `$11.1.0 |
-| `LundyUI.Demo`（示范程序） | 1.0.1 |
+| `LundyUI.WPF` | **1.1.0** |
+| `LundyUI.Demo`（示范程序） | 1.1.0 |
 
 完整集成步骤、主题键速查、Demo 说明见仓库 `LundyUI/README.md`。
