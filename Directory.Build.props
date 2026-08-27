@@ -1,7 +1,7 @@
 <Project>
   <!-- 中央统一版本：UI 控件库与 Demo 共用同一版本号 → 保证 UI 与示范程序严格对应（改这里即可同步全仓） -->
   <PropertyGroup>
-    <Version>1.2.0</Version>
+    <Version>1.2.1</Version>
     <Authors>LundyUI</Authors>
     <Company>LundyUI</Company>
     <Product>LundyUI</Product>
