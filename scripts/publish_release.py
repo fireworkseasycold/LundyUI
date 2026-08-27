@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """LundyUI NuGet 发布流水线（git 标签触发式，无需 Token / 浏览器）。
 
@@ -107,13 +107,13 @@ def main() -> None:
         print(f"[dry-run] git push origin {tag}")
         return
 
-    run(["git", "add", "--", *files])
-    run(["git", "commit", "-m", message])
+    run(["git", "add", "--", *files], a.dry_run)
+    run(["git", "commit", "-m", message], a.dry_run)
     # 若标签已存在则先删再打，保证幂等
-    run(["git", "tag", "-d", tag]) if run(["git", "tag", "-l", tag]) else None
-    run(["git", "tag", tag])
-    run(["git", "push", "origin", a.branch])
-    run(["git", "push", "origin", tag])
+    run(["git", "tag", "-d", tag], a.dry_run) if run(["git", "tag", "-l", tag], a.dry_run) else None
+    run(["git", "tag", tag], a.dry_run)
+    run(["git", "push", "origin", a.branch], a.dry_run)
+    run(["git", "push", "origin", tag], a.dry_run)
 
     print(f"\n发布已触发: https://github.com/fireworkseasycold/LundyUI/actions/workflows/{WORKFLOW}")
 
