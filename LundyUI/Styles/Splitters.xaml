@@ -4,17 +4,14 @@
 
     <!-- ============================================================
          TouchVerticalSplitter 隐式样式：触摸友好的垂直分隔条
-         视觉：细线 + 圆形手柄（不遮挡业务内容）
-         触摸热区：控件内部 Width = 2 * TouchHotExpand，GridSplitter 会居中于
-         Auto 列边界；Panel.ZIndex=1 保证热区浮在两侧面板之上可命中、可见
-         拖动：鼠标走原生 GridSplitter；触摸走 Manipulation（IsManipulationEnabled）
+         视觉：细线 + 圆形手柄；分隔条所在 Auto 列即透明分隔槽（槽宽 = 2*TouchHotExpand）
+         拖动：鼠标走原生 GridSplitter（Stretch 对齐）；触摸走 Manipulation
          ============================================================ -->
     <Style TargetType="{x:Type custom:TouchVerticalSplitter}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="ResizeBehavior" Value="PreviousAndNext"/>
         <Setter Property="Cursor" Value="SizeWE"/>
-        <Setter Property="Panel.ZIndex" Value="1"/>
 
         <Setter Property="Template">
             <Setter.Value>

@@ -286,7 +286,7 @@ private void OnPageUpdated(object? sender, FunctionEventArgs<int> e)
 工业触摸屏上原生 `GridSplitter` 只有几像素宽，手指难以命中。LundyUI 提供 `TouchVerticalSplitter`（继承原生 GridSplitter，业务 XAML 以 `lui:TouchVerticalSplitter` 引用）：
 
 - **视觉**：仅一根 2px 细线 + 居中圆形手柄，不遮挡两侧业务内容
-- **隐形触摸热区**：控件内部 `Width = 2 * TouchHotExpand`（默认 40px）并用负 Margin 使 Auto 列塌缩为 0（零空间占用），热区左右各 20px 浮在两侧面板之上，总命中宽度约 40px
+- **隐形触摸热区**：分隔条所在 Auto 列即透明分隔槽，槽宽 = `2 * TouchHotExpand`（默认 40px），整槽即命中区；不覆盖任何面板，不会干扰相邻面板的滚动条等交互
 - **拖动路径**：鼠标走原生 GridSplitter 逻辑；触摸走 Manipulation 事件（`IsManipulationEnabled`），解决触摸转鼠标导致的拖动漂移 / 光标乱跑 / 断触
 - **交互反馈**：按下 / 拖动时线条 + 手柄高亮（`IsDraggingVisual` 触发器）
 - **防拖没**：拖动遵循相邻列 `MinWidth` / `MaxWidth`
