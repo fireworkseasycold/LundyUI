@@ -1,4 +1,4 @@
-﻿{
+{
     "ThemeConfigs":  {
                          "_comment":  "配置驱动多主题：一个条目 = 一套颜色变量。键命名约定决定资源类型：以 Color 结尾 → Color 资源，其余 → SolidColorBrush；键必须与 ThemeShared.xaml 完全对应，缺键会回落到 ThemeShared 默认色（掉色）。新增主题直接在此追加条目（配置 N 个主题即 N 种切换），顶栏下拉框自动显示 DisplayName。配置缺失/为空时回退为空覆盖（落在 ThemeShared 浅色默认）。",
                          "Themes":  [
@@ -24,10 +24,10 @@
                                                            "DangerBrush":  "#C75450",
                                                            "SuccessBrush":  "#238636",
                                                            "TextOnAccentBrush":  "#FFFFFF",
-                                                           "MenuItemBackBrush":  "#252526",
-                                                           "MenuItemHoverBrush":  "#2A2D2E",
-                                                           "MenuItemSelectedBrush":  "#094771",
-                                                           "MenuItemTextBrush":  "#D4D4D4",
+                                                           "MenuItemBackBrush":  "#F3F5F9",
+                                                           "MenuItemHoverBrush":  "#E3EAF3",
+                                                           "MenuItemSelectedBrush":  "#D6E4F7",
+                                                           "MenuItemTextBrush":  "#1A2433",
                                                            "StatusGreenBrush":  "#238636",
                                                            "StatusRedBrush":  "#C75450",
                                                            "StatusOrangeBrush":  "#CC7A00",
