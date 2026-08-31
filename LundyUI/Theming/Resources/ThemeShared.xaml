@@ -27,26 +27,26 @@
          ============================================================ -->
 
     <!-- L1-1 功能色（强调 / 主要 / 危险 / 成功） -->
-    <SolidColorBrush x:Key="AccentBrush" Color="#1677FF"/>
-    <Color x:Key="AccentColor">#1677FF</Color>
-    <SolidColorBrush x:Key="PrimaryBrush" Color="#1677FF"/>
+    <SolidColorBrush x:Key="AccentBrush" Color="#2563EB"/>
+    <Color x:Key="AccentColor">#2563EB</Color>
+    <SolidColorBrush x:Key="PrimaryBrush" Color="#2563EB"/>
     <SolidColorBrush x:Key="DangerBrush" Color="#FF4D4F"/>
-    <SolidColorBrush x:Key="SuccessBrush" Color="#52C41A"/>
+    <SolidColorBrush x:Key="SuccessBrush" Color="#16A34A"/>
 
     <!-- L1-2 文字层级 -->
-    <SolidColorBrush x:Key="TextOnDarkBrush" Color="#1F2329"/>
-    <SolidColorBrush x:Key="TextSecondaryBrush" Color="#646A73"/>
-    <SolidColorBrush x:Key="TextMutedBrush" Color="#8C8C8C"/>
+    <SolidColorBrush x:Key="TextOnDarkBrush" Color="#1A2433"/>
+    <SolidColorBrush x:Key="TextSecondaryBrush" Color="#5A6B7F"/>
+    <SolidColorBrush x:Key="TextMutedBrush" Color="#8A94A6"/>
     <SolidColorBrush x:Key="TextOnAccentBrush" Color="#FFFFFF"/>
-    <SolidColorBrush x:Key="TextDarkBrush" Color="#1F2329"/>
+    <SolidColorBrush x:Key="TextDarkBrush" Color="#1A2433"/>
     <SolidColorBrush x:Key="TextDisabledBrush" Color="#B0B0B0"/>
 
     <!-- L1-3 业务状态色（两主题通用） -->
-    <SolidColorBrush x:Key="StatusGreenBrush" Color="#52C41A"/>
-    <SolidColorBrush x:Key="StatusRedBrush" Color="#FF4D4F"/>
-    <SolidColorBrush x:Key="StatusOrangeBrush" Color="#FA8C16"/>
-    <SolidColorBrush x:Key="StatusBlueBrush" Color="#1677FF"/>
-    <SolidColorBrush x:Key="StatusPurpleBrush" Color="#722ED1"/>
+    <SolidColorBrush x:Key="StatusGreenBrush" Color="#16A34A"/>
+    <SolidColorBrush x:Key="StatusRedBrush" Color="#EF4444"/>
+    <SolidColorBrush x:Key="StatusOrangeBrush" Color="#F59E0B"/>
+    <SolidColorBrush x:Key="StatusBlueBrush" Color="#2563EB"/>
+    <SolidColorBrush x:Key="StatusPurpleBrush" Color="#7C3AED"/>
     <SolidColorBrush x:Key="StatusGrayBrush" Color="#999999"/>
 
     <!-- ============================================================
@@ -55,50 +55,50 @@
          ============================================================ -->
 
     <!-- L2-1 框架背景 / 面板 -->
-    <SolidColorBrush x:Key="WindowBackBrush" Color="#F0F2F5"/>
+    <SolidColorBrush x:Key="WindowBackBrush" Color="#F3F5F9"/>
     <SolidColorBrush x:Key="StatusBarBackBrush" Color="#FFFFFF"/>
     <SolidColorBrush x:Key="PanelBackBrush" Color="#FFFFFF"/>
-    <SolidColorBrush x:Key="PanelBorderBrush" Color="#E5E6EB"/>
+    <SolidColorBrush x:Key="PanelBorderBrush" Color="#E3E8F0"/>
 
     <!-- L2-2 内容区 / 面板 -->
-    <SolidColorBrush x:Key="ContentBackBrush" Color="#F0F2F5"/>
-    <SolidColorBrush x:Key="SplitterBrush" Color="#E5E6EB"/>
+    <SolidColorBrush x:Key="ContentBackBrush" Color="#F3F5F9"/>
+    <SolidColorBrush x:Key="SplitterBrush" Color="#E3E8F0"/>
     <SolidColorBrush x:Key="SplitterGripBrush" Color="#3FA7FF"/>
     <SolidColorBrush x:Key="SplitterGripBorderBrush" Color="#66FFFFFF"/>
-    <SolidColorBrush x:Key="LogPanelBackBrush" Color="#F0F2F5"/>
-    <SolidColorBrush x:Key="LogPanelBorderBrush" Color="#E5E6EB"/>
+    <SolidColorBrush x:Key="LogPanelBackBrush" Color="#F3F5F9"/>
+    <SolidColorBrush x:Key="LogPanelBorderBrush" Color="#E3E8F0"/>
 
     <!-- L2-3 自绘按钮状态叠层（模板 VSM 使用，主题提供而非模板内联） -->
     <SolidColorBrush x:Key="HoverOverlayBrush" Color="#1AFFFFFF"/>
     <SolidColorBrush x:Key="PressedOverlayBrush" Color="#33FFFFFF"/>
 
     <!-- L2-4 界面结构色 -->
-    <SolidColorBrush x:Key="TitleBarBackBrush" Color="#F0F2F5"/>
-    <SolidColorBrush x:Key="TitleBarTextBrush" Color="#1F2329"/>
-    <SolidColorBrush x:Key="RightPanelBackBrush" Color="#F0F2F5"/>
-    <SolidColorBrush x:Key="RightPanelTextBrush" Color="#1F2329"/>
+    <SolidColorBrush x:Key="TitleBarBackBrush" Color="#F3F5F9"/>
+    <SolidColorBrush x:Key="TitleBarTextBrush" Color="#1A2433"/>
+    <SolidColorBrush x:Key="RightPanelBackBrush" Color="#F3F5F9"/>
+    <SolidColorBrush x:Key="RightPanelTextBrush" Color="#1A2433"/>
     <SolidColorBrush x:Key="CardHeaderBackBrush" Color="#FFFFFF"/>
-    <SolidColorBrush x:Key="CardHeaderTextBrush" Color="#1F2329"/>
-    <SolidColorBrush x:Key="StatusBarTextBrush" Color="#1F2329"/>
+    <SolidColorBrush x:Key="CardHeaderTextBrush" Color="#1A2433"/>
+    <SolidColorBrush x:Key="StatusBarTextBrush" Color="#1A2433"/>
 
     <!-- L2-5 左侧导航菜单项状态色 -->
-    <SolidColorBrush x:Key="MenuItemBackBrush" Color="#001529"/>
-    <SolidColorBrush x:Key="MenuItemHoverBrush" Color="#112A45"/>
-    <SolidColorBrush x:Key="MenuItemSelectedBrush" Color="#1677FF"/>
-    <SolidColorBrush x:Key="MenuItemTextBrush" Color="#C7D0DA"/>
-    <SolidColorBrush x:Key="MenuItemIconBrush" Color="#7C8B99"/>
-    <SolidColorBrush x:Key="MenuItemIconHoverBrush" Color="#C7D0DA"/>
+    <SolidColorBrush x:Key="MenuItemBackBrush" Color="#16304F"/>
+    <SolidColorBrush x:Key="MenuItemHoverBrush" Color="#1F3D63"/>
+    <SolidColorBrush x:Key="MenuItemSelectedBrush" Color="#2563EB"/>
+    <SolidColorBrush x:Key="MenuItemTextBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="MenuItemIconBrush" Color="#8FA8C4"/>
+    <SolidColorBrush x:Key="MenuItemIconHoverBrush" Color="#FFFFFF"/>
     <SolidColorBrush x:Key="MenuItemIconSelectedBrush" Color="#FFFFFF"/>
 
     <!-- L2-6 浅色管理页通用色 -->
-    <SolidColorBrush x:Key="CardBackBrush" Color="#F0F2F5"/>
-    <SolidColorBrush x:Key="PanelLightBrush" Color="#F7F8FA"/>
-    <SolidColorBrush x:Key="BorderNormalBrush" Color="#E5E6EB"/>
-    <SolidColorBrush x:Key="InfoBackBrush" Color="#E8F4FF"/>
-    <SolidColorBrush x:Key="WarnBackBrush" Color="#FFFBE6"/>
-    <SolidColorBrush x:Key="WarnBorderBrush" Color="#FFE58F"/>
-    <SolidColorBrush x:Key="SuccessBackBrush" Color="#F6FFED"/>
-    <SolidColorBrush x:Key="DangerBackBrush" Color="#FFF2F0"/>
+    <SolidColorBrush x:Key="CardBackBrush" Color="#F3F5F9"/>
+    <SolidColorBrush x:Key="PanelLightBrush" Color="#F8FAFC"/>
+    <SolidColorBrush x:Key="BorderNormalBrush" Color="#E3E8F0"/>
+    <SolidColorBrush x:Key="InfoBackBrush" Color="#EFF6FF"/>
+    <SolidColorBrush x:Key="WarnBackBrush" Color="#FFFBEB"/>
+    <SolidColorBrush x:Key="WarnBorderBrush" Color="#FDE68A"/>
+    <SolidColorBrush x:Key="SuccessBackBrush" Color="#F0FDF4"/>
+    <SolidColorBrush x:Key="DangerBackBrush" Color="#FEF2F2"/>
 
     <!-- L2-7 终端 / 遮罩 -->
     <SolidColorBrush x:Key="TerminalBackBrush" Color="#1E1E1E"/>

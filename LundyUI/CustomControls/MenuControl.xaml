@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:LundyUI.WPF.CustomControls"
              xmlns:converters="clr-namespace:LundyUI.WPF.Converters"
-             Background="{DynamicResource WindowBackBrush}">
+             Background="{DynamicResource MenuItemBackBrush}">
     <UserControl.Resources>
         <converters:BoolToExpandSymbolConverter x:Key="BoolToExpandSymbol"/>
         <converters:IconGlyphConverter x:Key="IconGlyph"/>
@@ -127,7 +127,7 @@
                                    Foreground="{DynamicResource AccentBrush}" Text="{Binding Name}"
                                    VerticalAlignment="Center"/>
                         <TextBlock Grid.Column="3" FontSize="11"
-                                   Foreground="{DynamicResource TextSecondaryBrush}" Text="{Binding IsExpanded, Converter={StaticResource BoolToExpandSymbol}}"
+                                   Foreground="{DynamicResource MenuItemTextBrush}" Text="{Binding IsExpanded, Converter={StaticResource BoolToExpandSymbol}}"
                                    VerticalAlignment="Center"/>
                     </Grid>
                     <!-- 折叠态：仅显示字体图标或图片图标 -->
@@ -162,7 +162,7 @@
     </UserControl.Resources>
 
     <ListBox x:Name="MenuListBox"
-             Background="{DynamicResource WindowBackBrush}"
+             Background="{DynamicResource MenuItemBackBrush}"
              ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=UserControl}}"
              SelectedItem="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}"
              VirtualizingPanel.ScrollUnit="Item"
