@@ -4,12 +4,197 @@
              xmlns:local="clr-namespace:LundyUI.WPF.CustomControls"
              xmlns:converters="clr-namespace:LundyUI.WPF.Converters"
              Background="{DynamicResource MenuItemBackBrush}">
+    <!--
+      MenuControl（Popup 展开模式）：
+      - 顶层只渲染分类头（及无分组的独立项），子项统一经 Popup 弹出；
+      - 弹出方向由 MenuPlacement 决定，恒指向窗口内侧（自动向内展开）；
+      - MenuPlacement=Left/Right → 竖条布局；Top/Bottom → 横条布局。
+    -->
     <UserControl.Resources>
         <converters:BoolToExpandSymbolConverter x:Key="BoolToExpandSymbol"/>
         <converters:IconGlyphConverter x:Key="IconGlyph"/>
         <converters:StringToVisibilityConverter x:Key="Str2Vis"/>
         <converters:PathToImageConverter x:Key="PathToImage"/>
 
+        <!-- 顶层列表排布：竖条 / 横条，由代码按 MenuPlacement 切换 -->
+        <ItemsPanelTemplate x:Key="VerticalItemsPanel">
+            <VirtualizingStackPanel/>
+        </ItemsPanelTemplate>
+        <ItemsPanelTemplate x:Key="HorizontalItemsPanel">
+            <StackPanel Orientation="Horizontal"/>
+        </ItemsPanelTemplate>
+
+        <!-- ListBoxItem 容器样式：主列表项与 Popup 子项共用 -->
+        <Style x:Key="MenuItemContainerStyle" TargetType="ListBoxItem">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource MenuItemHoverBrush}"/>
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource MenuItemSelectedBrush}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- 图标（模式A 双属性：Icon 字体 MDI 优先，空则回落 ImagePath 图片，皆空隐藏） -->
+        <DataTemplate x:Key="MenuIconTemplate">
+            <Grid Margin="0,0,8,0">
+                <TextBlock FontSize="18" TextAlignment="Center"
+                           FontFamily="{DynamicResource IconFontFamily}"
+                           Text="{Binding Icon, Converter={StaticResource IconGlyph}}"
+                           VerticalAlignment="Center"
+                           Visibility="{Binding Icon, Converter={StaticResource Str2Vis}}">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="{DynamicResource MenuItemIconBrush}"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Foreground" Value="{DynamicResource MenuItemIconHoverBrush}"/>
+                                </Trigger>
+                                <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
+                                    <Setter Property="Foreground" Value="{DynamicResource MenuItemIconSelectedBrush}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <Image Width="18" Height="18" Stretch="Uniform"
+                       Source="{Binding ImagePath, Converter={StaticResource PathToImage}}"
+                       VerticalAlignment="Center"
+                       Visibility="{Binding ImagePath, Converter={StaticResource Str2Vis}}"/>
+            </Grid>
+        </DataTemplate>
+
+        <!-- 分类大图标（26px，折叠态共用） -->
+        <DataTemplate x:Key="MenuBigIconTemplate">
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock FontSize="26" FontFamily="{DynamicResource IconFontFamily}"
+                           Text="{Binding Icon, Converter={StaticResource IconGlyph}}"
+                           Foreground="{DynamicResource AccentBrush}"
+                           HorizontalAlignment="Center" VerticalAlignment="Center"
+                           Visibility="{Binding Icon, Converter={StaticResource Str2Vis}}"/>
+                <Image Width="26" Height="26" Stretch="Uniform"
+                       Source="{Binding ImagePath, Converter={StaticResource PathToImage}}"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                       Visibility="{Binding ImagePath, Converter={StaticResource Str2Vis}}"/>
+            </Grid>
+        </DataTemplate>
+
+        <!-- 竖向分类头模板（Left/Right）：accent 竖条指示活动分类 -->
+        <DataTemplate x:Key="MenuCategoryTemplate" DataType="{x:Type local:MenuNode}">
+            <Border Margin="0,8,0,0" Padding="14,8,10,8"
+                    Background="{DynamicResource MenuItemBackBrush}"
+                    BorderBrush="{DynamicResource AccentBrush}" BorderThickness="0,0,0,1">
+                <Grid>
+                    <Grid Visibility="{Binding MenuExpand, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Width="4" Margin="0,0,8,0" CornerRadius="2"
+                                Background="{DynamicResource AccentBrush}">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsChildSelected}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                        </Border>
+                        <ContentControl Grid.Column="1" Content="{Binding}" ContentTemplate="{StaticResource MenuIconTemplate}"
+                                        VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="2" FontSize="14" FontWeight="Bold"
+                                   Foreground="{DynamicResource AccentBrush}" Text="{Binding Name}"
+                                   VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="3" FontSize="11"
+                                   Foreground="{DynamicResource MenuItemTextBrush}" Text="{Binding IsExpanded, Converter={StaticResource BoolToExpandSymbol}}"
+                                   VerticalAlignment="Center"/>
+                    </Grid>
+                    <!-- 折叠态：仅显示分类大图标 -->
+                    <ContentControl Content="{Binding}" ContentTemplate="{StaticResource MenuBigIconTemplate}">
+                        <ContentControl.Style>
+                            <Style TargetType="ContentControl">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding MenuExpand, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="Collapsed">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ContentControl.Style>
+                    </ContentControl>
+                </Grid>
+            </Border>
+        </DataTemplate>
+
+        <!-- 横向分类头模板（Top/Bottom）：底部 accent 下划线指示活动分类 -->
+        <DataTemplate x:Key="MenuCategoryHorizontalTemplate" DataType="{x:Type local:MenuNode}">
+            <Border Margin="2,0" Padding="12,6" CornerRadius="6" Background="Transparent">
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding MenuExpand, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="Collapsed">
+                                <Setter Property="Padding" Value="10"/>
+                                <Setter Property="Margin" Value="0"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+                <Grid>
+                    <Grid Visibility="{Binding MenuExpand, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                        <StackPanel Orientation="Horizontal">
+                            <ContentControl Content="{Binding}" ContentTemplate="{StaticResource MenuIconTemplate}"
+                                            VerticalAlignment="Center"/>
+                            <TextBlock FontSize="14" FontWeight="Bold"
+                                       Foreground="{DynamicResource AccentBrush}" Text="{Binding Name}"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Grid>
+                    <!-- 折叠态：仅显示分类大图标 -->
+                    <ContentControl Content="{Binding}" ContentTemplate="{StaticResource MenuBigIconTemplate}">
+                        <ContentControl.Style>
+                            <Style TargetType="ContentControl">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding MenuExpand, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="Collapsed">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ContentControl.Style>
+                    </ContentControl>
+                    <!-- 活动分类下划线（Popup 打开中 / 含选中子项） -->
+                    <Border Height="2" CornerRadius="1" VerticalAlignment="Bottom" Margin="6,-2,6,0"
+                            Background="{DynamicResource AccentBrush}">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsChildSelected}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsExpanded}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                    </Border>
+                </Grid>
+            </Border>
+        </DataTemplate>
+
+        <!-- 主列表叶子项模板（无分组的独立项） -->
         <DataTemplate x:Key="MenuEntryTemplate" DataType="{x:Type local:MenuNode}">
             <Border Padding="8,6"
                     Visibility="{Binding MenuShow}">
@@ -26,6 +211,15 @@
                             </DataTrigger>
                             <DataTrigger Binding="{Binding MenuExpand, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="Collapsed">
                                 <Setter Property="Margin" Value="8,4,8,4"/>
+                            </DataTrigger>
+                            <!-- 横向布局（Top/Bottom）：紧凑间距 -->
+                            <DataTrigger Binding="{Binding MenuPlacement, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="Top">
+                                <Setter Property="Margin" Value="6,3,6,3"/>
+                                <Setter Property="Padding" Value="10,6"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding MenuPlacement, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="Bottom">
+                                <Setter Property="Margin" Value="6,3,6,3"/>
+                                <Setter Property="Padding" Value="10,6"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
@@ -62,32 +256,8 @@
                             </Style>
                         </Border.Style>
                     </Border>
-                    <!-- 模式A 双属性图标：Icon(字体MDI) 优先，空则回落 ImagePath(图片)，皆空隐藏 -->
-                    <Grid Grid.Column="1" Margin="0,0,8,0">
-                        <TextBlock FontSize="18" TextAlignment="Center"
-                                   FontFamily="{DynamicResource IconFontFamily}"
-                                   Text="{Binding Icon, Converter={StaticResource IconGlyph}}"
-                                   VerticalAlignment="Center"
-                                   Visibility="{Binding Icon, Converter={StaticResource Str2Vis}}">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Foreground" Value="{DynamicResource MenuItemIconBrush}"/>
-                                    <Style.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Foreground" Value="{DynamicResource MenuItemIconHoverBrush}"/>
-                                        </Trigger>
-                                        <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
-                                            <Setter Property="Foreground" Value="{DynamicResource MenuItemIconSelectedBrush}"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                        <Image Width="18" Height="18" Stretch="Uniform"
-                               Source="{Binding ImagePath, Converter={StaticResource PathToImage}}"
-                               VerticalAlignment="Center"
-                               Visibility="{Binding ImagePath, Converter={StaticResource Str2Vis}}"/>
-                    </Grid>
+                    <ContentControl Grid.Column="1" Content="{Binding}" ContentTemplate="{StaticResource MenuIconTemplate}"
+                                    VerticalAlignment="Center"/>
                     <TextBlock Grid.Column="2" FontSize="15"
                                Foreground="{DynamicResource MenuItemTextBrush}" Text="{Binding Name}"
                                TextTrimming="CharacterEllipsis"
@@ -97,67 +267,54 @@
             </Border>
         </DataTemplate>
 
-        <DataTemplate x:Key="MenuCategoryTemplate" DataType="{x:Type local:MenuNode}">
-            <Border Margin="0,8,0,0" Padding="14,8,10,8"
-                    Background="{DynamicResource MenuItemBackBrush}"
-                    BorderBrush="{DynamicResource AccentBrush}" BorderThickness="0,0,0,1">
+        <!-- Popup 子项模板：Popup 不在主视觉树，不引用 MenuExpand/MenuPlacement，固定文字模式 -->
+        <DataTemplate x:Key="MenuPopupEntryTemplate" DataType="{x:Type local:MenuNode}">
+            <Border Padding="10,7" Margin="4,1" CornerRadius="4"
+                    Background="{DynamicResource MenuItemBackBrush}">
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource MenuItemHoverBrush}"/>
+                            </Trigger>
+                            <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource MenuItemSelectedBrush}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
                 <Grid>
-                    <Grid Visibility="{Binding MenuExpand, RelativeSource={RelativeSource AncestorType=UserControl}}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Border Grid.Column="0" Width="4" Background="{DynamicResource AccentBrush}" Margin="0,0,8,0" CornerRadius="2"/>
-                        <!-- 模式A 双属性图标：Icon(字体MDI) 优先，空则回落 ImagePath(图片)，皆空隐藏 -->
-                        <Grid Grid.Column="1" Margin="0,0,8,0">
-                            <TextBlock FontSize="18" TextAlignment="Center"
-                                       FontFamily="{DynamicResource IconFontFamily}"
-                                       Text="{Binding Icon, Converter={StaticResource IconGlyph}}"
-                                       Foreground="{DynamicResource AccentBrush}"
-                                       VerticalAlignment="Center"
-                                       Visibility="{Binding Icon, Converter={StaticResource Str2Vis}}"/>
-                            <Image Width="18" Height="18" Stretch="Uniform"
-                                   Source="{Binding ImagePath, Converter={StaticResource PathToImage}}"
-                                   VerticalAlignment="Center"
-                                   Visibility="{Binding ImagePath, Converter={StaticResource Str2Vis}}"/>
-                        </Grid>
-                        <TextBlock Grid.Column="2" FontSize="14" FontWeight="Bold"
-                                   Foreground="{DynamicResource AccentBrush}" Text="{Binding Name}"
-                                   VerticalAlignment="Center"/>
-                        <TextBlock Grid.Column="3" FontSize="11"
-                                   Foreground="{DynamicResource MenuItemTextBrush}" Text="{Binding IsExpanded, Converter={StaticResource BoolToExpandSymbol}}"
-                                   VerticalAlignment="Center"/>
-                    </Grid>
-                    <!-- 折叠态：仅显示字体图标或图片图标 -->
-                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Grid.Style>
-                            <Style TargetType="Grid">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Column="0" Width="3" Margin="0,2,8,2" CornerRadius="2"
+                            Background="{DynamicResource AccentBrush}">
+                        <Border.Style>
+                            <Style TargetType="Border">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding MenuExpand, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="Collapsed">
+                                    <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
                                         <Setter Property="Visibility" Value="Visible"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
-                        </Grid.Style>
-                        <TextBlock FontSize="26" FontFamily="{DynamicResource IconFontFamily}"
-                                   Text="{Binding Icon, Converter={StaticResource IconGlyph}}"
-                                   Foreground="{DynamicResource AccentBrush}"
-                                   HorizontalAlignment="Center" VerticalAlignment="Center"
-                                   Visibility="{Binding Icon, Converter={StaticResource Str2Vis}}"/>
-                        <Image Width="26" Height="26" Stretch="Uniform"
-                               Source="{Binding ImagePath, Converter={StaticResource PathToImage}}"
-                               HorizontalAlignment="Center" VerticalAlignment="Center"
-                               Visibility="{Binding ImagePath, Converter={StaticResource Str2Vis}}"/>
-                    </Grid>
+                        </Border.Style>
+                    </Border>
+                    <ContentControl Grid.Column="1" Content="{Binding}" ContentTemplate="{StaticResource MenuIconTemplate}"
+                                    VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="2" FontSize="14"
+                               Foreground="{DynamicResource MenuItemTextBrush}" Text="{Binding Name}"
+                               TextTrimming="CharacterEllipsis"
+                               VerticalAlignment="Center"/>
                 </Grid>
             </Border>
         </DataTemplate>
 
         <local:MenuTemplateSelector x:Key="MenuTemplateSelector"
                                     CategoryTemplate="{StaticResource MenuCategoryTemplate}"
+                                    HorizontalCategoryTemplate="{StaticResource MenuCategoryHorizontalTemplate}"
                                     ItemTemplate="{StaticResource MenuEntryTemplate}"/>
     </UserControl.Resources>
 
@@ -169,23 +326,6 @@
              BorderThickness="0"
              ScrollViewer.VerticalScrollBarVisibility="Auto"
              ItemTemplateSelector="{StaticResource MenuTemplateSelector}"
-             SelectionChanged="OnMenuListBoxSelectionChanged">
-        <ListBox.ItemContainerStyle>
-            <Style TargetType="ListBoxItem">
-                <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="BorderThickness" Value="0"/>
-                <Setter Property="Padding" Value="0"/>
-                <Setter Property="Margin" Value="0"/>
-                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                <Style.Triggers>
-                    <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Background" Value="{DynamicResource MenuItemHoverBrush}"/>
-                    </Trigger>
-                    <Trigger Property="IsSelected" Value="True">
-                        <Setter Property="Background" Value="{DynamicResource MenuItemSelectedBrush}"/>
-                    </Trigger>
-                </Style.Triggers>
-            </Style>
-        </ListBox.ItemContainerStyle>
-    </ListBox>
+             ItemContainerStyle="{StaticResource MenuItemContainerStyle}"
+             SelectionChanged="OnMenuListBoxSelectionChanged"/>
 </UserControl>

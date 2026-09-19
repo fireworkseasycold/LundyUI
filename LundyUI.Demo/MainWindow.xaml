@@ -30,6 +30,7 @@
                 </StackPanel>
 
                 <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Content="菜单四向演示" Click="OnOpenMenuDemo" Margin="0,0,14,0" Padding="12,4"/>
                     <TextBlock Text="主题：" VerticalAlignment="Center"
                                Foreground="{DynamicResource TextSecondaryBrush}"/>
                     <ComboBox x:Name="ThemeBox" Width="170" VerticalContentAlignment="Center"

@@ -20,6 +20,7 @@ public sealed class MenuNode : INotifyPropertyChanged
     private bool _isExpanded = true;
     private Visibility _menuShow = Visibility.Visible;
     private ObservableCollection<MenuNode> _children = new();
+    private bool _isChildSelected;
     private object? _tag;
 
     /// <summary>显示文本（已由宿主完成多语言解析，控件不做翻译）。</summary>
@@ -66,6 +67,16 @@ public sealed class MenuNode : INotifyPropertyChanged
 
     /// <summary>子项原始可见性缓存：分类展开时恢复到该值（默认 Visible）。</summary>
     public Visibility ConfigMenuShow { get; set; } = Visibility.Visible;
+
+    /// <summary>
+    /// 子菜单中是否存在选中项（Popup 展开模式下用于分类头高亮指示）。
+    /// 由 MenuControl 依据 SelectedItem 自动维护，宿主无需赋值。
+    /// </summary>
+    public bool IsChildSelected
+    {
+        get => _isChildSelected;
+        set => SetProperty(ref _isChildSelected, value);
+    }
 
     /// <summary>子节点集合；仅分类头使用，平铺渲染时由宿主决定顺序。</summary>
     public ObservableCollection<MenuNode> Children

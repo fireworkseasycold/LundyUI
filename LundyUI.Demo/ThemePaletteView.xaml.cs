@@ -77,18 +77,9 @@ public partial class ThemePaletteView : UserControl
 		system.Children.Add(new MenuNode { Name = "用户管理", Icon = "account", Tag = "User" });
 		system.Children.Add(new MenuNode { Name = "日志查询", Icon = "file-document", Tag = "Log" });
 
+		// Popup 展开模式：MenuList 只放分类头（子项在 Children 中，点击分类头经 Popup 弹出）
 		DemoMenu.Add(data);
-		foreach (var child in data.Children)
-		{
-			child.ConfigMenuShow = child.MenuShow;
-			DemoMenu.Add(child);
-		}
 		DemoMenu.Add(system);
-		foreach (var child in system.Children)
-		{
-			child.ConfigMenuShow = child.MenuShow;
-			DemoMenu.Add(child);
-		}
 	}
 
 	/// <summary>构建第 1 节主题色板小色块：SetResourceReference 等价 DynamicResource，换肤实时跟随。</summary>

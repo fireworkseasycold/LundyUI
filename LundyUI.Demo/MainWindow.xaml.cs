@@ -15,6 +15,12 @@ namespace LundyUI.Demo
             ThemeManager.Instance.ThemeChanged += OnAfterSwitch;
         }
 
+        /// <summary>打开 MenuControl 四向停靠（Popup 向内展开）演示窗口。</summary>
+        private void OnOpenMenuDemo(object sender, RoutedEventArgs e)
+        {
+            new MenuPlacementDemoWindow { Owner = this }.ShowDialog();
+        }
+
         /// <summary>用 json 驱动注册的主题填充下拉框（由 Configs/themes/themes-config.json 决定数量与顺序）。</summary>
         private void LoadThemes()
         {

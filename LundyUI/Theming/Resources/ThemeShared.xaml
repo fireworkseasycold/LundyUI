@@ -89,6 +89,7 @@
     <SolidColorBrush x:Key="MenuItemIconBrush" Color="#8FA8C4"/>
     <SolidColorBrush x:Key="MenuItemIconHoverBrush" Color="#FFFFFF"/>
     <SolidColorBrush x:Key="MenuItemIconSelectedBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="MenuPopupBorderBrush" Color="#2A4A73"/>
 
     <!-- L2-6 浅色管理页通用色 -->
     <SolidColorBrush x:Key="CardBackBrush" Color="#F3F5F9"/>

@@ -1,0 +1,29 @@
+<Window x:Class="LundyUI.Demo.MenuPlacementDemoWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:appControls="clr-namespace:LundyUI.WPF.CustomControls;assembly=LundyUI.WPF"
+        Title="MenuControl 四向停靠演示" Height="640" Width="960"
+        MinHeight="480" MinWidth="720"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource WindowBackBrush}">
+    <!--
+      MenuControl Popup 展开模式演示：
+      切换停靠方向后由代码重建 ShellGrid 的行列结构，菜单条随 MenuPlacement
+      放入对应行/列，子菜单 Popup 自动向窗口内侧弹出。
+    -->
+    <DockPanel>
+        <Border DockPanel.Dock="Top" Background="{DynamicResource PanelBackBrush}"
+                BorderBrush="{DynamicResource BorderNormalBrush}" BorderThickness="0,0,0,1"
+                Padding="12,8">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="停靠方向：" VerticalAlignment="Center"
+                           Foreground="{DynamicResource TextSecondaryBrush}"/>
+                <ComboBox x:Name="PlacementBox" Width="140" VerticalContentAlignment="Center"
+                          SelectionChanged="OnPlacementChanged"/>
+                <TextBlock x:Name="SelectedPageText" Margin="20,0,0,0" VerticalAlignment="Center"
+                           FontWeight="Bold" Foreground="{DynamicResource TextDarkBrush}"/>
+            </StackPanel>
+        </Border>
+        <Grid x:Name="ShellGrid"/>
+    </DockPanel>
+</Window>
